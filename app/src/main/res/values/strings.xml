@@ -25,5 +25,6 @@
     <string name="hello_blank_fragment">HI</string>
     <string name="title_activity_offering_listing">OfferingListingActivity</string>
     <string name="title_activity_offering_list">OfferingListActivity</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
