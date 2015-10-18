@@ -26,5 +26,6 @@
     <string name="title_activity_offering_listing">OfferingListingActivity</string>
     <string name="title_activity_offering_list">OfferingListActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_log_in">LogIn</string>
 
 </resources>
