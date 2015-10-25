@@ -39,11 +39,14 @@ public class OfferingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offerings);
+        Log.i("Testing12", "Came here in Listing class");
         setUpToolbar();
         setUpNavDrawer();
 
         Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
+
+        Log.i("Testing12", "Came here in Listing class 2");
 
         ParseQuery query = new ParseQuery("Offering");
 //        query.whereEqualTo("name", "aaa");
@@ -104,17 +107,24 @@ public class OfferingListActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
+        Log.i("Testing12", "Came here in Listing class 3");
+
     }
 
 
     private void setUpToolbar() {
+        Log.i("Testing12", "Came in setUpToolBar");
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
+
+        Log.i("Testing12", "Came out setUpToolBar");
     }
 
     private void setUpNavDrawer() {
+        Log.i("Testing12", "Came in setUpNav");
         if (mToolbar != null) {
             final android.support.v7.app.ActionBar ab = getSupportActionBar();
             assert ab != null;
@@ -127,9 +137,11 @@ public class OfferingListActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             mActionBarDrawerToggle.syncState();
         }
+        Log.i("Testing12", "Came out setUpNav");
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+        Log.i("Testing12", "Came in setUpDrawer");
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -143,9 +155,9 @@ public class OfferingListActivity extends AppCompatActivity {
                                         .replace(R.id.content_frame, new OfferingFragment()).commit();
                                 break;
                             case R.id.profile:
-                            Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
-                            startActivity(ui);
-                            break;
+                                Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
+                                startActivity(ui);
+                                break;
                         }
 
                         mDrawerLayout.closeDrawers();
@@ -153,6 +165,6 @@ public class OfferingListActivity extends AppCompatActivity {
                     }
                 }
         );
-
+        Log.i("Testing12", "Came out setUpDrawer");
     }
 }

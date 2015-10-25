@@ -24,24 +24,25 @@ public class UserInfo extends AppCompatActivity {
     public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
     public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+    public String name;
     public int flag = 0;
     public ParseObject result = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info2);
-        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
         Intent intent = getIntent();
         Log.i("test123", "Came here!!!");
-        String name = intent.getStringExtra(OfferingListActivity.MESSAGE_NAME);
-        String email = intent.getStringExtra(OfferingListActivity.MESSAGE_EMAIL);
+        name = intent.getStringExtra(MESSAGE_NAME);
+        String email = intent.getStringExtra(MESSAGE_EMAIL);
 
         EditText editText = (EditText) findViewById(R.id.editText);
         editText.setText(email);
         editText.setKeyListener(null);
-        EditText editText2 = (EditText) findViewById(R.id.editText2);
-        editText2.setText(name);
+
         Log.i("test123", "Came here again!!!");
 
         ParseQuery query = new ParseQuery("User");
@@ -88,6 +89,15 @@ public class UserInfo extends AppCompatActivity {
 
                 if(!results.isEmpty()) {
                     result = results.get(results.size()-1);
+                    if(name==null)
+                    {
+                        EditText perName = (EditText) findViewById(R.id.editText2);
+                        perName.setText(((String) result.get("name")));
+                    }
+                    else {
+                        EditText perName = (EditText) findViewById(R.id.editText2);
+                        perName.setText(name);
+                    }
                     EditText address = (EditText) findViewById(R.id.editText3);
                     EditText mobile = (EditText) findViewById(R.id.editText4);
                     EditText emergencyName = (EditText) findViewById(R.id.editText5);
