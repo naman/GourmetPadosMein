@@ -14,9 +14,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!--Drawer Items-->
-    <string name="view_feed">Dont Click</string>
     <string name="new_offering">New Offering</string>
-    <string name="title_activity_post">Add Goal</string>
+    <string name="profile">Profile</string>
 
     <!--Buttons-->
     <string name="date_picker">Pick date</string>

@@ -1,15 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_updates"
+            android:id="@+id/new_offering"
             android:checkable="true"
             android:icon="@drawable/abc_ic_clear_mtrl_alpha"
             android:title="@string/new_offering" />
         <item
-            android:id="@+id/nav_feed"
+            android:id="@+id/profile"
             android:checkable="true"
             android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
-            android:title="@string/view_feed" />
+            android:title="@string/profile" />
 
     </group>
     <item android:title="">

@@ -1,5 +1,6 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -7,20 +8,31 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
-import com.mc.priveil.gourmetpadosmein.Models.FoodOffering;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OfferingListActivity extends AppCompatActivity {
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
-    public static final String CLASS_NAME = "MainActivity";
-    List<FoodOffering> itemList;
+
+    public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
+    public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
+
+    public static final String CLASS_NAME = "Offerings";
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
+
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     @Override
@@ -30,27 +42,60 @@ public class OfferingListActivity extends AppCompatActivity {
         setUpToolbar();
         setUpNavDrawer();
 
-      /*  Button but = (Button) findViewById(R.id.button);
+        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        ParseUser.enableAutomaticUser();
 
-        but.setOnClickListener(new View.OnClickListener() {
+        ParseQuery query = new ParseQuery("Offering");
+//        query.whereEqualTo("name", "aaa");
+        query.findInBackground(new FindCallback() {
             @Override
-            public void onClick(View v) {*/
-//                ArrayList<FoodOffering> offerings = new ArrayList<>();
+            public void done(List list, ParseException e) {
+                if (e == null) {
+                    if (!list.isEmpty()) {
+                        Log.i("Testing", list.get(0).toString());
+                    } else {
+                        Log.i("Testing", "List returned by Parse is empty!");
+                    }
+                } else {
+                    Log.i("Error!!", "Error in querying parse!");
+                }
+            }
 
-        FoodOffering food1 = new FoodOffering("Puri", "North Indian");
-//                offerings.add(food1);
+            @Override
+            public void done(Object o, Throwable throwable) {
+                if (o != null) {
+                    List<ParseObject> itemlist;
+                    itemlist = (List<ParseObject>) o;
+                    Log.i("LIST", itemlist.get(0).get("name").toString());
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("offerings", food1);
+                    Bundle bundle = new Bundle();
+                    ArrayList<String> names = new ArrayList<String>();
+                    for (ParseObject p : itemlist) {
+                        names.add(p.get("name").toString());
+                    }
 
-        OfferingFragment fragment = new OfferingFragment();
-        fragment.setArguments(bundle);
+                    Log.d("List", String.valueOf(names));
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment).commit();
-//            }
-//        });
+                    ArrayList<ArrayList<String>> cuisines = new ArrayList<ArrayList<String>>();
+                    for (ParseObject p : itemlist) {
+                        cuisines.add((ArrayList<String>) p.get("cuisine"));
+                    }
+                    Log.d("List", String.valueOf(cuisines));
+
+
+                    bundle.putSerializable("names", names);
+                    bundle.putSerializable("cuisines", cuisines);
+
+                    OfferingFragment fragment = new OfferingFragment();
+                    fragment.setArguments(bundle);
+
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, fragment).commit();
+                } else
+                    Log.i("Error!!", "NULL");
+            }
+        });
 
 
 		/* Use application class to maintain global state. */
@@ -92,14 +137,15 @@ public class OfferingListActivity extends AppCompatActivity {
                         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                         int id = menuItem.getItemId();
                         switch (id) {
-                            case R.id.nav_feed:
+
+                            case R.id.new_offering:
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new OfferingFragment()).commit();
                                 break;
-                            case R.id.nav_updates:
-                              /*  Intent post = new Intent(OfferingListActivity.this, NewOfferingActivity.class);
-                                startActivity(post);*/
-                                break;
+                            case R.id.profile:
+                            Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
+                            startActivity(ui);
+                            break;
                         }
 
                         mDrawerLayout.closeDrawers();
