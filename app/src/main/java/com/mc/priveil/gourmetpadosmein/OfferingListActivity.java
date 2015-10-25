@@ -1,103 +1,112 @@
 package com.mc.priveil.gourmetpadosmein;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-public class OfferingListActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
+import com.mc.priveil.gourmetpadosmein.Models.FoodOffering;
+
+import java.util.List;
+
+public class OfferingListActivity extends AppCompatActivity {
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+    public static final String CLASS_NAME = "MainActivity";
+    List<FoodOffering> itemList;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar mToolbar;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.offering_list_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_offerings);
+        setUpToolbar();
+        setUpNavDrawer();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+      /*  Button but = (Button) findViewById(R.id.button);
+
+        but.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+            public void onClick(View v) {*/
+//                ArrayList<FoodOffering> offerings = new ArrayList<>();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        FoodOffering food1 = new FoodOffering("Puri", "North Indian");
+//                offerings.add(food1);
 
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("offerings", food1);
+
+        OfferingFragment fragment = new OfferingFragment();
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment).commit();
+//            }
+//        });
+
+
+		/* Use application class to maintain global state. */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+
+    private void setUpToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    private void setUpNavDrawer() {
+        if (mToolbar != null) {
+            final android.support.v7.app.ActionBar ab = getSupportActionBar();
+            assert ab != null;
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+            mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(true);
+            mActionBarDrawerToggle.syncState();
+        }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                        int id = menuItem.getItemId();
+                        switch (id) {
+                            case R.id.nav_feed:
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.content_frame, new OfferingFragment()).commit();
+                                break;
+                            case R.id.nav_updates:
+                              /*  Intent post = new Intent(OfferingListActivity.this, NewOfferingActivity.class);
+                                startActivity(post);*/
+                                break;
+                        }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                }
+        );
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

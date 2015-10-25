@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">propel</string>
+    <string name="app_name">GourmetPadosMein</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -14,8 +14,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!--Drawer Items-->
-    <string name="post_goal">Post</string>
-    <string name="view_feed">Updates</string>
+    <string name="view_feed">Dont Click</string>
+    <string name="new_offering">New Offering</string>
     <string name="title_activity_post">Add Goal</string>
 
     <!--Buttons-->
