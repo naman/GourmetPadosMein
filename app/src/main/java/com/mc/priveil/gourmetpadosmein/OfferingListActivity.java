@@ -33,12 +33,19 @@ public class OfferingListActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
 
+    public String name;
+    public String email;
+
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offerings);
+        Intent intent = getIntent();
+        name = intent.getStringExtra(MESSAGE_NAME);
+        email = intent.getStringExtra(MESSAGE_EMAIL);
+
         Log.i("Testing12", "Came here in Listing class");
         setUpToolbar();
         setUpNavDrawer();
@@ -156,6 +163,10 @@ public class OfferingListActivity extends AppCompatActivity {
                                 break;
                             case R.id.profile:
                                 Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
+                                ui.putExtra(MESSAGE_NAME, name);
+                                ui.putExtra(MESSAGE_EMAIL, email);
+
+//                                startActivity(intent);
                                 startActivity(ui);
                                 break;
                         }
