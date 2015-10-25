@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_updates"
+            android:checkable="true"
+            android:icon="@drawable/abc_ic_clear_mtrl_alpha"
+            android:title="@string/new_offering" />
+        <item
+            android:id="@+id/nav_feed"
+            android:checkable="true"
+            android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
+            android:title="@string/view_feed" />
+
+    </group>
+    <item android:title="">
+        <menu>
+            <item android:title="Settings" />
+            <item android:title="About us" />
+        </menu>
+    </item>
+
+</menu>
