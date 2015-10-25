@@ -11,15 +11,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.app.Application;
 
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class UserInfo extends AppCompatActivity {
     public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
     public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
-
+    public int flag = 0;
+    public ParseObject result = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +43,71 @@ public class UserInfo extends AppCompatActivity {
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         editText2.setText(name);
         Log.i("test123", "Came here again!!!");
+
+        ParseQuery query = new ParseQuery("User");
+        query.whereEqualTo("username", email);
+        query.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                if (e == null) {
+                    if (!list.isEmpty()) {
+                        EditText email = (EditText) findViewById(R.id.editText);
+                        EditText name = (EditText) findViewById(R.id.editText2);
+                        EditText address = (EditText) findViewById(R.id.editText3);
+                        EditText mobile = (EditText) findViewById(R.id.editText4);
+                        EditText emergencyName = (EditText) findViewById(R.id.editText5);
+                        EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
+                        Log.i("Testing",list.get(0).toString());
+//                        address.setText();
+//                        mobile.setText("9876543211");
+//                        emergencyName.setText("aaa");
+//                        emergencyNumber.setText("9876543211");
+                    }
+                    else {
+                        Log.i("Testing","List returned by Parse is empty!");
+                    }
+                } else {
+                    Log.i("Error!!", "Error in querying parse!");
+                }
+            }
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+//                Log.i("Testing",throwable.getMessage().toString());
+                Log.i("Testing1",o.toString());
+
+                List<ParseObject> results = ((List<ParseObject>)o);
+//                Log.i("Testing1",results.toString());
+//                for(ParseObject result: results)
+//                {
+//                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
+//
+//                }
+//                Log.i("Testing2",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
+
+
+                if(!results.isEmpty()) {
+                    result = results.get(results.size()-1);
+                    EditText address = (EditText) findViewById(R.id.editText3);
+                    EditText mobile = (EditText) findViewById(R.id.editText4);
+                    EditText emergencyName = (EditText) findViewById(R.id.editText5);
+                    EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
+                    Log.i("Testing2",((String) result.get("address")));
+                    Log.i("Testing2",((String) result.get("name")));
+                    address.setText(((String) result.get("address")));
+                    mobile.setText((String)result.get("phoneNumber"));
+                    emergencyName.setText(((String) result.get("emergencyContactName")));
+                    emergencyNumber.setText(((String) result.get("emergencyContactNumber")));
+                    flag = 1;
+                }
+                else {
+                    Log.i("Testing1","");
+                }
+//                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
+
+            }
+        });
+
 
 
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
@@ -70,8 +141,16 @@ public class UserInfo extends AppCompatActivity {
 
         else
         {
+            ParseObject testObject;
+            if(flag==1)
+            {
+                testObject = result;
+            }
 //            Log.i("test123","Came in else statement 1");
-            ParseObject testObject = new ParseObject("User");
+            else
+            {
+                testObject = new ParseObject("User");
+            }
             testObject.put("username", email.getText().toString());
             testObject.put("name", name.getText().toString());
             testObject.put("address", address.getText().toString());
