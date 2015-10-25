@@ -1,5 +1,6 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -92,14 +93,15 @@ public class OfferingListActivity extends AppCompatActivity {
                         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                         int id = menuItem.getItemId();
                         switch (id) {
-                            case R.id.nav_feed:
+
+                            case R.id.new_offering:
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.content_frame, new OfferingFragment()).commit();
                                 break;
-                            case R.id.nav_updates:
-                              /*  Intent post = new Intent(OfferingListActivity.this, NewOfferingActivity.class);
-                                startActivity(post);*/
-                                break;
+                            case R.id.profile:
+                            Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
+                            startActivity(ui);
+                            break;
                         }
 
                         mDrawerLayout.closeDrawers();

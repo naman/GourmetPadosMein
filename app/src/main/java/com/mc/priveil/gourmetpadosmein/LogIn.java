@@ -1,27 +1,13 @@
 package com.mc.priveil.gourmetpadosmein;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.content.Intent;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,8 +16,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
-import com.parse.Parse;
-import com.parse.ParseUser;
+import com.google.android.gms.plus.model.people.Person;
 
 public class LogIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     private boolean mIsResolving = false;
@@ -46,6 +31,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
     public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
     public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
+    private String personName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,15 +150,21 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         //Toast.makeText(this, "Logged in as ", Toast.LENGTH_LONG).show();
         email = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
+        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+            personName = currentPerson.getDisplayName();
+            String personPhoto = currentPerson.getImage().getUrl();
+            String personGooglePlusProfile = currentPerson.getUrl();
+        }
 
         if(email!=null) {
             Toast.makeText(this, "Logged in as " + email, Toast.LENGTH_LONG).show();
             //Intent intent = new Intent(this, OfferingListActivity.class);
-            Intent intent = new Intent(this, UserInfo.class);
+            Intent intent = new Intent(this, OfferingListActivity.class);
 
-            String name = "Talha";
 
-            intent.putExtra(MESSAGE_NAME, name);
+
+            intent.putExtra(MESSAGE_NAME, personName);
             intent.putExtra(MESSAGE_EMAIL, email);
 
             startActivity(intent);
