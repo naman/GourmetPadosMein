@@ -17,11 +17,11 @@ public class ParseApplication extends Application {
         super.onCreate();
 
         // Add your initialization code here
-        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
 
         // Test creation of object
-        ParseObject testObject = new ParseObject("User");
-        testObject.put("username", "magus");
-        testObject.saveInBackground();
+//        ParseObject testObject = new ParseObject("User");
+//        testObject.put("username", "magus");
+//        testObject.saveInBackground();
     }
 }

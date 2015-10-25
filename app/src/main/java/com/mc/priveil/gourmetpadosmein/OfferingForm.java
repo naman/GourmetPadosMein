@@ -3,24 +3,36 @@ package com.mc.priveil.gourmetpadosmein;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class OfferingForm extends AppCompatActivity {
+
+    public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
+    public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("testing123", "Came to offering listing");
+
         setContentView(R.layout.activity_offering_form);
+//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        ParseUser.enableAutomaticUser();
 
         Intent intent = getIntent();
         String email = intent.getStringExtra(OfferingListActivity.MESSAGE_EMAIL);
+
         EditText editText = (EditText) findViewById(R.id.editText7);
         editText.setText(email);
         editText.setKeyListener(null);
@@ -35,14 +47,10 @@ public class OfferingForm extends AppCompatActivity {
         EditText deadline = (EditText) findViewById(R.id.editText11);
         EditText description = (EditText) findViewById(R.id.editText12);
         EditText capacity = (EditText) findViewById(R.id.editText13);
-        RadioButton packingYes = (RadioButton) findViewById(R.id.radioButton3);
-        RadioButton packingNo = (RadioButton) findViewById(R.id.radioButton4);
+        CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
+        CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
 
-        RadioButton veg = (RadioButton) findViewById(R.id.radioButton);
-
-        RadioButton nonVeg = (RadioButton) findViewById(R.id.radioButton2);
-
-        if(email.getText().toString().isEmpty() || offeringname.getText().toString().isEmpty() || cost.getText().toString().isEmpty() || cuisine.getText().toString().isEmpty() || deadline.getText().toString().isEmpty() || description.getText().toString().isEmpty() || capacity.getText().toString().isEmpty() || (veg.isChecked() ^ nonVeg.isChecked()) || (packingYes.isChecked() ^ packingNo.isChecked()))
+        if(email.getText().toString().isEmpty() || offeringname.getText().toString().isEmpty() || cost.getText().toString().isEmpty() || cuisine.getText().toString().isEmpty() || deadline.getText().toString().isEmpty() || description.getText().toString().isEmpty() || capacity.getText().toString().isEmpty())
         {
             Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
         }
@@ -59,21 +67,21 @@ public class OfferingForm extends AppCompatActivity {
         else
         {
             ParseObject testObject = new ParseObject("Offering");
-            testObject.put("username", email);
-            testObject.put("name", offeringname);
-            testObject.put("cost", cost);
-            testObject.put("cuisine", cuisine);
-            testObject.put("description", description);
-            testObject.put("deadline", deadline);
-            testObject.put("capacity", capacity);
+            testObject.put("username", email.getText().toString());
+            testObject.put("name", offeringname.getText().toString());
+            testObject.put("cost", Double.parseDouble(cost.getText().toString()));
+//            testObject.put("cuisine", cuisine.getText().toString());
+//            testObject.put("description", description.getText().toString());
+//            testObject.put("deadline", deadline.getText().toString());
+            testObject.put("capacity", Integer.parseInt(capacity.getText().toString()));
             if(packingYes.isChecked())
-                testObject.put("packing", 0);
+                testObject.put("packing", true);
             else
-                testObject.put("packing", 1);
+                testObject.put("packing", false);
             if(veg.isChecked())
-                testObject.put("veg", 0);
+                testObject.put("veg", true);
             else
-                testObject.put("veg", 1);
+                testObject.put("veg", false);
             testObject.saveInBackground();
             Intent intent = new Intent(this, OfferingListActivity.class);
             startActivity(intent);

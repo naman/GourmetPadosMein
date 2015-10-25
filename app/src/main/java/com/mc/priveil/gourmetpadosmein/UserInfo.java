@@ -3,6 +3,7 @@ package com.mc.priveil.gourmetpadosmein;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,16 +13,21 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class UserInfo extends AppCompatActivity {
     public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
     public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
+    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info2);
+        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        ParseUser.enableAutomaticUser();
         Intent intent = getIntent();
-
+        Log.i("test123", "Came here!!!");
         String name = intent.getStringExtra(OfferingListActivity.MESSAGE_NAME);
         String email = intent.getStringExtra(OfferingListActivity.MESSAGE_EMAIL);
 
@@ -30,7 +36,11 @@ public class UserInfo extends AppCompatActivity {
         editText.setKeyListener(null);
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         editText2.setText(name);
-        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        Log.i("test123", "Came here again!!!");
+
+
+//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        Log.i("test123", "Came here also!!!");
     }
 
     public void submitForm(View view) {
@@ -40,6 +50,10 @@ public class UserInfo extends AppCompatActivity {
         EditText mobile = (EditText) findViewById(R.id.editText4);
         EditText emergencyName = (EditText) findViewById(R.id.editText5);
         EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
+//        address.setText("aa");
+//        mobile.setText("9876543211");
+//        emergencyName.setText("aaa");
+//        emergencyNumber.setText("9876543211");
         if(email.getText().toString().isEmpty() || name.getText().toString().isEmpty() || address.getText().toString().isEmpty() || mobile.getText().toString().isEmpty() || emergencyName.getText().toString().isEmpty() || emergencyNumber.getText().toString().isEmpty())
         {
             Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
@@ -56,15 +70,19 @@ public class UserInfo extends AppCompatActivity {
 
         else
         {
+//            Log.i("test123","Came in else statement 1");
             ParseObject testObject = new ParseObject("User");
-            testObject.put("username", email);
-            testObject.put("name", name);
-            testObject.put("address", address);
-            testObject.put("phoneNumber", mobile);
-            testObject.put("emergencyContactName", emergencyName);
-            testObject.put("emergencyContactNumber", emergencyNumber);
+            testObject.put("username", email.getText().toString());
+            testObject.put("name", name.getText().toString());
+            testObject.put("address", address.getText().toString());
+            testObject.put("phoneNumber", mobile.getText().toString());
+            testObject.put("emergencyContactName", emergencyName.getText().toString());
+            testObject.put("emergencyContactNumber", emergencyNumber.getText().toString());
+//            Log.i("test123","Came in else statement 2");
             testObject.saveInBackground();
             Intent intent = new Intent(this, OfferingForm.class);
+            intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
+
             startActivity(intent);
         }
     }
