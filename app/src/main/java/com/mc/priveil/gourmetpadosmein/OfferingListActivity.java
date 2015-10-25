@@ -15,6 +15,8 @@ import android.view.View;
 
 public class OfferingListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
