@@ -65,7 +65,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     public void onProviderDisabled(String provider) {
 
     }
-
+    static String fromSkip = "N";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,12 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         name = intent.getStringExtra(MESSAGE_NAME);
         email = intent.getStringExtra(MESSAGE_EMAIL);
 
+        try{
+            fromSkip = intent.getStringExtra("SKIPCLICK");
+            Log.d("test123", fromSkip);
+        }catch(Exception e){
+            Log.d("test123","failed to get skipclick");
+        }
 
         ParseQuery query = new ParseQuery("User");
         query.whereEqualTo("username", email);
@@ -111,10 +117,14 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                 } else {
                     Log.i("Testing1", "");
-                    Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
-                    intent.putExtra(MESSAGE_NAME, name);
-                    intent.putExtra(MESSAGE_EMAIL, email);
-                    startActivity(intent);
+                    if(!"Y".equals(fromSkip)) {
+                        Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
+                        intent.putExtra(MESSAGE_NAME, name);
+                        intent.putExtra(MESSAGE_EMAIL, email);
+                        startActivity(intent);
+                    }else{
+                        fromSkip = "N";
+                    }
                 }
 
             }
