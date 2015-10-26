@@ -406,6 +406,7 @@ public class OfferingForm extends AppCompatActivity {
         else
         {
             ParseObject testObject;
+            Log.i("Testing","about to submit form 3!!!");
             if(flag==1)
             {
                 testObject = resultGlobal;
@@ -415,7 +416,8 @@ public class OfferingForm extends AppCompatActivity {
             {
                 testObject = new ParseObject("Offering");
             }
-//            ParseObject testObject = new ParseObject("Offering");
+            Log.i("Testing","about to submit form 2!!!");
+//  ParseObject testObject = new ParseObject("Offering");
             testObject.put("username", email.getText().toString());
 
 
@@ -446,28 +448,30 @@ public class OfferingForm extends AppCompatActivity {
             }
             testObject.put("cuisine", allCuisines);
             testObject.put("description", description.getText().toString());
-            testObject.put("endTime", endtimeStr);
+//            testObject.put("endTime", endtimeStr);
 
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             Calendar cal = Calendar.getInstance();
             //dateFormat.format(cal.getTime()))
 
-           /* try
+            try
             {
-                testObject.put("startTime", dateFormat.parse(startTime.getText().toString()));
+                testObject.put("startTime", cal.getTime());
             }
+
             catch(Exception e)
             {
                 Toast.makeText(this, "Error in startTime!", Toast.LENGTH_LONG).show();
             }
+
             try
             {
-                testObject.put("endTime", dateFormat.parse(endTime.getText().toString()));
+                testObject.put("endTime", dateFormat.parse(endtimeStr.toString()));
             }
             catch(Exception e)
             {
                 Toast.makeText(this, "Error in endTime!", Toast.LENGTH_LONG).show();
-            }*/
+            }
 
             testObject.put("capacity", Integer.parseInt(capacity.getText().toString()));
             if(packingYes.isChecked())
@@ -478,7 +482,9 @@ public class OfferingForm extends AppCompatActivity {
                 testObject.put("veg", true);
             else
                 testObject.put("veg", false);
+            Log.i("Testing","about to submit form!!!");
             testObject.saveInBackground();
+            Log.i("Testing", "about to submit form 4!!!");
             Intent intent = new Intent(this, OfferingListActivity.class);
             startActivity(intent);
         }
