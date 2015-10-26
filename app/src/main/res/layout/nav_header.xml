@@ -17,7 +17,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="192dp"
-    android:background="?attr/colorPrimaryDark"
+    android:background="#009688"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
@@ -26,7 +26,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:src="@drawable/abc_ic_clear_mtrl_alpha" />
+        android:src="@drawable/food" />
 
 
 </LinearLayout>

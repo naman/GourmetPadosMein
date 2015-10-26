@@ -4,7 +4,7 @@
             android:id="@+id/new_offering"
             android:checkable="true"
             android:icon="@drawable/abc_ic_clear_mtrl_alpha"
-            android:title="@string/new_offering" />
+            android:title="@string/my_hostings" />
         <item
             android:id="@+id/profile"
             android:checkable="true"

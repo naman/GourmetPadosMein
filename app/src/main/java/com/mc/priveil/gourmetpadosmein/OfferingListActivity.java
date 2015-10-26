@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
+import com.mc.priveil.gourmetpadosmein.Models.MyHostings;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -249,6 +250,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     bundle.putSerializable("costs", costs);
 
 
+                    bundle.putSerializable("email", email);
+
                     OfferingFragment fragment = new OfferingFragment();
                     fragment.setArguments(bundle);
 
@@ -322,7 +325,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                                 ui.putExtra(MESSAGE_NAME, name);
                                 ui.putExtra(MESSAGE_EMAIL, email);
 
-//                                startActivity(intent);
                                 startActivity(ui);
                                 break;
                         }

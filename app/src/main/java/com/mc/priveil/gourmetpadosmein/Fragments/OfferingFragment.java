@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class OfferingFragment extends Fragment {
     RecyclerView recyclerView;
     OfferingAdapter offeringAdapter;
+String email;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +42,13 @@ public class OfferingFragment extends Fragment {
         cuisines = (ArrayList<ArrayList<String>>) bundle.getSerializable("cuisines");
         object_ids = (ArrayList<String>) bundle.getSerializable("object_ids");
         distances = (ArrayList<Double>) bundle.getSerializable("distances");
+        email  = bundle.getSerializable("email").toString();
 
 //        Log.d("Test", String.format("Proxy object name: %s", itemlist.get(0)));
+
+        offeringAdapter = new OfferingAdapter(names, cuisines, object_ids, distances, email);
+        recyclerView.setAdapter(offeringAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FloatingActionButton fab_add_offering = (FloatingActionButton) view.findViewById(R.id.fab_add_offering);
         fab_add_offering.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -55,9 +61,6 @@ public class OfferingFragment extends Fragment {
             }
         });
 
-        offeringAdapter = new OfferingAdapter(names, cuisines, object_ids, distances);
-        recyclerView.setAdapter(offeringAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return view;
     }

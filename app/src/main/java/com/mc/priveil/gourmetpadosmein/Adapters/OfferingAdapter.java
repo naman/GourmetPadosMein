@@ -21,13 +21,14 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
     ArrayList<ArrayList<String>> cuisines;
     ArrayList<String> object_ids;
     ArrayList<Double> distances;
+    String email;
 
-
-    public OfferingAdapter(ArrayList<String> names, ArrayList<ArrayList<String>> cuisines, ArrayList<String> object_ids, ArrayList<Double> distances) {
+    public OfferingAdapter(ArrayList<String> names, ArrayList<ArrayList<String>> cuisines, ArrayList<String> object_ids, ArrayList<Double> distances, String email) {
         this.names = names;
         this.cuisines = cuisines;
         this.object_ids = object_ids;
         this.distances = distances;
+        this.email = email;
     }
 
     @Override
@@ -76,6 +77,7 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
                 public void onClick(View v) {
                     Intent intent = new Intent(itemView.getContext(), OfferingViewActivity.class);
                     intent.putExtra("objectid", objectid.getText().toString());
+                    intent.putExtra("email", email);
                     itemView.getContext().startActivity(intent);
                 }
             });

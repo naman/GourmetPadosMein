@@ -14,7 +14,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!--Drawer Items-->
-    <string name="new_offering">New Offering</string>
+    <string name="my_hostings">New Offering</string>
     <string name="profile">Profile</string>
 
     <!--Buttons-->

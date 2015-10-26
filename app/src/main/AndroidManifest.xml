@@ -49,7 +49,9 @@
             android:name=".OfferingForm"
             android:label="@string/title_activity_offering_form" >
         </activity>
-        <activity android:name=".OfferingViewActivity"></activity>
+        <activity android:name=".OfferingViewActivity" />
+        <activity android:name=".Models.MyHostings" >
+        </activity>
     </application>
 
 </manifest>
