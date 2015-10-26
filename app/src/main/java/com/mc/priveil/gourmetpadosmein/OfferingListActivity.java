@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
-import com.mc.priveil.gourmetpadosmein.Models.MyHostings;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -221,24 +220,24 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                             if(distances.get(iter2) < distances.get(iter1))
                             {
                                 double temp = distances.get(iter1);
-                                distances.add(iter1,distances.get(iter2));
-                                distances.add(iter2,temp);
+                                distances.set(iter1,distances.get(iter2));
+                                distances.set(iter2,temp);
 
                                 String tempName = names.get(iter1);
-                                names.add(iter1,names.get(iter2));
-                                names.add(iter2,tempName);
+                                names.set(iter1,names.get(iter2));
+                                names.set(iter2,tempName);
 
                                 ArrayList<String> tempCuisine = cuisines.get(iter1);
-                                cuisines.add(iter1,cuisines.get(iter2));
-                                cuisines.add(iter2, tempCuisine);
+                                cuisines.set(iter1,cuisines.get(iter2));
+                                cuisines.set(iter2, tempCuisine);
 
                                 String tempObjectId = object_ids.get(iter1);
-                                object_ids.add(iter1, object_ids.get(iter2));
-                                object_ids.add(iter2,tempObjectId);
+                                object_ids.set(iter1, object_ids.get(iter2));
+                                object_ids.set(iter2,tempObjectId);
 
                                 String tempCost = costs.get(iter1);
-                                costs.add(iter1,costs.get(iter2));
-                                costs.add(iter2,tempCost);
+                                costs.set(iter1,costs.get(iter2));
+                                costs.set(iter2,tempCost);
                             }
                         }
                     }
