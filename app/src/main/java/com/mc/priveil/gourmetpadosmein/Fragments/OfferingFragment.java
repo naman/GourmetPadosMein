@@ -34,16 +34,17 @@ public class OfferingFragment extends Fragment {
         ArrayList<String> names;
         ArrayList<ArrayList<String>> cuisines;
         final ArrayList<String> object_ids;
-
+        ArrayList<Double> distances;
 
         Bundle bundle = getArguments();
         names = (ArrayList<String>) bundle.getSerializable("names");
         cuisines = (ArrayList<ArrayList<String>>) bundle.getSerializable("cuisines");
         object_ids = (ArrayList<String>) bundle.getSerializable("object_ids");
+        distances = (ArrayList<Double>) bundle.getSerializable("distances");
 
 //        Log.d("Test", String.format("Proxy object name: %s", itemlist.get(0)));
 
-        offeringAdapter = new OfferingAdapter(names, cuisines, object_ids);
+        offeringAdapter = new OfferingAdapter(names, cuisines, object_ids, distances);
         recyclerView.setAdapter(offeringAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FloatingActionButton fab_add_offering = (FloatingActionButton) view.findViewById(R.id.fab_add_offering);

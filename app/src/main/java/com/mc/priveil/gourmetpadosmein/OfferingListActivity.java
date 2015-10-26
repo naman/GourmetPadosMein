@@ -1,9 +1,7 @@
 package com.mc.priveil.gourmetpadosmein;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -38,13 +36,11 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     public static final String CLASS_NAME = "Offerings";
     public String name;
     public String email;
+    LocationManager locationManager;
+    double currLatitude = 28.5444498,currLongitude = 77.2726199;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-
-    LocationManager locationManager;
-
-    double currLatitude = 28.5444498,currLongitude = 77.2726199;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -72,6 +68,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,16 +80,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = this;
 
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
-            return;
-        }
+
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
 

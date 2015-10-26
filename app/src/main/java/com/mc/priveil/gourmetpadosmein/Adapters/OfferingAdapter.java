@@ -20,11 +20,14 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
     ArrayList<String> names;
     ArrayList<ArrayList<String>> cuisines;
     ArrayList<String> object_ids;
+    ArrayList<Double> distances;
 
-    public OfferingAdapter(ArrayList<String> names, ArrayList<ArrayList<String>> cuisines, ArrayList<String> object_ids) {
+
+    public OfferingAdapter(ArrayList<String> names, ArrayList<ArrayList<String>> cuisines, ArrayList<String> object_ids, ArrayList<Double> distances) {
         this.names = names;
         this.cuisines = cuisines;
         this.object_ids = object_ids;
+        this.distances = distances;
     }
 
     @Override
@@ -44,6 +47,7 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
         }
         viewholder.cuisine.setText(cuisines_);
         viewholder.objectid.setText(object_ids.get(i));
+        viewholder.distance.setText(distances.get(i).toString());
 
     }
 
@@ -56,6 +60,7 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
         TextView offeringName;
         TextView cuisine;
         TextView objectid;
+        TextView distance;
 
         public OfferingViewHolder(final View itemView) {
             super(itemView);
@@ -65,6 +70,7 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
             objectid = (TextView) itemView.findViewById(R.id.objectid);
             objectid.setVisibility(View.GONE);
 
+            distance = (TextView) itemView.findViewById(R.id.distance);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
