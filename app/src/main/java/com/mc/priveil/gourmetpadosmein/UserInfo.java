@@ -41,6 +41,18 @@ public class UserInfo extends AppCompatActivity {
         name = intent.getStringExtra(MESSAGE_NAME);
         String email = intent.getStringExtra(MESSAGE_EMAIL);
 
+        String sidebar_tap = "F";
+        try {
+            sidebar_tap = intent.getStringExtra(OfferingListActivity.SIDEBAR_TAP);
+            Log.d("test123",sidebar_tap);
+        }catch(Exception e){
+            Log.d("test123","failed to get tap");
+        }
+        if("T".equals(sidebar_tap)){
+            Log.d("test123","Hiding");
+            View skoop = findViewById(R.id.button3);
+            skoop.setVisibility(View.GONE);
+        }
         EditText editText = (EditText) findViewById(R.id.editText);
         editText.setText(email);
         editText.setKeyListener(null);
