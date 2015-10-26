@@ -207,6 +207,7 @@ public class UserInfo extends AppCompatActivity {
         EditText emailBox = (EditText) findViewById(R.id.editText);
         String email = emailBox.getText().toString();
         intent.putExtra(MESSAGE_EMAIL, email);
+        intent.putExtra("SKIPCLICK", "Y");
 //            intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
         startActivity(intent);
     }
