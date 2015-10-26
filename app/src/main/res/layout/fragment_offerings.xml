@@ -8,6 +8,8 @@
         android:id="@+id/list_offerings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:elevation="7dp"
         android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
 
@@ -19,11 +21,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="10dp"
         android:layout_marginBottom="52dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:clickable="true"
+        android:elevation="10dp"
         android:src="@drawable/abc_ic_clear_mtrl_alpha"
+        app:backgroundTint="@color/red"
         app:layout_anchorGravity="bottom|right|end" />
 
 </RelativeLayout>

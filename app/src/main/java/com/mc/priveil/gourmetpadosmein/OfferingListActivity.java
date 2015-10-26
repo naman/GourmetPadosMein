@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.parse.FindCallback;
@@ -33,12 +32,12 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     public static final String CLASS_NAME = "Offerings";
     public String name;
     public String email;
+    public ParseObject result = null;
     LocationManager locationManager;
     double currLatitude = 28.5444498,currLongitude = 77.2726199;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-    public ParseObject result = null;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -312,8 +311,11 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         switch (id) {
 
                             case R.id.new_offering:
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new OfferingFragment()).commit();
+                                Intent n = new Intent(OfferingListActivity.this, OfferingForm.class);
+                                n.putExtra(MESSAGE_NAME, name);
+                                n.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n);
+
                                 break;
                             case R.id.profile:
                                 Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);

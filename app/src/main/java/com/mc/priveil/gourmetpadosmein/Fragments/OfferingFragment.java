@@ -1,17 +1,17 @@
 package com.mc.priveil.gourmetpadosmein.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mc.priveil.gourmetpadosmein.Adapters.OfferingAdapter;
-import com.mc.priveil.gourmetpadosmein.OfferingForm;
 import com.mc.priveil.gourmetpadosmein.R;
 
 import java.util.ArrayList;
@@ -43,19 +43,21 @@ public class OfferingFragment extends Fragment {
         distances = (ArrayList<Double>) bundle.getSerializable("distances");
 
 //        Log.d("Test", String.format("Proxy object name: %s", itemlist.get(0)));
+        FloatingActionButton fab_add_offering = (FloatingActionButton) view.findViewById(R.id.fab_add_offering);
+        fab_add_offering.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                Intent ui = new Intent(getActivity(), OfferingForm.class);
+//                ui.putExtra(MESSAGE_NAME, name);
+//                ui.putExtra(MESSAGE_EMAIL, email);
+                Toast.makeText(getActivity(), "ss", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
         offeringAdapter = new OfferingAdapter(names, cuisines, object_ids, distances);
         recyclerView.setAdapter(offeringAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FloatingActionButton fab_add_offering = (FloatingActionButton) view.findViewById(R.id.fab_add_offering);
-        fab_add_offering.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), OfferingForm.class);
-                startActivity(intent);
-            }
-        });
-
 
         return view;
     }
