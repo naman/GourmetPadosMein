@@ -28,8 +28,8 @@ import java.util.List;
 public class OfferingListActivity extends AppCompatActivity implements LocationListener {
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
-    public final static String SIDEBAR_TAP = "com.mc.priveil.gourmetpadosmein.SIDEBARTAP";
 
+    public final static String SIDEBAR_TAP = "LOL";
     public static final String CLASS_NAME = "Offerings";
     public String name;
     public String email;
@@ -168,7 +168,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
             @Override
             public void done(Object o, Throwable throwable) {
-                Log.d("asd","o is : "+o);
                 if (o != null) {
                     List<ParseObject> itemlist;
                     itemlist = (List<ParseObject>) o;
@@ -221,7 +220,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 //
 //
 //
-                    /*
                     int sizeOfList = distances.size();
                     for(int iter1 = 0 ; iter1 < sizeOfList ; iter1++)
                     {
@@ -251,7 +249,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                             }
                         }
                     }
-*/
+
                     bundle.putSerializable("names", names);
                     bundle.putSerializable("cuisines", cuisines);
                     bundle.putSerializable("distances", distances);
@@ -322,8 +320,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         int id = menuItem.getItemId();
                         switch (id) {
 
-                            case R.id.new_offering:
-                                Intent n = new Intent(OfferingListActivity.this, OfferingForm.class);
+                            case R.id.my_offerings:
+                                Intent n = new Intent(OfferingListActivity.this, MyOfferings.class);
                                 n.putExtra(MESSAGE_NAME, name);
                                 n.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n);
@@ -333,7 +331,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                                 Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
                                 ui.putExtra(MESSAGE_NAME, name);
                                 ui.putExtra(MESSAGE_EMAIL, email);
-                                ui.putExtra(SIDEBAR_TAP, "T");
 
                                 startActivity(ui);
                                 break;
