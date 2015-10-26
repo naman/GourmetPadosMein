@@ -23,6 +23,7 @@ import java.util.List;
 
 public class OfferingViewActivity extends AppCompatActivity {
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+    public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
 
     public String email;
@@ -130,7 +131,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                                 // Start NewActivity.class
                                 Intent myIntent = new Intent(OfferingViewActivity.this,
                                         OfferingForm.class);
-                                myIntent.putExtra("MESSAGE_OBJECTID", objectid);
+                                myIntent.putExtra(MESSAGE_OBJECTID, objectid);
 //                                myIntent.putExtra(MESSAGE_NAME, name);
                                 myIntent.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(myIntent);
