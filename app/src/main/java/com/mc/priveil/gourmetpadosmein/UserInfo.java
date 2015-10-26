@@ -1,15 +1,16 @@
 package com.mc.priveil.gourmetpadosmein;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.app.Application;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -30,6 +31,8 @@ public class UserInfo extends AppCompatActivity {
     public String name;
     public int flag = 0;
     public ParseObject result = null;
+    double lat;
+    double longi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +168,26 @@ public class UserInfo extends AppCompatActivity {
         }
     }
 
+
+    boolean getLatLong(String addr) {
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> addresses;
+
+        try
+        {
+            addresses = geocoder.getFromLocationName(addr, 1);
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+        if (addresses.size() > 0) {
+            lat = addresses.get(0).getLatitude();
+            longi = addresses.get(0).getLongitude();
+        }
+        return true;
+    }
+
     public void submitForm(View view) {
         EditText email = (EditText) findViewById(R.id.editText);
         EditText name = (EditText) findViewById(R.id.editText2);
@@ -179,8 +202,7 @@ public class UserInfo extends AppCompatActivity {
         if(email.getText().toString().isEmpty() || name.getText().toString().isEmpty() || address.getText().toString().isEmpty() || mobile.getText().toString().isEmpty() || emergencyName.getText().toString().isEmpty() || emergencyNumber.getText().toString().isEmpty())
         {
             Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
-        }
-        else if(mobile.getText().length()!=10 || !isNumeric2(mobile.getText().toString()))
+        } else if (mobile.getText().length()!=10 || !isNumeric2(mobile.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Mobile Number!!", Toast.LENGTH_LONG).show();
         }
@@ -218,6 +240,17 @@ public class UserInfo extends AppCompatActivity {
             testObject.put("username", email.getText().toString());
             testObject.put("name", name.getText().toString());
             testObject.put("address", address.getText().toString());
+
+            if(getLatLong(address.getText().toString())) {
+                Log.i("Testing", String.valueOf(lat));
+                Log.i("Testing", String.valueOf(longi));
+            }
+
+            else
+            {
+                Log.i("Testing","Could not calculate the address");
+            }
+
             testObject.put("phoneNumber", mobile.getText().toString());
             testObject.put("emergencyContactName", emergencyName.getText().toString());
             testObject.put("emergencyContactNumber", emergencyNumber.getText().toString());

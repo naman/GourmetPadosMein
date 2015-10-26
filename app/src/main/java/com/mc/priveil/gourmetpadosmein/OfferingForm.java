@@ -1,8 +1,8 @@
 package com.mc.priveil.gourmetpadosmein;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -10,11 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -118,10 +116,10 @@ public class OfferingForm extends AppCompatActivity {
                     String startTimeStr = dateFormat.format(result.get("startTime"));
                     String endTimeStr = dateFormat.format(result.get("endTime"));
                     Log.i("Testing",startTimeStr);
-//                    Log.i("Testing",endTimeStr);
+                    Log.i("Testing",endTimeStr);
 
                     startTime.setText(startTimeStr);
-//                    endTime.setText(endTimeStr);
+                    endTime.setText(endTimeStr);
 
 //                    startTime.setText((result.get("startTime")).toString());
 //                    endTime.setText((result.get("endTime")).toString());
