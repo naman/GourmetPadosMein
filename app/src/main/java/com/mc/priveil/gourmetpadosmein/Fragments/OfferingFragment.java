@@ -1,5 +1,6 @@
 package com.mc.priveil.gourmetpadosmein.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.mc.priveil.gourmetpadosmein.Adapters.OfferingAdapter;
+import com.mc.priveil.gourmetpadosmein.OfferingForm;
 import com.mc.priveil.gourmetpadosmein.R;
 
 import java.util.ArrayList;
@@ -21,9 +22,11 @@ import java.util.ArrayList;
  * Created by Srishti on 25/10/2015.
  */
 public class OfferingFragment extends Fragment {
+    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     RecyclerView recyclerView;
     OfferingAdapter offeringAdapter;
-String email;
+    String email;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,10 +56,11 @@ String email;
         fab_add_offering.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                Intent ui = new Intent(getActivity(), OfferingForm.class);
+                Intent ui = new Intent(getActivity(), OfferingForm.class);
 //                ui.putExtra(MESSAGE_NAME, name);
-//                ui.putExtra(MESSAGE_EMAIL, email);
-                Toast.makeText(getActivity(), "ss", Toast.LENGTH_SHORT).show();
+                ui.putExtra(MESSAGE_EMAIL, email);
+                startActivity(ui);
+//                Toast.makeText(getActivity(), "ss", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
