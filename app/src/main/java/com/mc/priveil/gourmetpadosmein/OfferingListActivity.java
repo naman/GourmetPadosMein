@@ -1,6 +1,12 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +28,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfferingListActivity extends AppCompatActivity {
+public class OfferingListActivity extends AppCompatActivity implements LocationListener {
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
 
@@ -38,6 +44,36 @@ public class OfferingListActivity extends AppCompatActivity {
 
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
+    LocationManager locationManager;
+
+    double currLatitude = 28.5444498,currLongitude = 77.2726199;
+
+    @Override
+    public void onLocationChanged(Location location) {
+        currLatitude = location.getLatitude();
+        currLongitude = location.getLongitude();
+//        Log.d("Testing", "Latitude: " + Double.toString(currLatitude) + " Longitude: " + Double.toString(currLongitude));
+//        float[] dist = new float[1];
+//        Location.distanceBetween(collegeLatitude, collegeLongitude, currLatitude, currLongitude, dist);
+//        Log.d("Testing", "Distance from IIITD is: " + Double.toString(dist[0]));
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +81,22 @@ public class OfferingListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra(MESSAGE_NAME);
         email = intent.getStringExtra(MESSAGE_EMAIL);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = this;
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
 
         Log.i("Testing12", "Came here in Listing class");
         setUpToolbar();
@@ -93,8 +145,52 @@ public class OfferingListActivity extends AppCompatActivity {
                     Log.d("List", String.valueOf(cuisines));
 
 
+
+                    ArrayList<Double> distances = new ArrayList<>();
+                    for (ParseObject p : itemlist) {
+                        Double lat = Double.parseDouble((String)p.get("Latitude"));
+                        Double longi = Double.parseDouble((String) p.get("Longitude"));
+                        float[] dist = new float[1];
+                        Location.distanceBetween(currLatitude, currLongitude, lat, longi, dist);
+                        Double distance = (double)dist[0];
+                        distances.add(distance);
+                    }
+                    Log.d("List", String.valueOf(cuisines));
+
+
+//                    ArrayList<ArrayList<String>> cuisines = new ArrayList<ArrayList<String>>();
+//                    for (ParseObject p : itemlist) {
+//                        cuisines.add((ArrayList<String>) p.get("cuisine"));
+//                    }
+//                    Log.d("List", String.valueOf(cuisines));
+//
+//
+//
+                    int sizeOfList = distances.size();
+                    for(int iter1 = 0 ; iter1 < sizeOfList ; iter1++)
+                    {
+                        for(int iter2 = iter1+1 ; iter2 < sizeOfList ; iter2++)
+                        {
+                            if(distances.get(iter2) < distances.get(iter1))
+                            {
+                                double temp = distances.get(iter1);
+                                distances.add(iter1,distances.get(iter2));
+                                distances.add(iter2,temp);
+
+                                String tempName = names.get(iter1);
+                                names.add(iter1,names.get(iter2));
+                                names.add(iter2,tempName);
+
+                                ArrayList<String> tempCuisine = cuisines.get(iter1);
+                                cuisines.add(iter1,cuisines.get(iter2));
+                                cuisines.add(iter2,tempCuisine);
+                            }
+                        }
+                    }
+
                     bundle.putSerializable("names", names);
                     bundle.putSerializable("cuisines", cuisines);
+                    bundle.putSerializable("distances", distances);
 
                     OfferingFragment fragment = new OfferingFragment();
                     fragment.setArguments(bundle);

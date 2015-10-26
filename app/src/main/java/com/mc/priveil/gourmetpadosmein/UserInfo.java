@@ -143,6 +143,20 @@ public class UserInfo extends AppCompatActivity {
         return true;
     }
 
+    public boolean isName(String name) {
+        String regex = "[a-zA-Z\\s]+";
+//        String te = "\\s";
+        Pattern r = Pattern.compile(regex);
+        Matcher m = r.matcher(name);
+
+        if(m.find()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     boolean isNumeric2(String phone) {
         String regex = "^[0-9]+$";
 //        String te = "\\s";
@@ -210,12 +224,12 @@ public class UserInfo extends AppCompatActivity {
         {
             Toast.makeText(this, "Enter a valid Emergency Mobile Number!!", Toast.LENGTH_LONG).show();
         }
-        else if(!isAlpha(name.getText().toString()))
+        else if(!isName(name.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Name!!", Toast.LENGTH_LONG).show();
         }
 
-        else if(!isAlpha(emergencyName.getText().toString()))
+        else if(!isName(emergencyName.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Emergency Contact Name!!", Toast.LENGTH_LONG).show();
         }
@@ -244,6 +258,8 @@ public class UserInfo extends AppCompatActivity {
             if(getLatLong(address.getText().toString())) {
                 Log.i("Testing", String.valueOf(lat));
                 Log.i("Testing", String.valueOf(longi));
+                testObject.put("Latitude", String.valueOf(lat));
+                testObject.put("Longitude", String.valueOf(longi));
             }
 
             else

@@ -233,4 +233,25 @@
         android:layout_alignRight="@+id/textView12"
         android:layout_alignEnd="@+id/textView12" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText15"
+        android:layout_alignTop="@+id/editText7"
+        android:layout_alignLeft="@+id/textView13"
+        android:layout_alignStart="@+id/textView13"
+        android:layout_alignRight="@+id/editText13"
+        android:layout_alignEnd="@+id/editText13"
+        android:visibility="invisible" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText16"
+        android:layout_above="@+id/editText9"
+        android:layout_toRightOf="@+id/editText11"
+        android:layout_alignRight="@+id/editText15"
+        android:layout_alignEnd="@+id/editText15"
+        android:visibility="invisible" />
+
 </RelativeLayout>

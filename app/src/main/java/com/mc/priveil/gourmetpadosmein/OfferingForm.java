@@ -52,9 +52,57 @@ public class OfferingForm extends AppCompatActivity {
 
 
 
-        String objId = "lol";
+
+        ParseQuery query = new ParseQuery("User");
+        query.whereEqualTo("username", email);
+        query.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                if (e == null) {
+                    if (!list.isEmpty()) {
+                    } else {
+                        Log.i("Testing", "List returned by Parse is empty!");
+                    }
+                } else {
+                    Log.i("Error!!", "Error in querying parse!");
+                }
+            }
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+//                Log.i("Testing",throwable.getMessage().toString());
+                Log.i("Testing1", o.toString());
+
+                List<ParseObject> results = ((List<ParseObject>) o);
+
+
+                if (!results.isEmpty()) {
+                    result = results.get(results.size() - 1);
+                    EditText lati = (EditText) findViewById(R.id.editText15);
+                    EditText lon = (EditText) findViewById(R.id.editText16);
+                    lati.setText(((String) result.get("Latitude")));
+                    lon.setText(((String) result.get("Longitude")));
+                    Log.i("Testing", "Came to lat and long");
+//                        String longitude = (String)result.get("Longitude");
+
+
+                } else {
+                    Log.i("Testing1", "");
+                }
+//                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
+
+            }
+        });
+
+
+
+
+
+
+
+        String objId = "4v0XFHmrue";
 //        String tempN = "aaa"
-        ParseQuery query = new ParseQuery("Offering");
+        query = new ParseQuery("Offering");
         query.whereEqualTo("objectId", objId);
         query.findInBackground(new FindCallback() {
             @Override
@@ -299,6 +347,24 @@ public class OfferingForm extends AppCompatActivity {
             }
 //            ParseObject testObject = new ParseObject("Offering");
             testObject.put("username", email.getText().toString());
+
+
+
+//            String latitude;
+//            String longitude;
+
+
+
+
+
+
+
+
+            EditText lati = (EditText) findViewById(R.id.editText15);
+            EditText lon = (EditText) findViewById(R.id.editText16);
+
+            testObject.put("Latitude", lati.getText().toString());
+            testObject.put("Longitude", lon.getText().toString());
             testObject.put("name", offeringname.getText().toString());
             testObject.put("cost", Double.parseDouble(cost.getText().toString()));
             String cuisineVal = cuisine.getText().toString();
@@ -308,7 +374,7 @@ public class OfferingForm extends AppCompatActivity {
             {
                 allCuisines.add(c);
             }
-            testObject.addAll("cuisine", allCuisines);
+            testObject.put("cuisine", allCuisines);
             testObject.put("description", description.getText().toString());
 //            testObject.put("deadline", deadline.getText().toString());
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
