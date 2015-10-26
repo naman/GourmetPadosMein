@@ -17,7 +17,6 @@ import android.view.MenuItem;
 
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -29,9 +28,6 @@ import java.util.List;
 public class OfferingListActivity extends AppCompatActivity implements LocationListener {
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
-
-    public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
-    public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
 
     public static final String CLASS_NAME = "Offerings";
     public String name;
@@ -88,7 +84,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         setUpToolbar();
         setUpNavDrawer();
 
-        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
 
         Log.i("Testing12", "Came here in Listing class 2");

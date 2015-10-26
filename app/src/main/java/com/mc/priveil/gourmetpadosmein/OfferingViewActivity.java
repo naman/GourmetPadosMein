@@ -23,9 +23,6 @@ public class OfferingViewActivity extends AppCompatActivity {
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
 
-    public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
-    public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
-
     public static final String CLASS_NAME = "Offerings";
     public String name;
     public String email;

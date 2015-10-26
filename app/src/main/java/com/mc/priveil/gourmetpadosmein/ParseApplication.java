@@ -3,7 +3,7 @@ package com.mc.priveil.gourmetpadosmein;
 import android.app.Application;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
+import com.parse.ParseInstallation;
 
 /**
  * Created by magusverma on 18/10/15.
@@ -16,12 +16,12 @@ public class ParseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Add your initialization code here
-//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
-
-        // Test creation of object
-//        ParseObject testObject = new ParseObject("User");
-//        testObject.put("username", "magus");
-//        testObject.saveInBackground();
+        try {
+            // Add your initialization code here
+            Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+            ParseInstallation.getCurrentInstallation().saveInBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

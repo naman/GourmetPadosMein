@@ -29,10 +29,18 @@ import java.util.regex.Pattern;
 
 public class OfferingForm extends AppCompatActivity {
 
-    public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
-    public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
+
     public int flag = 0;
     public ParseObject result = null;
+
+    public static boolean isDouble(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,7 +204,6 @@ public class OfferingForm extends AppCompatActivity {
 
     }
 
-
     public boolean isAlpha(String name) {
         char[] chars = name.toCharArray();
 
@@ -209,32 +216,13 @@ public class OfferingForm extends AppCompatActivity {
         return true;
     }
 
-
-
-    public static boolean isDouble(String str)
-    {
-        try
-        {
-            double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
-        {
-            return false;
-        }
-        return true;
-    }
-
     boolean isNumeric(String cost) {
         String regex = "^[0-9]+$";
 //        String te = "\\s";
         Pattern r = Pattern.compile(regex);
         Matcher m = r.matcher(cost);
 
-        if(m.find()) {
-            return true;
-        } else {
-            return false;
-        }
+        return m.find();
     }
 
     boolean isCuisine(String cuisine) {
@@ -243,11 +231,7 @@ public class OfferingForm extends AppCompatActivity {
         Pattern r = Pattern.compile(regex);
         Matcher m = r.matcher(cuisine);
 
-        if(m.find()) {
-            return true;
-        } else {
-            return false;
-        }
+        return m.find();
     }
 
     boolean isAlphaNumeric(String str) {
@@ -256,11 +240,7 @@ public class OfferingForm extends AppCompatActivity {
         Pattern r = Pattern.compile(regex);
         Matcher m = r.matcher(str);
 
-        if(m.find()) {
-            return true;
-        } else {
-            return false;
-        }
+        return m.find();
     }
 
     boolean isValidDate(String date)

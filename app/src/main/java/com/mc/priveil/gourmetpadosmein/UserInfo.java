@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -24,8 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserInfo extends AppCompatActivity {
-    public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
-    public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public String name;
@@ -37,7 +34,7 @@ public class UserInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info2);
-        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
         Intent intent = getIntent();
         Log.i("test123", "Came here!!!");
@@ -149,11 +146,7 @@ public class UserInfo extends AppCompatActivity {
         Pattern r = Pattern.compile(regex);
         Matcher m = r.matcher(name);
 
-        if(m.find()) {
-            return true;
-        } else {
-            return false;
-        }
+        return m.find();
     }
 
 
@@ -163,11 +156,7 @@ public class UserInfo extends AppCompatActivity {
         Pattern r = Pattern.compile(regex);
         Matcher m = r.matcher(phone);
 
-        if(m.find()) {
-            return true;
-        } else {
-            return false;
-        }
+        return m.find();
     }
     boolean addressValidation(String address) {
         String regex = "^[a-zA-Z0-9.,-.\\s]+$";
@@ -175,11 +164,7 @@ public class UserInfo extends AppCompatActivity {
         Pattern r = Pattern.compile(regex);
         Matcher m = r.matcher(address);
 
-        if(m.find()) {
-            return true;
-        } else {
-            return false;
-        }
+        return m.find();
     }
 
 
@@ -272,9 +257,9 @@ public class UserInfo extends AppCompatActivity {
             testObject.put("emergencyContactNumber", emergencyNumber.getText().toString());
 //            Log.i("test123","Came in else statement 2");
             testObject.saveInBackground();
-            Intent intent = new Intent(this, OfferingForm.class);
+            Intent intent = new Intent(this, OfferingListActivity.class);
             intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
-
+//            intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
             startActivity(intent);
         }
     }
