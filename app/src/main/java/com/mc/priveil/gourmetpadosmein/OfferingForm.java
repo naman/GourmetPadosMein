@@ -482,10 +482,13 @@ public class OfferingForm extends AppCompatActivity {
                 testObject.put("veg", true);
             else
                 testObject.put("veg", false);
-            Log.i("Testing","about to submit form!!!");
+            Log.i("Testing", "about to submit form!!!");
             testObject.saveInBackground();
             Log.i("Testing", "about to submit form 4!!!");
             Intent intent = new Intent(this, OfferingListActivity.class);
+            intent.putExtra(MESSAGE_EMAIL,email.getText().toString());
+            intent.putExtra(MESSAGE_NAME, name2);
+
             startActivity(intent);
         }
     }
