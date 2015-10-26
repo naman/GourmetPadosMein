@@ -187,6 +187,16 @@ public class UserInfo extends AppCompatActivity {
         return true;
     }
 
+
+    public void onSkip(View view) {
+        Intent intent = new Intent(this, OfferingListActivity.class);
+        EditText emailBox = (EditText) findViewById(R.id.editText);
+        String email = emailBox.getText().toString();
+        intent.putExtra(MESSAGE_EMAIL, email);
+//            intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
+        startActivity(intent);
+    }
+
     public void submitForm(View view) {
         EditText email = (EditText) findViewById(R.id.editText);
         EditText name = (EditText) findViewById(R.id.editText2);

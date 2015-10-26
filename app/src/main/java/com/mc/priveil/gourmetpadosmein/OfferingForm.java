@@ -31,9 +31,12 @@ public class OfferingForm extends AppCompatActivity {
 
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+
+    public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
+
     public String name2;
     public String email;
-
+    public String objId;
     public int flag = 0;
     public ParseObject result = null;
 
@@ -55,6 +58,8 @@ public class OfferingForm extends AppCompatActivity {
         Intent intent = getIntent();
         name2 = intent.getStringExtra(MESSAGE_NAME);
         email = intent.getStringExtra(MESSAGE_EMAIL);
+        objId = intent.getStringExtra(MESSAGE_OBJECTID);
+
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
 
@@ -103,7 +108,7 @@ public class OfferingForm extends AppCompatActivity {
 
                 } else {
                     Log.i("Testing1", "");
-                    Intent intent = new Intent(OfferingForm.this,UserInfo.class);
+                    Intent intent = new Intent(OfferingForm.this, UserInfo.class);
                     intent.putExtra(MESSAGE_NAME, name2);
                     intent.putExtra(MESSAGE_EMAIL, email);
                     startActivity(intent);
@@ -119,7 +124,8 @@ public class OfferingForm extends AppCompatActivity {
 
 
 
-        String objId = "4v0XFHmrue";
+
+//        String objId = "lol";
 //        String tempN = "aaa"
         query = new ParseQuery("Offering");
         query.whereEqualTo("objectId", objId);

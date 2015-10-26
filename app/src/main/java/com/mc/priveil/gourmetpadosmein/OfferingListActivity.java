@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.parse.FindCallback;
@@ -37,6 +38,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+    public ParseObject result = null;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -72,6 +74,58 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         Intent intent = getIntent();
         name = intent.getStringExtra(MESSAGE_NAME);
         email = intent.getStringExtra(MESSAGE_EMAIL);
+
+
+
+
+
+        ParseQuery query = new ParseQuery("User");
+        query.whereEqualTo("username", email);
+        query.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                if (e == null) {
+                    if (!list.isEmpty()) {
+                    } else {
+                        Log.i("Testing", "List returned by Parse is empty!");
+                    }
+                } else {
+                    Log.i("Error!!", "Error in querying parse!");
+                }
+            }
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+//                Log.i("Testing",throwable.getMessage().toString());
+                Log.i("Testing1", o.toString());
+
+                List<ParseObject> results = ((List<ParseObject>) o);
+
+
+                if (!results.isEmpty()) {
+                    result = results.get(results.size() - 1);
+//                    EditText lati = (EditText) findViewById(R.id.editText15);
+//                    EditText lon = (EditText) findViewById(R.id.editText16);
+//                    lati.setText(((String) result.get("Latitude")));
+//                    lon.setText(((String) result.get("Longitude")));
+                    Log.i("Testing", "Came to lat and long");
+//                        String longitude = (String)result.get("Longitude");
+
+
+                } else {
+                    Log.i("Testing1", "");
+                    Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
+                    intent.putExtra(MESSAGE_NAME, name);
+                    intent.putExtra(MESSAGE_EMAIL, email);
+                    startActivity(intent);
+                }
+
+            }
+        });
+
+
+
+
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = this;
