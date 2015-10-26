@@ -1,8 +1,11 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -39,6 +43,10 @@ public class OfferingForm extends AppCompatActivity {
     public String objId;
     public int flag = 0;
     public ParseObject result = null;
+    Calendar myCalendar = Calendar.getInstance();
+    private EditText pickdate;
+    private EditText picktime;
+    private DatePickerDialog.OnDateSetListener date;
 
     public static boolean isDouble(String str) {
         try {
@@ -70,7 +78,36 @@ public class OfferingForm extends AppCompatActivity {
         editText.setText(email);
         editText.setKeyListener(null);
 
+        pickdate = (EditText) findViewById(R.id.date);
+        picktime = (EditText) findViewById(R.id.time);
 
+        pickdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickdate.setInputType(InputType.TYPE_NULL);
+                new DatePickerDialog(OfferingForm.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        picktime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picktime.setInputType(InputType.TYPE_NULL);
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(OfferingForm.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        picktime.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
 
 
         ParseQuery query = new ParseQuery("User");
@@ -173,8 +210,8 @@ public class OfferingForm extends AppCompatActivity {
                     EditText offeringName = (EditText) findViewById(R.id.editText8);
                     EditText cost = (EditText) findViewById(R.id.editText9);
                     EditText cuisine = (EditText) findViewById(R.id.editText10);
-                    EditText startTime = (EditText) findViewById(R.id.editText11);
-                    EditText endTime = (EditText) findViewById(R.id.editText14);
+//                    EditText startTime = (EditText) findViewById(R.id.editText11);
+//                    EditText endTime = (EditText) findViewById(R.id.editText14);
                     EditText description = (EditText) findViewById(R.id.editText12);
                     EditText capacity = (EditText) findViewById(R.id.editText13);
 
@@ -186,13 +223,16 @@ public class OfferingForm extends AppCompatActivity {
                     String cuisinesStr = TextUtils.join(",",((ArrayList<String>)result.get("cuisine")));
                     cuisine.setText(cuisinesStr);
                     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+
                     String startTimeStr = dateFormat.format(result.get("startTime"));
                     String endTimeStr = dateFormat.format(result.get("endTime"));
                     Log.i("Testing",startTimeStr);
                     Log.i("Testing",endTimeStr);
 
-                    startTime.setText(startTimeStr);
-                    endTime.setText(endTimeStr);
+//
+//                    picktime.setText(startTimeStr);
+//                    picktime.setText(endTimeStr);
 
 //                    startTime.setText((result.get("startTime")).toString());
 //                    endTime.setText((result.get("endTime")).toString());
@@ -281,8 +321,8 @@ public class OfferingForm extends AppCompatActivity {
         EditText offeringname = (EditText) findViewById(R.id.editText8);
         EditText cost = (EditText) findViewById(R.id.editText9);
         EditText cuisine = (EditText) findViewById(R.id.editText10);
-        EditText startTime = (EditText) findViewById(R.id.editText11);
-        EditText endTime = (EditText) findViewById(R.id.editText14);
+//        EditText startTime = (EditText) findViewById(R.id.);
+//        EditText endTime = (EditText) findViewById(R.id.editText14);
 
         EditText description = (EditText) findViewById(R.id.editText12);
         EditText capacity = (EditText) findViewById(R.id.editText13);
@@ -320,6 +360,7 @@ public class OfferingForm extends AppCompatActivity {
             Toast.makeText(this, "Enter a vaild Capacity!![Numeric value only > 0]", Toast.LENGTH_LONG).show();
         }
 
+/*
         else if(!isValidDate(startTime.getText().toString()))
         {
             Toast.makeText(this, "Enter Start Date in the given format only!!", Toast.LENGTH_LONG).show();
@@ -329,6 +370,7 @@ public class OfferingForm extends AppCompatActivity {
         {
             Toast.makeText(this, "Enter End Date in the given format only!!", Toast.LENGTH_LONG).show();
         }
+*/
 
         else
         {
@@ -378,7 +420,7 @@ public class OfferingForm extends AppCompatActivity {
             Calendar cal = Calendar.getInstance();
             //dateFormat.format(cal.getTime()))
 
-            try
+           /* try
             {
                 testObject.put("startTime", dateFormat.parse(startTime.getText().toString()));
             }
@@ -393,7 +435,7 @@ public class OfferingForm extends AppCompatActivity {
             catch(Exception e)
             {
                 Toast.makeText(this, "Error in endTime!", Toast.LENGTH_LONG).show();
-            }
+            }*/
 
             testObject.put("capacity", Integer.parseInt(capacity.getText().toString()));
             if(packingYes.isChecked())
