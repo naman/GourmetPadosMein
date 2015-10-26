@@ -64,22 +64,6 @@
 
 
     <EditText
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:focusable="false"
-        android:hint="Pick Start Date" />
-
-    <EditText
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="false"
-        android:hint="Pick Start Time" />
-
-
-    <EditText
         android:id="@+id/enddate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,9 +83,26 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
         android:onClick="submitForm"
         android:text="Submit" />
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:focusable="false"
+        android:hint="Pick Start Date" />
+
+    <EditText
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="false"
+        android:hint="Pick Start Time"
+        android:visibility="invisible"
+        />
+
 
     <EditText
         android:id="@+id/editText15"
@@ -116,5 +117,14 @@
         android:layout_height="wrap_content"
         android:hint="Longitude"
         android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/editText7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:visibility="invisible"
+        />
+
 
 </LinearLayout>

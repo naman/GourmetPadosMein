@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,7 +49,11 @@ public class OfferingForm extends AppCompatActivity {
     Calendar myCalendar = Calendar.getInstance();
     private EditText pickdate;
     private EditText picktime;
+    private EditText pickdate1;
+    private EditText picktime1;
+
     private DatePickerDialog.OnDateSetListener date;
+    private DatePickerDialog.OnDateSetListener date1;
 
     public static boolean isDouble(String str) {
         try {
@@ -79,22 +85,34 @@ public class OfferingForm extends AppCompatActivity {
         editText.setText(email);
         editText.setKeyListener(null);
 
-        pickdate = (EditText) findViewById(R.id.date);
-        picktime = (EditText) findViewById(R.id.time);
+        pickdate1 = (EditText) findViewById(R.id.enddate);
+        picktime1 = (EditText) findViewById(R.id.endtime);
+        myCalendar = Calendar.getInstance();
+        date = new DatePickerDialog.OnDateSetListener() {
 
-        pickdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+        pickdate1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickdate.setInputType(InputType.TYPE_NULL);
+                pickdate1.setInputType(InputType.TYPE_NULL);
                 new DatePickerDialog(OfferingForm.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        picktime.setOnClickListener(new View.OnClickListener() {
+        picktime1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                picktime.setInputType(InputType.TYPE_NULL);
+                picktime1.setInputType(InputType.TYPE_NULL);
                 Calendar mcurrentTime = Calendar.getInstance();
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
@@ -102,7 +120,7 @@ public class OfferingForm extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(OfferingForm.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        picktime.setText(selectedHour + ":" + selectedMinute);
+                        picktime1.setText(selectedHour + ":" + selectedMinute);
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
@@ -211,6 +229,9 @@ public class OfferingForm extends AppCompatActivity {
                     EditText offeringName = (EditText) findViewById(R.id.editText8);
                     EditText cost = (EditText) findViewById(R.id.editText9);
                     EditText cuisine = (EditText) findViewById(R.id.editText10);
+                    EditText enddate = (EditText) findViewById(R.id.enddate);
+                    EditText endtime = (EditText) findViewById(R.id.endtime);
+
 //                    EditText startTime = (EditText) findViewById(R.id.editText11);
 //                    EditText endTime = (EditText) findViewById(R.id.editText14);
                     EditText description = (EditText) findViewById(R.id.editText12);
@@ -224,8 +245,16 @@ public class OfferingForm extends AppCompatActivity {
                     String cuisinesStr = TextUtils.join(",",((ArrayList<String>)resultGlobal.get("cuisine")));
                     cuisine.setText(cuisinesStr);
                     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+
                     String startTimeStr = dateFormat.format(resultGlobal.get("startTime"));
                     String endTimeStr = dateFormat.format(resultGlobal.get("endTime"));
+
+                    enddate.setText(endTimeStr.split(" ")[0]);
+                    endtime.setText(endTimeStr.split(" ")[1]);
+
+
+
                     Log.i("Testing",startTimeStr);
                     Log.i("Testing",endTimeStr);
 
@@ -322,6 +351,9 @@ public class OfferingForm extends AppCompatActivity {
         EditText cuisine = (EditText) findViewById(R.id.editText10);
 //        EditText startTime = (EditText) findViewById(R.id.);
 //        EditText endTime = (EditText) findViewById(R.id.editText14);
+        EditText enddate = (EditText) findViewById(R.id.enddate);
+        EditText endtime = (EditText) findViewById(R.id.endtime);
+        String endtimeStr = enddate.getText().toString()+" "+endtime.getText().toString();
 
         EditText description = (EditText) findViewById(R.id.editText12);
         EditText capacity = (EditText) findViewById(R.id.editText13);
@@ -414,7 +446,8 @@ public class OfferingForm extends AppCompatActivity {
             }
             testObject.put("cuisine", allCuisines);
             testObject.put("description", description.getText().toString());
-//            testObject.put("deadline", deadline.getText().toString());
+            testObject.put("endTime", endtimeStr);
+
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Calendar cal = Calendar.getInstance();
             //dateFormat.format(cal.getTime()))
@@ -472,5 +505,12 @@ public class OfferingForm extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void updateLabel() {
+
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        pickdate1.setText(sdf.format(myCalendar.getTime()));
     }
 }

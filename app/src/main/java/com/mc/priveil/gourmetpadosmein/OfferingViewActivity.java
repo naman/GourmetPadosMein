@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -198,10 +197,11 @@ public class OfferingViewActivity extends AppCompatActivity {
                         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                         int id = menuItem.getItemId();
                         switch (id) {
+                            case R.id.new_offering:
+                                Intent n = new Intent(OfferingViewActivity.this, OfferingForm.class);
+                                n.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n);
 
-                            case R.id.my_hostings:
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new OfferingFragment()).commit();
                                 break;
                             case R.id.profile:
 //                                Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
