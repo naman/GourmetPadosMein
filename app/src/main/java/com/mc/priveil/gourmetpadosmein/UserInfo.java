@@ -19,6 +19,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserInfo extends AppCompatActivity {
     public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
@@ -32,7 +34,7 @@ public class UserInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info2);
-//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
         Intent intent = getIntent();
         Log.i("test123", "Came here!!!");
@@ -124,6 +126,45 @@ public class UserInfo extends AppCompatActivity {
         Log.i("test123", "Came here also!!!");
     }
 
+
+
+    public boolean isAlpha(String name) {
+        char[] chars = name.toCharArray();
+
+        for (char c : chars) {
+            if(!Character.isLetter(c)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    boolean isNumeric2(String phone) {
+        String regex = "^[0-9]+$";
+//        String te = "\\s";
+        Pattern r = Pattern.compile(regex);
+        Matcher m = r.matcher(phone);
+
+        if(m.find()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    boolean addressValidation(String address) {
+        String regex = "^[a-zA-Z0-9.,-.\\s]+$";
+//        String te = "\\s";
+        Pattern r = Pattern.compile(regex);
+        Matcher m = r.matcher(address);
+
+        if(m.find()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void submitForm(View view) {
         EditText email = (EditText) findViewById(R.id.editText);
         EditText name = (EditText) findViewById(R.id.editText2);
@@ -139,15 +180,28 @@ public class UserInfo extends AppCompatActivity {
         {
             Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
         }
-        else if(mobile.getText().length()!=10)
+        else if(mobile.getText().length()!=10 || !isNumeric2(mobile.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Mobile Number!!", Toast.LENGTH_LONG).show();
         }
-        else if(emergencyNumber.getText().length()!=10)
+        else if(emergencyNumber.getText().length()!=10 || !isNumeric2(emergencyNumber.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Emergency Mobile Number!!", Toast.LENGTH_LONG).show();
         }
+        else if(!isAlpha(name.getText().toString()))
+        {
+            Toast.makeText(this, "Enter a valid Name!!", Toast.LENGTH_LONG).show();
+        }
 
+        else if(!isAlpha(emergencyName.getText().toString()))
+        {
+            Toast.makeText(this, "Enter a valid Emergency Contact Name!!", Toast.LENGTH_LONG).show();
+        }
+
+        else if(!addressValidation(address.getText().toString()))
+        {
+            Toast.makeText(this, "Enter a valid address!!Only [a-zA-Z0-9.,-] are allowed", Toast.LENGTH_LONG).show();
+        }
 
         else
         {

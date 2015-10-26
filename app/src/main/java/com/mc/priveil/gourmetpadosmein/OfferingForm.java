@@ -24,7 +24,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OfferingForm extends AppCompatActivity {
 
@@ -148,6 +151,88 @@ public class OfferingForm extends AppCompatActivity {
     }
 
 
+    public boolean isAlpha(String name) {
+        char[] chars = name.toCharArray();
+
+        for (char c : chars) {
+            if(!Character.isLetter(c)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
+    public static boolean isDouble(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    boolean isNumeric(String cost) {
+        String regex = "^[0-9]+$";
+//        String te = "\\s";
+        Pattern r = Pattern.compile(regex);
+        Matcher m = r.matcher(cost);
+
+        if(m.find()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    boolean isCuisine(String cuisine) {
+        String regex = "^[a-zA-Z]+[,[a-zA-Z]+]*$";
+//        String te = "\\s";
+        Pattern r = Pattern.compile(regex);
+        Matcher m = r.matcher(cuisine);
+
+        if(m.find()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    boolean isAlphaNumeric(String str) {
+        String regex = "^[a-zA-Z]+[0-9a-zA-Z\\s]*$";
+//        String te = "\\s";
+        Pattern r = Pattern.compile(regex);
+        Matcher m = r.matcher(str);
+
+        if(m.find()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    boolean isValidDate(String date)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try
+        {
+            Date date1 = dateFormat.parse(date);
+        }
+        catch (java.text.ParseException e)
+        {
+            return false;
+        }
+        return true;
+
+    }
+
+
     public void submitForm(View view) {
         EditText email = (EditText) findViewById(R.id.editText7);
         EditText offeringname = (EditText) findViewById(R.id.editText8);
@@ -166,15 +251,41 @@ public class OfferingForm extends AppCompatActivity {
         {
             Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
         }
-//        else if(mobile.getText().length()!=10)
-//        {
-//            Toast.makeText(this, "Enter a valid Mobile Number!!", Toast.LENGTH_LONG).show();
-//        }
-//        else if(emergencyNumber.getText().length()!=10)
-//        {
-//            Toast.makeText(this, "Enter a valid Emergency Mobile Number!!", Toast.LENGTH_LONG).show();
-//        }
 
+        else if(!isAlphaNumeric(offeringname.getText().toString()))
+        {
+            Toast.makeText(this, "Enter a valid Offering Name!![Alphanumeric string starting with letter]", Toast.LENGTH_LONG).show();
+        }
+
+        else if(!isDouble(cost.getText().toString()) || Double.parseDouble(cost.getText().toString())<0)
+        {
+            Toast.makeText(this, "Enter a vaid Cost!![Numeric value only]", Toast.LENGTH_LONG).show();
+        }
+
+        else if(!isCuisine(cuisine.getText().toString()))
+        {
+            Toast.makeText(this, "Enter valid comma seperated cuisines!!", Toast.LENGTH_LONG).show();
+        }
+
+        else if(!isAlphaNumeric(description.getText().toString()))
+        {
+            Toast.makeText(this, "Enter a valid Description!![Alphanumeric string starting with letter]", Toast.LENGTH_LONG).show();
+        }
+
+        else if(!isNumeric(capacity.getText().toString()) || capacity.getText().toString().length()>3 || Integer.parseInt(capacity.getText().toString())<=0)
+        {
+            Toast.makeText(this, "Enter a vaild Capacity!![Numeric value only > 0]", Toast.LENGTH_LONG).show();
+        }
+
+        else if(!isValidDate(startTime.getText().toString()))
+        {
+            Toast.makeText(this, "Enter Start Date in the given format only!!", Toast.LENGTH_LONG).show();
+        }
+
+        else if(!isValidDate(endTime.getText().toString()))
+        {
+            Toast.makeText(this, "Enter End Date in the given format only!!", Toast.LENGTH_LONG).show();
+        }
 
         else
         {

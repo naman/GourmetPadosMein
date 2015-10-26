@@ -137,6 +137,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText10"
+        android:hint="Comma Seperated Cuisine(if multiple)"
         android:layout_below="@+id/editText9"
         android:layout_toRightOf="@+id/textView12"
         android:layout_alignRight="@+id/editText9"

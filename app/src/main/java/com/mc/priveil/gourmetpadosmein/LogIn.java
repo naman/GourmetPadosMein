@@ -160,8 +160,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
         if(email!=null) {
             Toast.makeText(this, "Logged in as " + email, Toast.LENGTH_LONG).show();
-//            Intent intent = new Intent(this, UserInfo.class);
-            Intent intent = new Intent(this, OfferingListActivity.class);
+            Intent intent = new Intent(this, UserInfo.class);
+//            Intent intent = new Intent(this, OfferingListActivity.class);
             if(personName==null)
             {
                 Log.i("Testing","No name");
