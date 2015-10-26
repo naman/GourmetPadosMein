@@ -361,6 +361,11 @@ public class OfferingForm extends AppCompatActivity {
         CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
         CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
 
+
+        EditText lati = (EditText) findViewById(R.id.editText15);
+        EditText lon = (EditText) findViewById(R.id.editText16);
+
+
         if(email.getText().toString().isEmpty() || offeringname.getText().toString().isEmpty() || cost.getText().toString().isEmpty() || cuisine.getText().toString().isEmpty() || description.getText().toString().isEmpty() || capacity.getText().toString().isEmpty())
         {
             Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
@@ -390,6 +395,12 @@ public class OfferingForm extends AppCompatActivity {
         {
             Toast.makeText(this, "Enter a vaild Capacity!![Numeric value only > 0]", Toast.LENGTH_LONG).show();
         }
+
+        else if(!isDouble(lati.getText().toString()) || !isDouble(lon.getText().toString()))
+        {
+            Toast.makeText(this, "Could not locate address", Toast.LENGTH_LONG).show();
+        }
+
 
 /*
         else if(!isValidDate(startTime.getText().toString()))
@@ -432,8 +443,8 @@ public class OfferingForm extends AppCompatActivity {
 
 
 
-            EditText lati = (EditText) findViewById(R.id.editText15);
-            EditText lon = (EditText) findViewById(R.id.editText16);
+
+
 
             testObject.put("Latitude", lati.getText().toString());
             testObject.put("Longitude", lon.getText().toString());

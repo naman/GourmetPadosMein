@@ -183,8 +183,10 @@ public class UserInfo extends AppCompatActivity {
         if (addresses.size() > 0) {
             lat = addresses.get(0).getLatitude();
             longi = addresses.get(0).getLongitude();
+
+            return true;
         }
-        return true;
+        return false;
     }
 
 
@@ -204,6 +206,7 @@ public class UserInfo extends AppCompatActivity {
         EditText mobile = (EditText) findViewById(R.id.editText4);
         EditText emergencyName = (EditText) findViewById(R.id.editText5);
         EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
+
 //        address.setText("aa");
 //        mobile.setText("9876543211");
 //        emergencyName.setText("aaa");
@@ -234,6 +237,11 @@ public class UserInfo extends AppCompatActivity {
             Toast.makeText(this, "Enter a valid address!!Only [a-zA-Z0-9.,-] are allowed", Toast.LENGTH_LONG).show();
         }
 
+        else if(!getLatLong(address.getText().toString())) {
+            Toast.makeText(this, "Couldn't locate Address!!", Toast.LENGTH_LONG).show();
+            }
+
+
         else
         {
             ParseObject testObject;
@@ -250,17 +258,8 @@ public class UserInfo extends AppCompatActivity {
             testObject.put("name", name.getText().toString());
             testObject.put("address", address.getText().toString());
 
-            if(getLatLong(address.getText().toString())) {
-                Log.i("Testing", String.valueOf(lat));
-                Log.i("Testing", String.valueOf(longi));
-                testObject.put("Latitude", String.valueOf(lat));
-                testObject.put("Longitude", String.valueOf(longi));
-            }
-
-            else
-            {
-                Log.i("Testing","Could not calculate the address");
-            }
+            testObject.put("Latitude", String.valueOf(lat));
+            testObject.put("Longitude", String.valueOf(longi));
 
             testObject.put("phoneNumber", mobile.getText().toString());
             testObject.put("emergencyContactName", emergencyName.getText().toString());
