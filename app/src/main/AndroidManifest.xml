@@ -9,7 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
     <application
         android:name=".ParseApplication"
         android:allowBackup="true"
@@ -33,7 +34,6 @@
             android:label="@string/title_activity_log_in" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,6 +51,15 @@
         </activity>
         <activity android:name=".OfferingViewActivity" />
         <activity android:name=".Models.MyHostings" >
+        </activity>
+        <activity
+            android:name=".ImageTempActivity"
+            android:label="@string/title_activity_image_temp" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
     </application>
 

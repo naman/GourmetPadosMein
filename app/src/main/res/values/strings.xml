@@ -30,5 +30,6 @@
     <string name="title_activity_user_info">UserInfo</string>
     <string name="title_activity_offering_form">OfferingForm</string>
     <string name="title_activity_offering">OfferingActivity</string>
+    <string name="title_activity_image_temp">ImageTempActivity</string>
 
 </resources>
