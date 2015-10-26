@@ -143,7 +143,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
         Log.i("Testing12", "Came here in Listing class 2");
 
-        ParseQuery query = new ParseQuery("Offering");
+        query = new ParseQuery("Offering");
 //        query.whereEqualTo("name", "aaa");
         query.findInBackground(new FindCallback() {
             @Override

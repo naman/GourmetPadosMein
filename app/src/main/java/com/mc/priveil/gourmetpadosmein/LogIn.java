@@ -21,6 +21,7 @@ import com.google.android.gms.plus.model.people.Person;
 public class LogIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+    public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
     private static final String TAG = "talha111";
     private static final int RC_SIGN_IN = 0;
@@ -156,6 +157,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
             Toast.makeText(this, "Logged in as " + email, Toast.LENGTH_LONG).show();
 //            Intent intent = new Intent(this, UserInfo.class);
             Intent intent = new Intent(this, OfferingListActivity.class);
+//            Intent intent = new Intent(this, OfferingForm.class);
             if(personName==null)
             {
                 Log.i("Testing","No name");
@@ -165,6 +167,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
             intent.putExtra(MESSAGE_NAME, personName);
             intent.putExtra(MESSAGE_EMAIL, email);
+//            intent.putExtra(MESSAGE_OBJECTID,"lol");
 
             startActivity(intent);
         }

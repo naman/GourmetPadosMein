@@ -269,7 +269,7 @@ public class UserInfo extends AppCompatActivity {
             testObject.saveInBackground();
             Intent intent = new Intent(this, OfferingListActivity.class);
             intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
-//            intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
+            intent.putExtra(MESSAGE_NAME, name.getText().toString());
             startActivity(intent);
         }
     }

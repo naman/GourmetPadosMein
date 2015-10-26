@@ -39,6 +39,7 @@ public class OfferingForm extends AppCompatActivity {
     public String objId;
     public int flag = 0;
     public ParseObject result = null;
+    public ParseObject resultGlobal = null;
 
     public static boolean isDouble(String str) {
         try {
@@ -107,7 +108,7 @@ public class OfferingForm extends AppCompatActivity {
 
 
                 } else {
-                    Log.i("Testing1", "");
+                    Log.i("Testing1", "why did it come here?");
                     Intent intent = new Intent(OfferingForm.this, UserInfo.class);
                     intent.putExtra(MESSAGE_NAME, name2);
                     intent.putExtra(MESSAGE_EMAIL, email);
@@ -169,7 +170,7 @@ public class OfferingForm extends AppCompatActivity {
 
 
                 if (!results.isEmpty()) {
-                    result = results.get(results.size() - 1);
+                    resultGlobal = results.get(results.size() - 1);
                     EditText offeringName = (EditText) findViewById(R.id.editText8);
                     EditText cost = (EditText) findViewById(R.id.editText9);
                     EditText cuisine = (EditText) findViewById(R.id.editText10);
@@ -178,33 +179,33 @@ public class OfferingForm extends AppCompatActivity {
                     EditText description = (EditText) findViewById(R.id.editText12);
                     EditText capacity = (EditText) findViewById(R.id.editText13);
 
-//                    Log.i("Testing2", ((String) result.get("address")));
-                    Log.i("Testing2", (result.get("cost")).toString());
+//                    Log.i("Testing2", ((String) resultGlobal.get("address")));
+                    Log.i("Testing2", (resultGlobal.get("cost")).toString());
 
-                    offeringName.setText(((String) result.get("name")));
-                    cost.setText((result.get("cost")).toString());
-                    String cuisinesStr = TextUtils.join(",",((ArrayList<String>)result.get("cuisine")));
+                    offeringName.setText(((String) resultGlobal.get("name")));
+                    cost.setText((resultGlobal.get("cost")).toString());
+                    String cuisinesStr = TextUtils.join(",",((ArrayList<String>)resultGlobal.get("cuisine")));
                     cuisine.setText(cuisinesStr);
                     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    String startTimeStr = dateFormat.format(result.get("startTime"));
-                    String endTimeStr = dateFormat.format(result.get("endTime"));
+                    String startTimeStr = dateFormat.format(resultGlobal.get("startTime"));
+                    String endTimeStr = dateFormat.format(resultGlobal.get("endTime"));
                     Log.i("Testing",startTimeStr);
                     Log.i("Testing",endTimeStr);
 
                     startTime.setText(startTimeStr);
                     endTime.setText(endTimeStr);
 
-//                    startTime.setText((result.get("startTime")).toString());
-//                    endTime.setText((result.get("endTime")).toString());
-                    description.setText(((String) result.get("description")));
-                    capacity.setText((result.get("capacity")).toString());
+//                    startTime.setText((resultGlobal.get("startTime")).toString());
+//                    endTime.setText((resultGlobal.get("endTime")).toString());
+                    description.setText(((String) resultGlobal.get("description")));
+                    capacity.setText((resultGlobal.get("capacity")).toString());
                     CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
                     CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
-                    if((result.get("packing")).toString()=="true")
+                    if((resultGlobal.get("packing")).toString()=="true")
                     {
                         packingYes.setChecked(true);
                     }
-                    if((result.get("veg")).toString()=="true")
+                    if((resultGlobal.get("veg")).toString()=="true")
                     {
                         veg.setChecked(true);
                     }
@@ -335,7 +336,7 @@ public class OfferingForm extends AppCompatActivity {
             ParseObject testObject;
             if(flag==1)
             {
-                testObject = result;
+                testObject = resultGlobal;
             }
 //            Log.i("test123","Came in else statement 1");
             else
