@@ -144,6 +144,12 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     }
                     Log.d("List", String.valueOf(cuisines));
 
+                    ArrayList<String> costs = new ArrayList<>();
+                    for (ParseObject p : itemlist) {
+                        costs.add(p.get("cost").toString());
+                    }
+
+
 
 //                    ArrayList<ArrayList<String>> cuisines = new ArrayList<ArrayList<String>>();
 //                    for (ParseObject p : itemlist) {
@@ -170,12 +176,15 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                                 ArrayList<String> tempCuisine = cuisines.get(iter1);
                                 cuisines.add(iter1,cuisines.get(iter2));
-                                cuisines.add(iter2,tempCuisine);
+                                cuisines.add(iter2, tempCuisine);
 
                                 String tempObjectId = object_ids.get(iter1);
-                                object_ids.add(iter1,object_ids.get(iter2));
+                                object_ids.add(iter1, object_ids.get(iter2));
                                 object_ids.add(iter2,tempObjectId);
 
+                                String tempCost = costs.get(iter1);
+                                costs.add(iter1,costs.get(iter2));
+                                costs.add(iter2,tempCost);
                             }
                         }
                     }
@@ -184,6 +193,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     bundle.putSerializable("cuisines", cuisines);
                     bundle.putSerializable("distances", distances);
                     bundle.putSerializable("object_ids", object_ids);
+                    bundle.putSerializable("costs", costs);
+
 
                     OfferingFragment fragment = new OfferingFragment();
                     fragment.setArguments(bundle);

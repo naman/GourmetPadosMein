@@ -29,6 +29,10 @@ import java.util.regex.Pattern;
 
 public class OfferingForm extends AppCompatActivity {
 
+    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+    public String name2;
+    public String email;
 
     public int flag = 0;
     public ParseObject result = null;
@@ -48,11 +52,14 @@ public class OfferingForm extends AppCompatActivity {
         Log.i("testing123", "Came to offering listing");
 
         setContentView(R.layout.activity_offering_form);
+        Intent intent = getIntent();
+        name2 = intent.getStringExtra(MESSAGE_NAME);
+        email = intent.getStringExtra(MESSAGE_EMAIL);
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
 
-        Intent intent = getIntent();
-        String email = intent.getStringExtra(OfferingListActivity.MESSAGE_EMAIL);
+//        Intent intent = getIntent();
+//        String email = intent.getStringExtra(OfferingListActivity.MESSAGE_EMAIL);
 
         EditText editText = (EditText) findViewById(R.id.editText7);
         editText.setText(email);
@@ -96,6 +103,10 @@ public class OfferingForm extends AppCompatActivity {
 
                 } else {
                     Log.i("Testing1", "");
+                    Intent intent = new Intent(OfferingForm.this,UserInfo.class);
+                    intent.putExtra(MESSAGE_NAME, name2);
+                    intent.putExtra(MESSAGE_EMAIL, email);
+                    startActivity(intent);
                 }
 //                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
 
