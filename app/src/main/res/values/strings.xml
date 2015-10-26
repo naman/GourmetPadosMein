@@ -29,5 +29,6 @@
     <string name="title_activity_user_information">UserInformation</string>
     <string name="title_activity_user_info">UserInfo</string>
     <string name="title_activity_offering_form">OfferingForm</string>
+    <string name="title_activity_offering">OfferingActivity</string>
 
 </resources>

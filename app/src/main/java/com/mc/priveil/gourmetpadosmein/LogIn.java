@@ -17,22 +17,20 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.mc.priveil.gourmetpadosmein.Models.User;
 
 public class LogIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
-    private boolean mIsResolving = false;
-
-    private boolean mShouldResolve = false;
-    GoogleApiClient mGoogleApiClient;
+    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+    public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
+    public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
     private static final String TAG = "talha111";
     private static final int RC_SIGN_IN = 0;
     public String email;
-    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
-    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
-
-    public static final String YOUR_APPLICATION_ID = "WU842Ed8GWCo7napgpaxk9FBSZ6LBqrhj6cv0XoO";
-    public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
+    GoogleApiClient mGoogleApiClient;
+    private boolean mIsResolving = false;
+    private boolean mShouldResolve = false;
     private String personName;
+    private SignInButton button_signIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 //        }
 
     }
+
     protected void onResume() {
         super.onResume();
         if(mGoogleApiClient.isConnected()) {
@@ -70,7 +69,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
             }
         }
     }
-
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -125,9 +123,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         }
     }
 
-
-    private SignInButton button_signIn;
-
     public void signOut(View view) {
 //        senSensorManager.unregisterListener(this);
         Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
@@ -160,8 +155,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
         if(email!=null) {
             Toast.makeText(this, "Logged in as " + email, Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, UserInfo.class);
-//            Intent intent = new Intent(this, OfferingListActivity.class);
+//            Intent intent = new Intent(this, UserInfo.class);
+            Intent intent = new Intent(this, OfferingListActivity.class);
             if(personName==null)
             {
                 Log.i("Testing","No name");

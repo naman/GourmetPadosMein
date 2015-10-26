@@ -36,12 +36,10 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     public static final String YOUR_CLIENT_KEY = "Z5WO1weLaVu7ZAQdn97qEjTApHPoDG0BFM77OUqv";
 
     public static final String CLASS_NAME = "Offerings";
-    private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
-
     public String name;
     public String email;
-
+    private DrawerLayout mDrawerLayout;
+    private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     LocationManager locationManager;
@@ -144,6 +142,11 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     }
                     Log.d("List", String.valueOf(cuisines));
 
+                    ArrayList<String> object_ids = new ArrayList<String>();
+                    for (ParseObject p : itemlist) {
+                        object_ids.add(p.getObjectId());
+                    }
+
 
 
                     ArrayList<Double> distances = new ArrayList<>();
@@ -184,6 +187,11 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                                 ArrayList<String> tempCuisine = cuisines.get(iter1);
                                 cuisines.add(iter1,cuisines.get(iter2));
                                 cuisines.add(iter2,tempCuisine);
+
+                                String tempObjectId = object_ids.get(iter1);
+                                object_ids.add(iter1,object_ids.get(iter2));
+                                object_ids.add(iter2,tempObjectId);
+
                             }
                         }
                     }
@@ -191,6 +199,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     bundle.putSerializable("names", names);
                     bundle.putSerializable("cuisines", cuisines);
                     bundle.putSerializable("distances", distances);
+                    bundle.putSerializable("object_ids", object_ids);
 
                     OfferingFragment fragment = new OfferingFragment();
                     fragment.setArguments(bundle);
