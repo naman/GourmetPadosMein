@@ -28,8 +28,9 @@
         android:layout_marginRight="40dp"
         android:clickable="true"
         android:elevation="10dp"
-        android:src="@drawable/abc_ic_clear_mtrl_alpha"
+        android:src="@drawable/plus"
         app:backgroundTint="@color/red"
+        app:borderWidth="0dp"
         app:layout_anchorGravity="bottom|right|end" />
 
 </RelativeLayout>
