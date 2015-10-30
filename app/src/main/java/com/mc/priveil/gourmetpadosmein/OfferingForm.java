@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,6 +53,10 @@ public class OfferingForm extends AppCompatActivity {
     private EditText pickdate1;
     private EditText picktime1;
 
+
+    private EditText pickdate2;
+    private EditText picktime2;
+
     private DatePickerDialog.OnDateSetListener date;
     private DatePickerDialog.OnDateSetListener date1;
 
@@ -69,6 +74,8 @@ public class OfferingForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.i("testing123", "Came to offering listing");
 
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
         setContentView(R.layout.activity_offering_form);
         Intent intent = getIntent();
         name2 = intent.getStringExtra(MESSAGE_NAME);
@@ -85,6 +92,54 @@ public class OfferingForm extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editText7);
         editText.setText(email);
         editText.setKeyListener(null);
+
+
+
+        pickdate2 = (EditText) findViewById(R.id.startdate);
+        picktime2 = (EditText) findViewById(R.id.starttime);
+        myCalendar = Calendar.getInstance();
+        date1 = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel1();
+            }
+
+        };
+        pickdate2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickdate2.setInputType(InputType.TYPE_NULL);
+                new DatePickerDialog(OfferingForm.this, date1, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        picktime2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picktime2.setInputType(InputType.TYPE_NULL);
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(OfferingForm.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        picktime2.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
+
+
+
 
         pickdate1 = (EditText) findViewById(R.id.enddate);
         picktime1 = (EditText) findViewById(R.id.endtime);
@@ -233,6 +288,9 @@ public class OfferingForm extends AppCompatActivity {
                     EditText enddate = (EditText) findViewById(R.id.enddate);
                     EditText endtime = (EditText) findViewById(R.id.endtime);
 
+                    EditText startdate = (EditText) findViewById(R.id.startdate);
+                    EditText starttime = (EditText) findViewById(R.id.starttime);
+
 //                    EditText startTime = (EditText) findViewById(R.id.editText11);
 //                    EditText endTime = (EditText) findViewById(R.id.editText14);
                     EditText description = (EditText) findViewById(R.id.editText12);
@@ -254,6 +312,8 @@ public class OfferingForm extends AppCompatActivity {
                     enddate.setText(endTimeStr.split(" ")[0]);
                     endtime.setText(endTimeStr.split(" ")[1]);
 
+                    startdate.setText(startTimeStr.split(" ")[0]);
+                    starttime.setText(startTimeStr.split(" ")[1]);
 
 
                     Log.i("Testing",startTimeStr);
@@ -356,6 +416,11 @@ public class OfferingForm extends AppCompatActivity {
         EditText endtime = (EditText) findViewById(R.id.endtime);
         String endtimeStr = enddate.getText().toString()+" "+endtime.getText().toString();
 
+        EditText startdate = (EditText) findViewById(R.id.startdate);
+        EditText starttime = (EditText) findViewById(R.id.starttime);
+        String starttimeStr = startdate.getText().toString()+" "+starttime.getText().toString();
+
+
         EditText description = (EditText) findViewById(R.id.editText12);
         EditText capacity = (EditText) findViewById(R.id.editText13);
 
@@ -365,6 +430,30 @@ public class OfferingForm extends AppCompatActivity {
 
         EditText lati = (EditText) findViewById(R.id.editText15);
         EditText lon = (EditText) findViewById(R.id.editText16);
+        String dateValidity = "OK";
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date startdateD= myCalendar.getTime(), enddateD=myCalendar.getTime();
+        try
+        {
+            startdateD = dateFormat.parse(starttimeStr.toString());
+        }
+
+        catch(Exception e)
+        {
+//            Toast.makeText(this, "Error in startTime!", Toast.LENGTH_LONG).show();
+            dateValidity = "ERROR IN STARTTIME";
+        }
+
+        try
+        {
+            enddateD = dateFormat.parse(endtimeStr.toString());
+
+        }
+        catch(Exception e)
+        {
+            dateValidity="ERROR IN ENDTIME";
+//            Toast.makeText(this, "Error in endTime!", Toast.LENGTH_LONG).show();
+        }
 
 
         if(email.getText().toString().isEmpty() || offeringname.getText().toString().isEmpty() || cost.getText().toString().isEmpty() || cuisine.getText().toString().isEmpty() || description.getText().toString().isEmpty() || capacity.getText().toString().isEmpty())
@@ -400,6 +489,14 @@ public class OfferingForm extends AppCompatActivity {
         else if(!isDouble(lati.getText().toString()) || !isDouble(lon.getText().toString()))
         {
             Toast.makeText(this, "Could not locate address", Toast.LENGTH_LONG).show();
+        }
+        else if(dateValidity!="OK")
+        {
+            Toast.makeText(this, dateValidity, Toast.LENGTH_LONG).show();
+        }
+        else if(!enddateD.after(startdateD))
+        {
+            Toast.makeText(this, "Enddate-time should be after startdate-time", Toast.LENGTH_LONG).show();
         }
 
 
@@ -462,28 +559,12 @@ public class OfferingForm extends AppCompatActivity {
             testObject.put("description", description.getText().toString());
 //            testObject.put("endTime", endtimeStr);
 
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            Calendar cal = Calendar.getInstance();
+//            Calendar cal = Calendar.getInstance();
             //dateFormat.format(cal.getTime()))
 
-            try
-            {
-                testObject.put("startTime", cal.getTime());
-            }
 
-            catch(Exception e)
-            {
-                Toast.makeText(this, "Error in startTime!", Toast.LENGTH_LONG).show();
-            }
-
-            try
-            {
-                testObject.put("endTime", dateFormat.parse(endtimeStr.toString()));
-            }
-            catch(Exception e)
-            {
-                Toast.makeText(this, "Error in endTime!", Toast.LENGTH_LONG).show();
-            }
+            testObject.put("startTime",startdateD);
+            testObject.put("endTime",enddateD);
 
             testObject.put("capacity", Integer.parseInt(capacity.getText().toString()));
             if(packingYes.isChecked())
@@ -533,5 +614,13 @@ public class OfferingForm extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         pickdate1.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    private void updateLabel1() {
+
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        pickdate2.setText(sdf.format(myCalendar.getTime()));
     }
 }
