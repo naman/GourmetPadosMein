@@ -46,13 +46,12 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
         for (String s : cuisines.get(i)) {
             cuisines_ += s + ",";
         }
+        cuisines_ = cuisines_.substring(0, cuisines_.length() - 1);
         viewholder.cuisine.setText(cuisines_);
         viewholder.objectid.setText(object_ids.get(i));
-        /*
-        float distance = Float.parseFloat(distances.get(i).toString())/1000;
-        viewholder.distance.setText(String.valueOf(distance));
-        */
-        viewholder.distance.setText(distances.get(i).toString());
+
+        Float distance = Float.parseFloat(distances.get(i).toString()) / 1000;
+        viewholder.distance.setText(String.valueOf(distance) + "km");
 
     }
 
