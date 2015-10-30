@@ -146,12 +146,12 @@ public class OfferingViewActivity extends AppCompatActivity {
                     TextView cuisine_type = (TextView) findViewById(R.id.cuisine);
                     cuisine_type.setTextSize(15);
                     cuisine_type.setTextColor(Color.DKGRAY);
-                    cuisine_type.setText(cuisines.substring(1, cuisines.length()-1));
+                    cuisine_type.setText(cuisines.substring(1, cuisines.length() - 1));
 
                     TextView money = (TextView) findViewById(R.id.cost);
                     money.setTextSize(20);
                     money.setTextColor(Color.DKGRAY);
-                    money.setText("Rs " + cost);
+                    money.setText("Cost: ₹" + cost);
 
                     TextView desc = (TextView) findViewById(R.id.description);
                     desc.setTextSize(15);
@@ -161,7 +161,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                     TextView cap = (TextView) findViewById(R.id.capacity);
                     cap.setTextSize(15);
                     cap.setTextColor(Color.DKGRAY);
-                    cap.setText(capacity);
+                    cap.setText("Capacity: " + capacity);
 
 
                     View button_edit = findViewById(R.id.button_edit);
