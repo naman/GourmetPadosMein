@@ -78,6 +78,49 @@
         android:focusableInTouchMode="false"
         android:hint="Pick End Time" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Set Image"
+            android:id="@+id/textView8"
+            android:layout_gravity="center_vertical" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="100dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gallery"
+                android:id="@+id/button5"
+                android:onClick="gallerypick" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Camera"
+                android:id="@+id/button4"
+                android:onClick="camerapick" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView5"
+            android:adjustViewBounds="false"
+            android:focusable="true"
+            android:layout_gravity="left" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/button2"
         style="?android:attr/buttonStyleSmall"

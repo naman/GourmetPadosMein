@@ -1,6 +1,8 @@
 package com.mc.priveil.gourmetpadosmein;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,10 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -86,6 +91,42 @@ public class OfferingViewActivity extends AppCompatActivity {
                         cuisines = String.valueOf(p.get("cuisine"));
                         parse_username = String.valueOf(p.get("username"));
 
+                        try {
+                            ParseFile fileObject = (ParseFile) p
+                                    .get("image");
+                            fileObject
+                                    .getDataInBackground(new GetDataCallback() {
+
+                                        public void done(byte[] data,
+                                                         ParseException e) {
+                                            if (e == null) {
+                                                Log.d("test",
+                                                        "We've got data in data.");
+                                                // Decode the Byte[] into
+                                                // Bitmap
+                                                Bitmap bmp = BitmapFactory
+                                                        .decodeByteArray(
+                                                                data, 0,
+                                                                data.length);
+
+                                                // Get the ImageView from
+                                                // main.xml
+                                                ImageView image = (ImageView) findViewById(R.id.imageView3);
+                                                image.setBackgroundColor(0);
+
+                                                // Set the Bitmap into the
+                                                // ImageView
+                                                image.setImageBitmap(bmp);
+
+                                            } else {
+                                                Log.d("test",
+                                                        "There was a problem downloading the data.");
+                                            }
+                                        }
+                                    });
+                        }catch(Exception e){
+                            Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                        }
 
                     }
 
