@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 public class UserInfo extends AppCompatActivity {
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
-    public static final int PICK_CONTACT = 1;
+    public static final int PICK_CONTACT = 3;
     public String name;
     public int flag = 0;
     public ParseObject result = null;
@@ -373,49 +373,14 @@ public class UserInfo extends AppCompatActivity {
     }
     private ImageView mImageView;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private int PICK_IMAGE_REQUEST = 1;
+    private int PICK_IMAGE_REQUEST = 2;
     private Bitmap bitmap;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-                   /* Uri contactData = data.getData();
-                    Cursor c = managedQuery(contactData, null, null, null, null);
-                    if (c.moveToFirst()) {
-                        String name = c.getString(c.getColumnIndexOrThrow(Contacts.People.NAME));
-                        int phone = c.getInt(c.getColumnIndexOrThrow(Contacts.People.N));
-                        //
-                        Log.d("USerInfo",name);
-                        Log.d("USerInfo", String.valueOf(phone));
 
-                        emergencyName.setText(name);
-                        emergencyNumber.setText(String.valueOf(phone));
-                    }*/
-            Cursor cursor = null;
-            try {
-                String phoneNo = null;
-                String name = null;
-                // getData() method will have the Content Uri of the selected contact
-                Uri uri = data.getData();
-                //Query the content uri
-                cursor = getContentResolver().query(uri, null, null, null, null);
-                cursor.moveToFirst();
-                // column index of the phone number
-                int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                // column index of the contact name
-                int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-                phoneNo = cursor.getString(phoneIndex);
-                name = cursor.getString(nameIndex);
-                // Set the value to the textviews
-                emergencyName.setText(name);
-                emergencyNumber.setText(phoneNo);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
 
@@ -435,6 +400,42 @@ public class UserInfo extends AppCompatActivity {
             mImageView=(ImageView)findViewById(R.id.imageView5);
             mImageView.setImageBitmap(bitmap);
         }
+        else if (requestCode == PICK_CONTACT && resultCode == Activity.RESULT_OK) {
+             Log.d("test123", "Came in pick contact");
+                   /* Uri contactData = data.getData();
+                    Cursor c = managedQuery(contactData, null, null, null, null);
+                    if (c.moveToFirst()) {
+                        String name = c.getString(c.getColumnIndexOrThrow(Contacts.People.NAME));
+                        int phone = c.getInt(c.getColumnIndexOrThrow(Contacts.People.N));
+                        //
+                        Log.d("USerInfo",name);
+                        Log.d("USerInfo", String.valueOf(phone));
+
+                        emergencyName.setText(name);
+                        emergencyNumber.setText(String.valueOf(phone));
+                    }*/
+                Cursor cursor = null;
+                try {
+                    String phoneNo = null;
+                    String name = null;
+                    // getData() method will have the Content Uri of the selected contact
+                    Uri uri = data.getData();
+                    //Query the content uri
+                    cursor = getContentResolver().query(uri, null, null, null, null);
+                    cursor.moveToFirst();
+                    // column index of the phone number
+                    int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                    // column index of the contact name
+                    int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                    phoneNo = cursor.getString(phoneIndex);
+                    name = cursor.getString(nameIndex);
+                    // Set the value to the textviews
+                    emergencyName.setText(name);
+                    emergencyNumber.setText(phoneNo);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
     }
 
     private void dispatchTakePictureIntent() {
