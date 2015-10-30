@@ -48,7 +48,9 @@ public class OfferingViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offering_view);
+        View button_edit = findViewById(R.id.button_edit);
 
+        button_edit.setVisibility(View.GONE);
 
         setUpToolbar();
         setUpNavDrawer();
@@ -161,12 +163,12 @@ public class OfferingViewActivity extends AppCompatActivity {
                     cap.setTextColor(Color.DKGRAY);
                     cap.setText(capacity);
 
-                    View button_edit = findViewById(R.id.button_edit);
 
+                    View button_edit = findViewById(R.id.button_edit);
 
                     if(email.equals(parse_username)){
                         //show edit button
-
+                        button_edit.setVisibility(View.VISIBLE);
                         button_edit.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View arg0) {
                                 // Start NewActivity.class
@@ -180,7 +182,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                         });
                     }
                     else {
-                        button_edit.setVisibility(View.GONE);
+
                     }
 
 
