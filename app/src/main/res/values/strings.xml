@@ -31,5 +31,6 @@
     <string name="title_activity_offering_form">New Offering</string>
     <string name="title_activity_offering">Offering</string>
     <string name="title_activity_image_temp">ImageTempActivity</string>
+    <string name="menu_refresh">Refresh</string>
 
 </resources>

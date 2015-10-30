@@ -17,6 +17,7 @@
         <menu>
             <item android:title="Settings" />
             <item android:title="About us" />
+            <item android:title="@string/menu_refresh" />
         </menu>
     </item>
 
