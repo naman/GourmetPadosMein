@@ -48,6 +48,10 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
         }
         viewholder.cuisine.setText(cuisines_);
         viewholder.objectid.setText(object_ids.get(i));
+        /*
+        float distance = Float.parseFloat(distances.get(i).toString())/1000;
+        viewholder.distance.setText(String.valueOf(distance));
+        */
         viewholder.distance.setText(distances.get(i).toString());
 
     }
