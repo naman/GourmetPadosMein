@@ -74,7 +74,7 @@ public class OfferingForm extends AppCompatActivity {
         name2 = intent.getStringExtra(MESSAGE_NAME);
         email = intent.getStringExtra(MESSAGE_EMAIL);
         objId = intent.getStringExtra(MESSAGE_OBJECTID);
-        Log.i("testingOBJ",objId);
+//        Log.i("testingOBJ",objId);
 
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();

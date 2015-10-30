@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,6 +23,9 @@ import java.util.ArrayList;
 public class OfferingFragment extends Fragment {
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+
+    public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
+
     RecyclerView recyclerView;
     OfferingAdapter offeringAdapter;
     String email;
@@ -53,15 +55,15 @@ public class OfferingFragment extends Fragment {
         recyclerView.setAdapter(offeringAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FloatingActionButton fab_add_offering = (FloatingActionButton) view.findViewById(R.id.fab_add_offering);
-        fab_add_offering.setOnTouchListener(new View.OnTouchListener() {
+        fab_add_offering.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View view) {
                 Intent ui = new Intent(getActivity(), OfferingForm.class);
 //                ui.putExtra(MESSAGE_NAME, name);
                 ui.putExtra(MESSAGE_EMAIL, email);
+                ui.putExtra(MESSAGE_OBJECTID, "LOL");
                 startActivity(ui);
 //                Toast.makeText(getActivity(), "ss", Toast.LENGTH_SHORT).show();
-                return false;
             }
         });
 
