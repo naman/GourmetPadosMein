@@ -33,7 +33,7 @@ public class UserInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info2);
+        setContentView(R.layout.activity_user_info);
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
         Intent intent = getIntent();

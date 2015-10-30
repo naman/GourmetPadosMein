@@ -50,7 +50,9 @@
             android:name=".OfferingForm"
             android:label="@string/title_activity_offering_form" >
         </activity>
-        <activity android:name=".OfferingViewActivity" />
+        <activity
+            android:name=".OfferingViewActivity"
+            android:label="Offering" />
         <activity android:name=".MyOfferings">
         </activity>
         <activity

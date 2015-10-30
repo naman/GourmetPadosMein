@@ -22,14 +22,14 @@
     <string name="time_picker">Pick time</string>
     <string name="title_activity_comment">Comments</string>
     <string name="hello_blank_fragment">HI</string>
-    <string name="title_activity_offering_listing">OfferingListingActivity</string>
+    <string name="title_activity_offering_listing">Home</string>
     <string name="title_activity_offering_list">OfferingListActivity</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_log_in">LogIn</string>
-    <string name="title_activity_user_information">UserInformation</string>
-    <string name="title_activity_user_info">UserInfo</string>
-    <string name="title_activity_offering_form">OfferingForm</string>
-    <string name="title_activity_offering">OfferingActivity</string>
+    <string name="title_activity_main">Home</string>
+    <string name="title_activity_log_in">GourmetPadosMein</string>
+    <string name="title_activity_user_information">User Info</string>
+    <string name="title_activity_user_info">Profile</string>
+    <string name="title_activity_offering_form">New Offering</string>
+    <string name="title_activity_offering">Offering</string>
     <string name="title_activity_image_temp">ImageTempActivity</string>
 
 </resources>
