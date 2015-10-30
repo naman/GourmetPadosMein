@@ -1,14 +1,19 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,11 +30,16 @@ import java.util.regex.Pattern;
 public class UserInfo extends AppCompatActivity {
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+    public static final int PICK_CONTACT = 1;
     public String name;
     public int flag = 0;
     public ParseObject result = null;
     double lat;
     double longi;
+    private EditText emergencyName;
+    private EditText emergencyNumber;
+    private Button emergency_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +50,7 @@ public class UserInfo extends AppCompatActivity {
         Log.i("test123", "Came here!!!");
         name = intent.getStringExtra(MESSAGE_NAME);
         String email = intent.getStringExtra(MESSAGE_EMAIL);
+
 
         String sidebar_tap = "F";
         try {
@@ -58,6 +69,21 @@ public class UserInfo extends AppCompatActivity {
         editText.setKeyListener(null);
 
         Log.i("test123", "Came here again!!!");
+
+
+        emergency_button = (Button) findViewById(R.id.emergency);
+        emergency_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(Intent.ACTION_PICK, Contacts.People.CONTENT_URI);
+//                startActivityForResult(intent, PICK_CONTACT);
+
+                Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                startActivityForResult(contactPickerIntent, PICK_CONTACT);
+
+            }
+        });
 
         ParseQuery query = new ParseQuery("User");
         query.whereEqualTo("username", email);
@@ -114,8 +140,8 @@ public class UserInfo extends AppCompatActivity {
                     }
                     EditText address = (EditText) findViewById(R.id.editText3);
                     EditText mobile = (EditText) findViewById(R.id.editText4);
-                    EditText emergencyName = (EditText) findViewById(R.id.editText5);
-                    EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
+                    emergencyName = (EditText) findViewById(R.id.editText5);
+                    emergencyNumber = (EditText) findViewById(R.id.editText6);
                     Log.i("Testing2",((String) result.get("address")));
                     Log.i("Testing2",((String) result.get("name")));
                     address.setText(((String) result.get("address")));
@@ -231,19 +257,23 @@ public class UserInfo extends AppCompatActivity {
         {
             Toast.makeText(this, "Enter a valid Mobile Number!!", Toast.LENGTH_LONG).show();
         }
+/*
         else if(emergencyNumber.getText().length()!=10 || !isNumeric2(emergencyNumber.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Emergency Mobile Number!!", Toast.LENGTH_LONG).show();
         }
+*/
         else if(!isName(name.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Name!!", Toast.LENGTH_LONG).show();
         }
 
+/*
         else if(!isName(emergencyName.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Emergency Contact Name!!", Toast.LENGTH_LONG).show();
         }
+*/
 
         else if(!addressValidation(address.getText().toString()))
         {
@@ -307,5 +337,52 @@ public class UserInfo extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+        switch (reqCode) {
+            case (PICK_CONTACT):
+                if (resultCode == Activity.RESULT_OK) {
+                   /* Uri contactData = data.getData();
+                    Cursor c = managedQuery(contactData, null, null, null, null);
+                    if (c.moveToFirst()) {
+                        String name = c.getString(c.getColumnIndexOrThrow(Contacts.People.NAME));
+                        int phone = c.getInt(c.getColumnIndexOrThrow(Contacts.People.N));
+                        //
+                        Log.d("USerInfo",name);
+                        Log.d("USerInfo", String.valueOf(phone));
+
+                        emergencyName.setText(name);
+                        emergencyNumber.setText(String.valueOf(phone));
+                    }*/
+                    Cursor cursor = null;
+                    try {
+                        String phoneNo = null;
+                        String name = null;
+                        // getData() method will have the Content Uri of the selected contact
+                        Uri uri = data.getData();
+                        //Query the content uri
+                        cursor = getContentResolver().query(uri, null, null, null, null);
+                        cursor.moveToFirst();
+                        // column index of the phone number
+                        int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                        // column index of the contact name
+                        int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                        phoneNo = cursor.getString(phoneIndex);
+                        name = cursor.getString(nameIndex);
+                        // Set the value to the textviews
+                        emergencyName.setText(name);
+                        emergencyNumber.setText(phoneNo);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                break;
+
+        }
+
     }
 }
