@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +10,10 @@
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true">
+        android:layout_gravity="center"
+        card_view:cardCornerRadius="14dp"
+
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,13 +32,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:textColor="@android:color/black"
                 android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/cuisine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/food_offering" />
+                android:layout_below="@+id/food_offering"
+                android:textStyle="italic" />
 
 
             <TextView

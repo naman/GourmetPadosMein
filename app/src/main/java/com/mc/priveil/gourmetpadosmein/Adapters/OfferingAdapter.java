@@ -51,7 +51,8 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
         viewholder.objectid.setText(object_ids.get(i));
 
         Float distance = Float.parseFloat(distances.get(i).toString()) / 1000;
-        viewholder.distance.setText(String.valueOf(distance) + "km");
+        String dist = String.format("%.2f", distance);
+        viewholder.distance.setText(dist + "km");
 
     }
 
