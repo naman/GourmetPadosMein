@@ -3,7 +3,11 @@ package com.mc.priveil.gourmetpadosmein;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -14,15 +18,20 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -315,6 +324,42 @@ public class OfferingForm extends AppCompatActivity {
                     startdate.setText(startTimeStr.split(" ")[0]);
                     starttime.setText(startTimeStr.split(" ")[1]);
 
+                    try {
+                        ParseFile fileObject = (ParseFile) resultGlobal
+                                .get("image");
+                        fileObject
+                                .getDataInBackground(new GetDataCallback() {
+
+                                    public void done(byte[] data,
+                                                     ParseException e) {
+                                        if (e == null) {
+                                            Log.d("test",
+                                                    "We've got data in data.");
+                                            // Decode the Byte[] into
+                                            // Bitmap
+                                            bitmap = BitmapFactory
+                                                    .decodeByteArray(
+                                                            data, 0,
+                                                            data.length);
+
+                                            // Get the ImageView from
+                                            // main.xml
+                                            ImageView image = (ImageView) findViewById(R.id.imageView5);
+                                            image.setBackgroundColor(0);
+
+                                            // Set the Bitmap into the
+                                            // ImageView
+                                            image.setImageBitmap(bitmap);
+
+                                        } else {
+                                            Log.d("test",
+                                                    "There was a problem downloading the data.");
+                                        }
+                                    }
+                                });
+                    }catch(Exception e){
+                        Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                    }
 
                     Log.i("Testing",startTimeStr);
                     Log.i("Testing",endTimeStr);
@@ -404,6 +449,52 @@ public class OfferingForm extends AppCompatActivity {
 
     }
 
+    private ImageView mImageView;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private int PICK_IMAGE_REQUEST = 1;
+    private Bitmap bitmap;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                ImageView imageView = (ImageView) findViewById(R.id.imageView5);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            bitmap = (Bitmap) extras.get("data");
+            mImageView=(ImageView)findViewById(R.id.imageView5);
+            mImageView.setImageBitmap(bitmap);
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    public void gallerypick(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+    public void camerapick(View view) {
+        dispatchTakePictureIntent();
+    }
 
     public void submitForm(View view) {
         EditText email = (EditText) findViewById(R.id.editText7);
@@ -534,16 +625,6 @@ public class OfferingForm extends AppCompatActivity {
 //            String latitude;
 //            String longitude;
 
-
-
-
-
-
-
-
-
-
-
             testObject.put("Latitude", lati.getText().toString());
             testObject.put("Longitude", lon.getText().toString());
             testObject.put("name", offeringname.getText().toString());
@@ -576,6 +657,18 @@ public class OfferingForm extends AppCompatActivity {
             else
                 testObject.put("veg", false);
             Log.i("Testing", "about to submit form!!!");
+
+            try {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] imagefile = stream.toByteArray();
+                ParseFile file = new ParseFile("offerimage.png", imagefile);
+                file.saveInBackground();
+                testObject.put("image", file);
+            }catch(Exception e){
+                Log.d("test123", "Failed to attach image");
+            }
+
             testObject.saveInBackground();
             Log.i("Testing", "about to submit form 4!!!");
             Intent intent = new Intent(this, OfferingListActivity.class);
