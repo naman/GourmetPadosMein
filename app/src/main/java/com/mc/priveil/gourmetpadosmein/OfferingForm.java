@@ -121,9 +121,12 @@ public class OfferingForm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pickdate2.setInputType(InputType.TYPE_NULL);
-                new DatePickerDialog(OfferingForm.this, date1, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                DatePickerDialog start = new DatePickerDialog(
+                        OfferingForm.this, date1,
+                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH));
+                start.getDatePicker().setMinDate(System.currentTimeMillis());
+                start.show();
 
             }
         });
@@ -168,9 +171,12 @@ public class OfferingForm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pickdate1.setInputType(InputType.TYPE_NULL);
-                new DatePickerDialog(OfferingForm.this, date, myCalendar
+                DatePickerDialog stop = new DatePickerDialog(
+                        OfferingForm.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        myCalendar.get(Calendar.DAY_OF_MONTH));
+                stop.getDatePicker().setMinDate(System.currentTimeMillis());
+                stop.show();
             }
         });
         picktime1.setOnClickListener(new View.OnClickListener() {
