@@ -524,6 +524,7 @@ public class OfferingForm extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date startdateD= myCalendar.getTime(), enddateD=myCalendar.getTime();
         Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, 330);
         try
         {
             startdateD = dateFormat.parse(starttimeStr.toString());
