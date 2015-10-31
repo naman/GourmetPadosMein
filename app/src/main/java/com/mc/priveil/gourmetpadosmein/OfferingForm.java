@@ -102,8 +102,6 @@ public class OfferingForm extends AppCompatActivity {
         editText.setText(email);
         editText.setKeyListener(null);
 
-
-
         pickdate2 = (EditText) findViewById(R.id.startdate);
         picktime2 = (EditText) findViewById(R.id.starttime);
         myCalendar = Calendar.getInstance();
@@ -126,6 +124,7 @@ public class OfferingForm extends AppCompatActivity {
                 new DatePickerDialog(OfferingForm.this, date1, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
             }
         });
         picktime2.setOnClickListener(new View.OnClickListener() {
@@ -524,6 +523,7 @@ public class OfferingForm extends AppCompatActivity {
         String dateValidity = "OK";
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date startdateD= myCalendar.getTime(), enddateD=myCalendar.getTime();
+        Calendar cal = Calendar.getInstance();
         try
         {
             startdateD = dateFormat.parse(starttimeStr.toString());
@@ -585,9 +585,14 @@ public class OfferingForm extends AppCompatActivity {
         {
             Toast.makeText(this, dateValidity, Toast.LENGTH_LONG).show();
         }
+        else if(!startdateD.after(cal.getTime()))
+        {
+            Toast.makeText(this, "Startdate-time should be after current-time", Toast.LENGTH_LONG).show();
+        }
         else if(!enddateD.after(startdateD))
         {
             Toast.makeText(this, "Enddate-time should be after startdate-time", Toast.LENGTH_LONG).show();
+            Log.i("talha123",cal.getTime().toString());
         }
 
 
