@@ -60,7 +60,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 //        }
 
     }
-
     protected void onResume() {
         super.onResume();
         if(mGoogleApiClient.isConnected()) {

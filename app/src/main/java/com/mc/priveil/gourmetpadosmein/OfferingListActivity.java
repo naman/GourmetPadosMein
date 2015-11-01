@@ -55,6 +55,13 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     }
 
     @Override
+    public void onStart(){
+        super.onStart();
+        if(!LogIn.mGoogleApiClient.isConnected()){
+            startActivity(new Intent(OfferingListActivity.this, LogIn.class));
+        }
+    }
+    @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }

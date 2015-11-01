@@ -424,6 +424,13 @@ public class OfferingForm extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(!LogIn.mGoogleApiClient.isConnected()){
+            startActivity(new Intent(OfferingForm.this, LogIn.class));
+        }
+    }
 
     public boolean isAlpha(String name) {
         char[] chars = name.toCharArray();

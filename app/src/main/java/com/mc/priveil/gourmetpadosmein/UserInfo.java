@@ -145,6 +145,8 @@ public class UserInfo extends AppCompatActivity {
                 }
             }
 
+
+
             @Override
             public void done(Object o, Throwable throwable) {
 //                Log.i("Testing",throwable.getMessage().toString());
@@ -299,8 +301,8 @@ public class UserInfo extends AppCompatActivity {
                                     Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
                                     LogIn.mGoogleApiClient.disconnect();
                                     LogIn.mGoogleApiClient.connect();
-                                }catch(Exception e){
-                                    Log.e("test123","Failed to Logout, might be already out?");
+                                } catch (Exception e) {
+                                    Log.e("test123", "Failed to Logout, might be already out?");
                                 }
 
                                 startActivity(new Intent(UserInfo.this, LogIn.class));
@@ -602,5 +604,14 @@ public class UserInfo extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(!LogIn.mGoogleApiClient.isConnected()){
+            startActivity(new Intent(UserInfo.this, LogIn.class));
+        }
+    }
+
 
 }
