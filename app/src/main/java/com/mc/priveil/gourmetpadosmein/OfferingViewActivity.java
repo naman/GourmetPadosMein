@@ -51,14 +51,6 @@ public class OfferingViewActivity extends AppCompatActivity {
     private TextView desc;
     private TextView cap;
 
-    @Override
-    public void onBackPressed() {
-        Log.d("CDA", "onBackPressed Called");
-        Intent intent = new Intent(this, OfferingListActivity.class);
-        intent.putExtra(MESSAGE_NAME, name);
-        intent.putExtra(MESSAGE_EMAIL, email);
-        startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,8 +271,8 @@ public class OfferingViewActivity extends AppCompatActivity {
                                     Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
                                     LogIn.mGoogleApiClient.disconnect();
                                     LogIn.mGoogleApiClient.connect();
-                                }catch(Exception e){
-                                    Log.e("test123","Failed to Logout, might be already out?");
+                                } catch (Exception e) {
+                                    Log.e("test123", "Failed to Logout, might be already out?");
                                 }
                                 startActivity(new Intent(OfferingViewActivity.this, LogIn.class));
 
@@ -295,6 +287,21 @@ public class OfferingViewActivity extends AppCompatActivity {
                 }
         );
         Log.i("Testing12", "Came out setUpDrawer");
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(!LogIn.mGoogleApiClient.isConnected()){
+            startActivity(new Intent(OfferingViewActivity.this, LogIn.class));
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent intent = new Intent(this, OfferingListActivity.class);
+        intent.putExtra(MESSAGE_NAME, name);
+        intent.putExtra(MESSAGE_EMAIL, email);
+        startActivity(intent);
     }
 
 }
