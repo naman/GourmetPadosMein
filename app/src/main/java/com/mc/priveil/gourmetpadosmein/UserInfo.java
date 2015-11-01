@@ -400,7 +400,7 @@ public class UserInfo extends AppCompatActivity {
             mImageView=(ImageView)findViewById(R.id.imageView5);
             mImageView.setImageBitmap(bitmap);
         }
-        else if (requestCode == PICK_CONTACT && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_CONTACT && resultCode == Activity.RESULT_OK) {
              Log.d("test123", "Came in pick contact");
                    /* Uri contactData = data.getData();
                     Cursor c = managedQuery(contactData, null, null, null, null);
@@ -430,10 +430,13 @@ public class UserInfo extends AppCompatActivity {
                     phoneNo = cursor.getString(phoneIndex);
                     name = cursor.getString(nameIndex);
                     // Set the value to the textviews
+                    emergencyName = (EditText) findViewById(R.id.editText5);
+                    emergencyNumber = (EditText) findViewById(R.id.editText6);
                     emergencyName.setText(name);
                     emergencyNumber.setText(phoneNo);
                 } catch (Exception e) {
-                    e.printStackTrace();
+               Log.d("test123","Exception in contact!!!");
+//      Log.d("test123",String.valueOf(e.printStackTrace());
                 }
             }
     }
