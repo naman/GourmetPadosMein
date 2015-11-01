@@ -49,6 +49,15 @@ public class OfferingViewActivity extends AppCompatActivity {
     private TextView cap;
 
     @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent intent = new Intent(this, OfferingListActivity.class);
+        intent.putExtra(MESSAGE_NAME, name);
+        intent.putExtra(MESSAGE_EMAIL, email);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offering_view);
