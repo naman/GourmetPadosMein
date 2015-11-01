@@ -608,8 +608,12 @@ public class UserInfo extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        if(!LogIn.mGoogleApiClient.isConnected()){
-            startActivity(new Intent(UserInfo.this, LogIn.class));
+        try{
+            if(!LogIn.mGoogleApiClient.isConnected()){
+                startActivity(new Intent(UserInfo.this, LogIn.class));
+            }}
+        catch(Exception e){
+            Log.e("test123", "failed with getting login details");
         }
     }
 

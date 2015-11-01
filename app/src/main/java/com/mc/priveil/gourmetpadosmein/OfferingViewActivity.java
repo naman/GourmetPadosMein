@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -50,6 +51,8 @@ public class OfferingViewActivity extends AppCompatActivity {
     private TextView money;
     private TextView desc;
     private TextView cap;
+    private String latitude;
+    private String longitude;
 
 
     @Override
@@ -101,7 +104,12 @@ public class OfferingViewActivity extends AppCompatActivity {
                         capacity = String.valueOf(p.get("capacity"));
                         cuisines = String.valueOf(p.get("cuisine"));
                         parse_username = String.valueOf(p.get("username"));
-
+                        try {
+                            latitude = String.valueOf(p.get("Latitude"));
+                            longitude = String.valueOf(p.get("Longitude"));
+                        } catch(Exception e){
+                            Log.e("test123", "Failed to get location");
+                        }
                         try {
                             ParseFile fileObject = (ParseFile) p
                                     .get("image");
@@ -291,9 +299,13 @@ public class OfferingViewActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
+        try{
         if(!LogIn.mGoogleApiClient.isConnected()){
             startActivity(new Intent(OfferingViewActivity.this, LogIn.class));
-        }
+        }}
+            catch(Exception e){
+                Log.e("test123", "failed with getting login details");
+            }
     }
     @Override
     public void onBackPressed() {
@@ -304,4 +316,10 @@ public class OfferingViewActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void takeMe(View view){
+        String url = "http://maps.google.com/maps?f=d&daddr="+ latitude+","+longitude+"&dirflg=d&layer=t";
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
+        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+        startActivity(intent);
+    }
 }

@@ -427,8 +427,12 @@ public class OfferingForm extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        if(!LogIn.mGoogleApiClient.isConnected()){
-            startActivity(new Intent(OfferingForm.this, LogIn.class));
+        try{
+            if(!LogIn.mGoogleApiClient.isConnected()){
+                startActivity(new Intent(OfferingForm.this, LogIn.class));
+            }}
+        catch(Exception e){
+            Log.e("test123", "failed with getting login details");
         }
     }
 
