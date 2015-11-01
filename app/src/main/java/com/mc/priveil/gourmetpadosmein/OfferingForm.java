@@ -539,9 +539,14 @@ public class OfferingForm extends AppCompatActivity {
                                 break;
 
                             case R.id.log_me_out:
-                                Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                LogIn.mGoogleApiClient.disconnect();
-                                LogIn.mGoogleApiClient.connect();
+                                try {
+                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
+                                    LogIn.mGoogleApiClient.disconnect();
+                                    LogIn.mGoogleApiClient.connect();
+                                }catch(Exception e){
+                                    Log.e("test123","Failed to Logout, might be already out?");
+                                }
+
                                 startActivity(new Intent(OfferingForm.this, LogIn.class));
 
                                 break;
