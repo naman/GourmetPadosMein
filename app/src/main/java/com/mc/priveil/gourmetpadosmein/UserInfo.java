@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -290,6 +291,15 @@ public class UserInfo extends AppCompatActivity {
                                 startActivity(n1);
 
                                 break;
+
+                            case R.id.log_me_out:
+                                Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
+                                LogIn.mGoogleApiClient.disconnect();
+                                LogIn.mGoogleApiClient.connect();
+                                startActivity(new Intent(UserInfo.this, LogIn.class));
+
+                                break;
+
 
                         }
 
