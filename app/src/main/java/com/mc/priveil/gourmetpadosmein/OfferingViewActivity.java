@@ -5,18 +5,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -45,6 +42,11 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String cuisines;
     private String parse_username;
     private String name;
+    private TextView food;
+    private TextView cuisine_type;
+    private TextView money;
+    private TextView desc;
+    private TextView cap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class OfferingViewActivity extends AppCompatActivity {
         button_edit.setVisibility(View.GONE);
 
         setUpToolbar();
-        setUpNavDrawer();
+//        setUpNavDrawer();
 
         ParseUser.enableAutomaticUser();
 
@@ -134,33 +136,27 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                     }
 
-                    Log.d("foodname", foodname);
-                    Log.d("cost", cost);
-                    Log.d("description", description);
-                    Log.d("capacity", capacity);
-                    Log.d("cuisine", cuisines);
-
-                    TextView food = (TextView) findViewById(R.id.foodname);
+                    food = (TextView) findViewById(R.id.foodname);
                     food.setTextSize(40);
                     food.setTextColor(Color.DKGRAY);
                     food.setText(foodname);
 
-                    TextView cuisine_type = (TextView) findViewById(R.id.cuisine);
+                    cuisine_type = (TextView) findViewById(R.id.cuisine);
                     cuisine_type.setTextSize(15);
                     cuisine_type.setTextColor(Color.DKGRAY);
                     cuisine_type.setText(cuisines.substring(1, cuisines.length() - 1));
 
-                    TextView money = (TextView) findViewById(R.id.cost);
+                    money = (TextView) findViewById(R.id.cost);
                     money.setTextSize(20);
                     money.setTextColor(Color.DKGRAY);
                     money.setText("Cost: ₹" + cost);
 
-                    TextView desc = (TextView) findViewById(R.id.description);
+                    desc = (TextView) findViewById(R.id.description);
                     desc.setTextSize(15);
                     desc.setTextColor(Color.DKGRAY);
                     desc.setText(description);
 
-                    TextView cap = (TextView) findViewById(R.id.capacity);
+                    cap = (TextView) findViewById(R.id.capacity);
                     cap.setTextSize(15);
                     cap.setTextColor(Color.DKGRAY);
                     cap.setText("Capacity: " + capacity);
@@ -193,13 +189,13 @@ public class OfferingViewActivity extends AppCompatActivity {
             }
         });
 
-        	/* Use application class to maintain global state. */
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-        }
-
-        Log.i("Testing12", "Came here in Listing class 3");
+//        	/* Use application class to maintain global state. */
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        if (navigationView != null) {
+//            setupDrawerContent(navigationView);
+//        }
+//
+//        Log.i("Testing12", "Came here in Listing class 3");
 
     }
 
@@ -215,70 +211,62 @@ public class OfferingViewActivity extends AppCompatActivity {
         Log.i("Testing12", "Came out setUpToolBar");
     }
 
-    private void setUpNavDrawer() {
-        Log.i("Testing12", "Came in setUpNav");
-        if (mToolbar != null) {
-            final android.support.v7.app.ActionBar ab = getSupportActionBar();
-            assert ab != null;
-            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-            mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//    private void setUpNavDrawer() {
+//        Log.i("Testing12", "Came in setUpNav");
+//        if (mToolbar != null) {
+//            final android.support.v7.app.ActionBar ab = getSupportActionBar();
+//            assert ab != null;
+//            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+//            mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//
+//            mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+//            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+//            ab.setDisplayHomeAsUpEnabled(true);
+//            ab.setDisplayHomeAsUpEnabled(true);
+//            mActionBarDrawerToggle.syncState();
+//        }
+//        Log.i("Testing12", "Came out setUpNav");
+//    }
 
-            mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setDisplayHomeAsUpEnabled(true);
-            mActionBarDrawerToggle.syncState();
-        }
-        Log.i("Testing12", "Came out setUpNav");
-    }
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        Log.i("Testing12", "Came in setUpDrawer");
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-                        int id = menuItem.getItemId();
-                        switch (id) {
-                            case R.id.offering_list:
-                                Intent n = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
-                                n.putExtra(MESSAGE_NAME, name);
-                                n.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n);
-                                break;
-
-                            case R.id.profile:
-                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
-                                ui.putExtra(MESSAGE_NAME, name);
-                                ui.putExtra(MESSAGE_EMAIL, email);
-
-                                startActivity(ui);
-                                break;
-                            case R.id.my_offerings:
-                                Intent n1 = new Intent(OfferingViewActivity.this, MyOfferings.class);
-                                n1.putExtra(MESSAGE_NAME, name);
-                                n1.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n1);
-
-                                break;
-                            case R.id.log_me_out:
-                                Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                LogIn.mGoogleApiClient.disconnect();
-                                LogIn.mGoogleApiClient.connect();
-                                startActivity(new Intent(OfferingViewActivity.this, LogIn.class));
-
-                                break;
-
-
-                        }
-
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                }
-        );
-        Log.i("Testing12", "Came out setUpDrawer");
-    }
+//    private void setupDrawerContent(NavigationView navigationView) {
+//        Log.i("Testing12", "Came in setUpDrawer");
+//        navigationView.setNavigationItemSelectedListener(
+//                new NavigationView.OnNavigationItemSelectedListener() {
+//                    @Override
+//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+//                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+//                        int id = menuItem.getItemId();
+//                        switch (id) {
+//                            case R.id.offering_list:
+//                                Intent n = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
+//                                n.putExtra(MESSAGE_NAME, name);
+//                                n.putExtra(MESSAGE_EMAIL, email);
+//                                startActivity(n);
+//                                break;
+//
+//                            case R.id.profile:
+//                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
+//                                ui.putExtra(MESSAGE_NAME, name);
+//                                ui.putExtra(MESSAGE_EMAIL, email);
+//
+//                                startActivity(ui);
+//                                break;
+//                            case R.id.my_offerings:
+//                                Intent n1 = new Intent(OfferingViewActivity.this, MyOfferings.class);
+//                                n1.putExtra(MESSAGE_NAME, name);
+//                                n1.putExtra(MESSAGE_EMAIL, email);
+//                                startActivity(n1);
+//
+//                                break;
+//
+//                        }
+//
+//                        mDrawerLayout.closeDrawers();
+//                        return true;
+//                    }
+//                }
+//        );
+//        Log.i("Testing12", "Came out setUpDrawer");
+//    }
 
 }
