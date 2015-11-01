@@ -1,5 +1,6 @@
 package com.mc.priveil.gourmetpadosmein.Adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -81,13 +82,30 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Context c = itemView.getContext();
+                    Intent intent = new Intent(c, OfferingViewActivity.class);
+                    intent.putExtra("objectid", objectid.getText().toString());
+                    intent.putExtra("email", email);
+                    intent.putExtra(MESSAGE_NAME, name);
+                    c.startActivity(intent);
+
+//                    Toast.makeText(itemView.getContext(), "HOLA!", Toast.LENGTH_SHORT).show();
+                }
+            });
+/*
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+
                     Intent intent = new Intent(itemView.getContext(), OfferingViewActivity.class);
                     intent.putExtra("objectid", objectid.getText().toString());
                     intent.putExtra("email", email);
                     intent.putExtra(MESSAGE_NAME, name);
                     itemView.getContext().startActivity(intent);
+
+                    return false;
                 }
-            });
+            });*/
 
 
         }

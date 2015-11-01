@@ -5,11 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,7 +68,7 @@ public class OfferingViewActivity extends AppCompatActivity {
         button_edit.setVisibility(View.GONE);
 
         setUpToolbar();
-//        setUpNavDrawer();
+        setUpNavDrawer();
 
         ParseUser.enableAutomaticUser();
 
@@ -74,6 +76,7 @@ public class OfferingViewActivity extends AppCompatActivity {
         objectid = intent.getStringExtra("objectid");
         email  = intent.getStringExtra("email");
         name = intent.getStringExtra(MESSAGE_NAME);
+
         ParseQuery query = new ParseQuery("Offering");
         query.whereEqualTo("objectId", objectid);
         query.findInBackground(new FindCallback() {
@@ -198,13 +201,16 @@ public class OfferingViewActivity extends AppCompatActivity {
             }
         });
 
-//        	/* Use application class to maintain global state. */
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        if (navigationView != null) {
-//            setupDrawerContent(navigationView);
-//        }
+
 //
-//        Log.i("Testing12", "Came here in Listing class 3");
+// Use application class to maintain global state.
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+
+        Log.i("Testing12", "Came here in Listing class 3");
 
     }
 
@@ -220,62 +226,62 @@ public class OfferingViewActivity extends AppCompatActivity {
         Log.i("Testing12", "Came out setUpToolBar");
     }
 
-//    private void setUpNavDrawer() {
-//        Log.i("Testing12", "Came in setUpNav");
-//        if (mToolbar != null) {
-//            final android.support.v7.app.ActionBar ab = getSupportActionBar();
-//            assert ab != null;
-//            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-//            mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//
-//            mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
-//            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-//            ab.setDisplayHomeAsUpEnabled(true);
-//            ab.setDisplayHomeAsUpEnabled(true);
-//            mActionBarDrawerToggle.syncState();
-//        }
-//        Log.i("Testing12", "Came out setUpNav");
-//    }
+    private void setUpNavDrawer() {
+        Log.i("Testing12", "Came in setUpNav");
+        if (mToolbar != null) {
+            final android.support.v7.app.ActionBar ab = getSupportActionBar();
+            assert ab != null;
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
-//    private void setupDrawerContent(NavigationView navigationView) {
-//        Log.i("Testing12", "Came in setUpDrawer");
-//        navigationView.setNavigationItemSelectedListener(
-//                new NavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-//                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-//                        int id = menuItem.getItemId();
-//                        switch (id) {
-//                            case R.id.offering_list:
-//                                Intent n = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
-//                                n.putExtra(MESSAGE_NAME, name);
-//                                n.putExtra(MESSAGE_EMAIL, email);
-//                                startActivity(n);
-//                                break;
-//
-//                            case R.id.profile:
-//                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
-//                                ui.putExtra(MESSAGE_NAME, name);
-//                                ui.putExtra(MESSAGE_EMAIL, email);
-//
-//                                startActivity(ui);
-//                                break;
-//                            case R.id.my_offerings:
-//                                Intent n1 = new Intent(OfferingViewActivity.this, MyOfferings.class);
-//                                n1.putExtra(MESSAGE_NAME, name);
-//                                n1.putExtra(MESSAGE_EMAIL, email);
-//                                startActivity(n1);
-//
-//                                break;
-//
-//                        }
-//
-//                        mDrawerLayout.closeDrawers();
-//                        return true;
-//                    }
-//                }
-//        );
-//        Log.i("Testing12", "Came out setUpDrawer");
-//    }
+            mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(true);
+            mActionBarDrawerToggle.syncState();
+        }
+        Log.i("Testing12", "Came out setUpNav");
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        Log.i("Testing12", "Came in setUpDrawer");
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                        int id = menuItem.getItemId();
+                        switch (id) {
+                            case R.id.offering_list:
+                                Intent n = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
+                                n.putExtra(MESSAGE_NAME, name);
+                                n.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n);
+                                break;
+
+                            case R.id.profile:
+                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
+                                ui.putExtra(MESSAGE_NAME, name);
+                                ui.putExtra(MESSAGE_EMAIL, email);
+
+                                startActivity(ui);
+                                break;
+                            case R.id.my_offerings:
+                                Intent n1 = new Intent(OfferingViewActivity.this, MyOfferings.class);
+                                n1.putExtra(MESSAGE_NAME, name);
+                                n1.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n1);
+
+                                break;
+
+                        }
+
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                }
+        );
+        Log.i("Testing12", "Came out setUpDrawer");
+    }
 
 }
