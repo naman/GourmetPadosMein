@@ -3,25 +3,25 @@
         <item
             android:id="@+id/offering_list"
             android:checkable="true"
-            android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
+            android:icon="@drawable/ic_home_black_48dp"
             android:title="Home" />
 
         <item
             android:id="@+id/profile"
             android:checkable="true"
-            android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
+            android:icon="@drawable/ic_account_circle_black_48dp"
             android:title="Edit Profile" />
 
         <item
             android:id="@+id/my_offerings"
             android:checkable="true"
-            android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
+            android:icon="@drawable/ic_bookmark_black_48dp"
             android:title="My Offerings" />
 
         <item
             android:id="@+id/log_me_out"
             android:checkable="false"
-            android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
+            android:icon="@drawable/ic_exit_to_app_black_48dp"
             android:title="Logout" />
 
     </group>
@@ -29,7 +29,6 @@
         <menu>
             <item android:title="Settings" />
             <item android:title="About us" />
-            <item android:title="@string/menu_refresh" />
         </menu>
     </item>
 
