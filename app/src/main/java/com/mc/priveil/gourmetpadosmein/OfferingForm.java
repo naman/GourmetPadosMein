@@ -1,6 +1,7 @@
 package com.mc.priveil.gourmetpadosmein;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -34,6 +35,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -713,7 +715,7 @@ public class OfferingForm extends AppCompatActivity {
 
         else
         {
-            ParseObject testObject;
+            final ParseObject testObject;
             Log.i("Testing","about to submit form 3!!!");
             if(flag==1)
             {
@@ -777,16 +779,36 @@ public class OfferingForm extends AppCompatActivity {
                 Log.d("test123", "Failed to attach image");
             }
 
-            testObject.saveInBackground();
-            Log.i("Testing", "about to submit form 4!!!");
-            Intent intent = new Intent(this, OfferingListActivity.class);
-            intent.putExtra(MESSAGE_EMAIL,email.getText().toString());
-            intent.putExtra(MESSAGE_NAME, name);
-
-            startActivity(intent);
+            final ProgressDialog progress = new ProgressDialog(this);
+            progress.setTitle("Creating new listing");
+            progress.setMessage("please wait...");
+            progress.show();
+            testObject.saveInBackground(new SaveCallback() {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        myObjectSavedSuccessfully(testObject,progress);
+                    } else {
+                        myObjectSaveDidNotSucceed(progress);
+                    }
+                }
+            });
         }
     }
 
+    void myObjectSavedSuccessfully(ParseObject po,ProgressDialog progress){
+        progress.dismiss();
+        Log.i("Testing", "about to submit form 4!!!");
+        Intent intent = new Intent(this, OfferingViewActivity.class);
+        intent.putExtra("objectid", po.getObjectId());
+        intent.putExtra("email",  email);
+        intent.putExtra(OfferingViewActivity.MESSAGE_NAME, name);
+        startActivity(intent);
+    }
+
+    void myObjectSaveDidNotSucceed(ProgressDialog progress){
+        progress.dismiss();
+        Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
