@@ -222,14 +222,13 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     }
 
 
-
                     ArrayList<Double> distances = new ArrayList<>();
                     for (ParseObject p : itemlist) {
-                        Double lat = Double.parseDouble((String)p.get("Latitude"));
+                        Double lat = Double.parseDouble((String) p.get("Latitude"));
                         Double longi = Double.parseDouble((String) p.get("Longitude"));
                         float[] dist = new float[1];
                         Location.distanceBetween(currLatitude, currLongitude, lat, longi, dist);
-                        Double distance = (double)dist[0];
+                        Double distance = (double) dist[0];
                         distances.add(distance);
                     }
                     Log.d("List", String.valueOf(cuisines));
@@ -238,7 +237,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     for (ParseObject p : itemlist) {
                         costs.add(p.get("cost").toString());
                     }
-
 
 
 //                    ArrayList<ArrayList<String>> cuisines = new ArrayList<ArrayList<String>>();
@@ -250,31 +248,28 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 //
 //
                     int sizeOfList = distances.size();
-                    for(int iter1 = 0 ; iter1 < sizeOfList ; iter1++)
-                    {
-                        for(int iter2 = iter1+1 ; iter2 < sizeOfList ; iter2++)
-                        {
-                            if(distances.get(iter2) < distances.get(iter1))
-                            {
+                    for (int iter1 = 0; iter1 < sizeOfList; iter1++) {
+                        for (int iter2 = iter1 + 1; iter2 < sizeOfList; iter2++) {
+                            if (distances.get(iter2) < distances.get(iter1)) {
                                 double temp = distances.get(iter1);
-                                distances.set(iter1,distances.get(iter2));
-                                distances.set(iter2,temp);
+                                distances.set(iter1, distances.get(iter2));
+                                distances.set(iter2, temp);
 
                                 String tempName = names.get(iter1);
-                                names.set(iter1,names.get(iter2));
-                                names.set(iter2,tempName);
+                                names.set(iter1, names.get(iter2));
+                                names.set(iter2, tempName);
 
                                 ArrayList<String> tempCuisine = cuisines.get(iter1);
-                                cuisines.set(iter1,cuisines.get(iter2));
+                                cuisines.set(iter1, cuisines.get(iter2));
                                 cuisines.set(iter2, tempCuisine);
 
                                 String tempObjectId = object_ids.get(iter1);
                                 object_ids.set(iter1, object_ids.get(iter2));
-                                object_ids.set(iter2,tempObjectId);
+                                object_ids.set(iter2, tempObjectId);
 
                                 String tempCost = costs.get(iter1);
-                                costs.set(iter1,costs.get(iter2));
-                                costs.set(iter2,tempCost);
+                                costs.set(iter1, costs.get(iter2));
+                                costs.set(iter2, tempCost);
                             }
                         }
                     }
@@ -292,12 +287,22 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     fragment.setArguments(bundle);
 
                     FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, fragment).commit();
-                } else
-                    Log.i("Error!!", "NULL");
+                   try{
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, fragment).commit();
+                     }
+                      catch(Exception e){
+                        Log.e("test123","Failed to inflate at OfferingListActivity Line 299");
+                          Intent intent = getIntent();
+                          finish();
+                          startActivity(intent);
+                    }
             }
-        });
+
+            else
+                    Log.i("Error!!","NULL");
+        }
+    });
 
 
 		/* Use application class to maintain global state. */
