@@ -29,6 +29,7 @@ public class OfferingFragment extends Fragment {
     RecyclerView recyclerView;
     OfferingAdapter offeringAdapter;
     String email;
+    String name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class OfferingFragment extends Fragment {
         ArrayList<Double> distances;
 
         Bundle bundle = getArguments();
+        name = (String) bundle.getSerializable(MESSAGE_NAME);
         names = (ArrayList<String>) bundle.getSerializable("names");
         cuisines = (ArrayList<ArrayList<String>>) bundle.getSerializable("cuisines");
         object_ids = (ArrayList<String>) bundle.getSerializable("object_ids");
@@ -51,7 +53,7 @@ public class OfferingFragment extends Fragment {
 
 //        Log.d("Test", String.format("Proxy object name: %s", itemlist.get(0)));
 
-        offeringAdapter = new OfferingAdapter(names, cuisines, object_ids, distances, email);
+        offeringAdapter = new OfferingAdapter(name, names, cuisines, object_ids, distances, email);
         recyclerView.setAdapter(offeringAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FloatingActionButton fab_add_offering = (FloatingActionButton) view.findViewById(R.id.fab_add_offering);
@@ -59,7 +61,7 @@ public class OfferingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent ui = new Intent(getActivity(), OfferingForm.class);
-//                ui.putExtra(MESSAGE_NAME, name);
+                ui.putExtra(MESSAGE_NAME, name);
                 ui.putExtra(MESSAGE_EMAIL, email);
                 ui.putExtra(MESSAGE_OBJECTID, "LOL");
                 startActivity(ui);

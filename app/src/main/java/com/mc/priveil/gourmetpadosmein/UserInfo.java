@@ -11,7 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +43,7 @@ public class UserInfo extends AppCompatActivity {
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public static final int PICK_CONTACT = 3;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     public String name;
     public int flag = 0;
     public ParseObject result = null;
@@ -47,17 +52,34 @@ public class UserInfo extends AppCompatActivity {
     private EditText emergencyName;
     private EditText emergencyNumber;
     private Button emergency_button;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar mToolbar;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private String email;
+    private ImageView mImageView;
+    private int PICK_IMAGE_REQUEST = 2;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+
+        setUpToolbar();
+        setUpNavDrawer();
+                /* Use application class to maintain global state. */
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+
+
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
         ParseUser.enableAutomaticUser();
         Intent intent = getIntent();
         Log.i("test123", "Came here!!!");
         name = intent.getStringExtra(MESSAGE_NAME);
-        String email = intent.getStringExtra(MESSAGE_EMAIL);
+        email = intent.getStringExtra(MESSAGE_EMAIL);
 
 
         String sidebar_tap = "F";
@@ -209,7 +231,75 @@ public class UserInfo extends AppCompatActivity {
         Log.i("test123", "Came here also!!!");
     }
 
+    private void setUpToolbar() {
+        Log.i("Testing12", "Came in setUpToolBar");
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+        }
+
+        Log.i("Testing12", "Came out setUpToolBar");
+    }
+
+    private void setUpNavDrawer() {
+        Log.i("Testing12", "Came in setUpNav");
+        if (mToolbar != null) {
+            final android.support.v7.app.ActionBar ab = getSupportActionBar();
+            assert ab != null;
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+            mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(true);
+            mActionBarDrawerToggle.syncState();
+        }
+        Log.i("Testing12", "Came out setUpNav");
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        Log.i("Testing12", "Came in setUpDrawer");
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                        int id = menuItem.getItemId();
+                        switch (id) {
+                            case R.id.offering_list:
+                                Intent n = new Intent(UserInfo.this, OfferingListActivity.class);
+                                n.putExtra(MESSAGE_NAME, name);
+                                n.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n);
+                                break;
+
+                            case R.id.profile:
+                            /*
+                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
+                                ui.putExtra(MESSAGE_NAME, name);
+                                ui.putExtra(MESSAGE_EMAIL, email);
+
+                                startActivity(ui);*/
+                                break;
+                            case R.id.my_offerings:
+                                Intent n1 = new Intent(UserInfo.this, MyOfferings.class);
+                                n1.putExtra(MESSAGE_NAME, name);
+                                n1.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n1);
+
+                                break;
+
+                        }
+
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                }
+        );
+        Log.i("Testing12", "Came out setUpDrawer");
+    }
 
     public boolean isAlpha(String name) {
         char[] chars = name.toCharArray();
@@ -232,7 +322,6 @@ public class UserInfo extends AppCompatActivity {
         return m.find();
     }
 
-
     boolean isNumeric2(String phone) {
         String regex = "^[0-9]+$";
 //        String te = "\\s";
@@ -241,6 +330,7 @@ public class UserInfo extends AppCompatActivity {
 
         return m.find();
     }
+
     boolean addressValidation(String address) {
         String regex = "^[a-zA-Z0-9.,-.\\s]+$";
 //        String te = "\\s";
@@ -249,7 +339,6 @@ public class UserInfo extends AppCompatActivity {
 
         return m.find();
     }
-
 
     boolean getLatLong(String addr) {
         Geocoder geocoder = new Geocoder(this);
@@ -271,7 +360,6 @@ public class UserInfo extends AppCompatActivity {
         }
         return false;
     }
-
 
     public void onSkip(View view) {
         Intent intent = new Intent(this, OfferingListActivity.class);
@@ -371,10 +459,6 @@ public class UserInfo extends AppCompatActivity {
             startActivity(intent);
         }
     }
-    private ImageView mImageView;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    private int PICK_IMAGE_REQUEST = 2;
-    private Bitmap bitmap;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

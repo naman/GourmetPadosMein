@@ -8,7 +8,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,8 +53,8 @@ public class OfferingForm extends AppCompatActivity {
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
 
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
-
-    public String name2;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    public String name;
     public String email;
     public String objId;
     public int flag = 0;
@@ -61,13 +65,16 @@ public class OfferingForm extends AppCompatActivity {
     private EditText picktime;
     private EditText pickdate1;
     private EditText picktime1;
-
-
     private EditText pickdate2;
     private EditText picktime2;
-
     private DatePickerDialog.OnDateSetListener date;
     private DatePickerDialog.OnDateSetListener date1;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar mToolbar;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private ImageView mImageView;
+    private int PICK_IMAGE_REQUEST = 1;
+    private Bitmap bitmap;
 
     public static boolean isDouble(String str) {
         try {
@@ -81,13 +88,22 @@ public class OfferingForm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_offering_form);
+
         Log.i("testing123", "Came to offering listing");
+        setUpToolbar();
+        setUpNavDrawer();
+                /* Use application class to maintain global state. */
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
 
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
-        setContentView(R.layout.activity_offering_form);
+
         Intent intent = getIntent();
-        name2 = intent.getStringExtra(MESSAGE_NAME);
+        name = intent.getStringExtra(MESSAGE_NAME);
         email = intent.getStringExtra(MESSAGE_EMAIL);
         objId = intent.getStringExtra(MESSAGE_OBJECTID);
 //        Log.i("testingOBJ",objId);
@@ -235,7 +251,7 @@ public class OfferingForm extends AppCompatActivity {
                 } else {
                     Log.i("Testing1", "why did it come here?");
                     Intent intent = new Intent(OfferingForm.this, UserInfo.class);
-                    intent.putExtra(MESSAGE_NAME, name2);
+                    intent.putExtra(MESSAGE_NAME, name);
                     intent.putExtra(MESSAGE_EMAIL, email);
                     startActivity(intent);
                 }
@@ -454,10 +470,74 @@ public class OfferingForm extends AppCompatActivity {
 
     }
 
-    private ImageView mImageView;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    private int PICK_IMAGE_REQUEST = 1;
-    private Bitmap bitmap;
+    private void setUpToolbar() {
+        Log.i("Testing12", "Came in setUpToolBar");
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+        }
+
+        Log.i("Testing12", "Came out setUpToolBar");
+    }
+
+    private void setUpNavDrawer() {
+        Log.i("Testing12", "Came in setUpNav");
+        if (mToolbar != null) {
+            final android.support.v7.app.ActionBar ab = getSupportActionBar();
+            assert ab != null;
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+            mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(true);
+            mActionBarDrawerToggle.syncState();
+        }
+        Log.i("Testing12", "Came out setUpNav");
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        Log.i("Testing12", "Came in setUpDrawer");
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                        int id = menuItem.getItemId();
+                        switch (id) {
+                            case R.id.offering_list:
+                                Intent n = new Intent(OfferingForm.this, OfferingListActivity.class);
+                                n.putExtra(MESSAGE_NAME, name);
+                                n.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n);
+                                break;
+
+                            case R.id.profile:
+                                Intent ui = new Intent(OfferingForm.this, UserInfo.class);
+                                ui.putExtra(MESSAGE_NAME, name);
+                                ui.putExtra(MESSAGE_EMAIL, email);
+
+                                startActivity(ui);
+                                break;
+                            case R.id.my_offerings:
+                                Intent n1 = new Intent(OfferingForm.this, MyOfferings.class);
+                                n1.putExtra(MESSAGE_NAME, name);
+                                n1.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n1);
+
+                                break;
+
+                        }
+
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                }
+        );
+        Log.i("Testing12", "Came out setUpDrawer");
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -685,7 +765,7 @@ public class OfferingForm extends AppCompatActivity {
             Log.i("Testing", "about to submit form 4!!!");
             Intent intent = new Intent(this, OfferingListActivity.class);
             intent.putExtra(MESSAGE_EMAIL,email.getText().toString());
-            intent.putExtra(MESSAGE_NAME, name2);
+            intent.putExtra(MESSAGE_NAME, name);
 
             startActivity(intent);
         }

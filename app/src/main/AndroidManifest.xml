@@ -9,8 +9,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
+
     <application
         android:name=".ParseApplication"
         android:allowBackup="true"
@@ -35,6 +38,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,21 +48,21 @@
         </activity>
         <activity
             android:name=".UserInfo"
-            android:label="@string/title_activity_user_info" >
+            android:label="@string/title_activity_user_info"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
             android:name=".OfferingForm"
-            android:label="@string/title_activity_offering_form" >
+            android:label="@string/title_activity_offering_form"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
             android:name=".OfferingViewActivity"
-            android:label="Offering" />
-        <activity android:name=".MyOfferings">
-        </activity>
+            android:label="Offering"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ImageTempActivity"
-            android:label="@string/title_activity_image_temp" >
-
+            android:name=".MyOfferings"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>
 

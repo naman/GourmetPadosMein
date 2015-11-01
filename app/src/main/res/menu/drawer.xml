@@ -1,6 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/offering_list"
+            android:checkable="true"
+            android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
+            android:title="Home" />
+
+        <item
             android:id="@+id/profile"
             android:checkable="true"
             android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"

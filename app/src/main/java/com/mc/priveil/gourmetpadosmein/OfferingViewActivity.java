@@ -29,7 +29,7 @@ import java.util.List;
 public class OfferingViewActivity extends AppCompatActivity {
     public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
-
+    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
 
     public String email;
     private DrawerLayout mDrawerLayout;
@@ -43,6 +43,7 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String capacity;
     private String cuisines;
     private String parse_username;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class OfferingViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         objectid = intent.getStringExtra("objectid");
         email  = intent.getStringExtra("email");
-
+        name = intent.getStringExtra(MESSAGE_NAME);
         ParseQuery query = new ParseQuery("Offering");
         query.whereEqualTo("objectId", objectid);
         query.findInBackground(new FindCallback() {
@@ -199,7 +200,6 @@ public class OfferingViewActivity extends AppCompatActivity {
 
         Log.i("Testing12", "Came here in Listing class 3");
 
-
     }
 
 
@@ -240,18 +240,28 @@ public class OfferingViewActivity extends AppCompatActivity {
                         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                         int id = menuItem.getItemId();
                         switch (id) {
-                            case R.id.profile:
-                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
-//                                ui.putExtra(MESSAGE_NAME, name);
-                                ui.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(ui);
-                                break;
-                            case R.id.my_offerings:
-                                Intent n = new Intent(OfferingViewActivity.this, MyOfferings.class);
-//                                n.putExtra(MESSAGE_NAME, name);
+                            case R.id.offering_list:
+                                Intent n = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
+                                n.putExtra(MESSAGE_NAME, name);
                                 n.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n);
                                 break;
+
+                            case R.id.profile:
+                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
+                                ui.putExtra(MESSAGE_NAME, name);
+                                ui.putExtra(MESSAGE_EMAIL, email);
+
+                                startActivity(ui);
+                                break;
+                            case R.id.my_offerings:
+                                Intent n1 = new Intent(OfferingViewActivity.this, MyOfferings.class);
+                                n1.putExtra(MESSAGE_NAME, name);
+                                n1.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n1);
+
+                                break;
+
                         }
 
                         mDrawerLayout.closeDrawers();

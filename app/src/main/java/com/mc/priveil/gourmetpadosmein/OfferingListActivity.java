@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +32,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
     public final static String SIDEBAR_TAP = "LOL";
     public static final String CLASS_NAME = "Offerings";
+    static String fromSkip = "N";
     public String name;
     public String email;
     public ParseObject result = null;
@@ -67,8 +67,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     public void onProviderDisabled(String provider) {
 
     }
-    static String fromSkip = "N";
-    SwipeRefreshLayout mSwipeRefreshLayout;
+//    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -280,7 +279,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     bundle.putSerializable("object_ids", object_ids);
                     bundle.putSerializable("costs", costs);
 
-
+                    bundle.putSerializable(MESSAGE_NAME, name);
                     bundle.putSerializable("email", email);
 
                     OfferingFragment fragment = new OfferingFragment();
@@ -424,7 +423,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     bundle.putSerializable("object_ids", object_ids);
                     bundle.putSerializable("costs", costs);
 
-
+                    bundle.putSerializable(MESSAGE_NAME, name);
                     bundle.putSerializable("email", email);
 
                     OfferingFragment fragment = new OfferingFragment();
@@ -477,13 +476,14 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         int id = menuItem.getItemId();
                         switch (id) {
 
-                            case R.id.my_offerings:
-                                Intent n = new Intent(OfferingListActivity.this, MyOfferings.class);
+                            case R.id.offering_list:
+                             /*   Intent n = new Intent(OfferingListActivity.this, MyOfferings.class);
                                 n.putExtra(MESSAGE_NAME, name);
                                 n.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n);
+                                startActivity(n);*/
 
                                 break;
+
                             case R.id.profile:
                                 Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
                                 ui.putExtra(MESSAGE_NAME, name);
@@ -491,6 +491,15 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                                 startActivity(ui);
                                 break;
+
+                            case R.id.my_offerings:
+                                Intent n = new Intent(OfferingListActivity.this, MyOfferings.class);
+                                n.putExtra(MESSAGE_NAME, name);
+                                n.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(n);
+
+                                break;
+
                         }
 
                         mDrawerLayout.closeDrawers();
