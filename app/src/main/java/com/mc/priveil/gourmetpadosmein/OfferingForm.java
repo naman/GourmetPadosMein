@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -73,7 +74,7 @@ public class OfferingForm extends AppCompatActivity {
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private ImageView mImageView;
-    private int PICK_IMAGE_REQUEST = 1;
+    private int PICK_IMAGE_REQUEST = 2;
     private Bitmap bitmap;
 
     public static boolean isDouble(String str) {
@@ -534,6 +535,15 @@ public class OfferingForm extends AppCompatActivity {
                                 startActivity(n1);
 
                                 break;
+
+                            case R.id.log_me_out:
+                                Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
+                                LogIn.mGoogleApiClient.disconnect();
+                                LogIn.mGoogleApiClient.connect();
+                                startActivity(new Intent(OfferingForm.this, LogIn.class));
+
+                                break;
+
 
                         }
 

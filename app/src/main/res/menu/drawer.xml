@@ -18,6 +18,12 @@
             android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
             android:title="My Offerings" />
 
+        <item
+            android:id="@+id/log_me_out"
+            android:checkable="false"
+            android:icon="@drawable/abc_ab_share_pack_mtrl_alpha"
+            android:title="Logout" />
+
     </group>
     <item android:title="">
         <menu>

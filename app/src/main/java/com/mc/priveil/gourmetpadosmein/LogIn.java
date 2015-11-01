@@ -26,7 +26,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     private static final String TAG = "talha111";
     private static final int RC_SIGN_IN = 0;
     public String email;
-    GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
     private boolean mIsResolving = false;
     private boolean mShouldResolve = false;
     private String personName;

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -261,6 +262,14 @@ public class OfferingViewActivity extends AppCompatActivity {
                                 startActivity(n1);
 
                                 break;
+                            case R.id.log_me_out:
+                                Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
+                                LogIn.mGoogleApiClient.disconnect();
+                                LogIn.mGoogleApiClient.connect();
+                                startActivity(new Intent(OfferingViewActivity.this, LogIn.class));
+
+                                break;
+
 
                         }
 

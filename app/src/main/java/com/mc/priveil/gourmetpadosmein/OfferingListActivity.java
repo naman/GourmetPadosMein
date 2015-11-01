@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.plus.Plus;
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -497,6 +498,14 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                                 n.putExtra(MESSAGE_NAME, name);
                                 n.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n);
+
+                                break;
+
+                            case R.id.log_me_out:
+                                Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
+                                LogIn.mGoogleApiClient.disconnect();
+                                LogIn.mGoogleApiClient.connect();
+                                startActivity(new Intent(OfferingListActivity.this, LogIn.class));
 
                                 break;
 
