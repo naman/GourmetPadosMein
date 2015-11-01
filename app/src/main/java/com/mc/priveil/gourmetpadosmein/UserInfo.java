@@ -1,6 +1,7 @@
 package com.mc.priveil.gourmetpadosmein;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -382,8 +384,8 @@ public class UserInfo extends AppCompatActivity {
     }
 
     public void submitForm(View view) {
-        EditText email = (EditText) findViewById(R.id.editText);
-        EditText name = (EditText) findViewById(R.id.editText2);
+        final EditText email = (EditText) findViewById(R.id.editText);
+        final EditText name = (EditText) findViewById(R.id.editText2);
         EditText address = (EditText) findViewById(R.id.editText3);
         EditText mobile = (EditText) findViewById(R.id.editText4);
         EditText emergencyName = (EditText) findViewById(R.id.editText5);
@@ -430,7 +432,7 @@ public class UserInfo extends AppCompatActivity {
 
         else
         {
-            ParseObject testObject;
+            final ParseObject testObject;
             if(flag==1)
             {
                 testObject = result;
@@ -462,12 +464,33 @@ public class UserInfo extends AppCompatActivity {
                 Log.d("test123", "Failed to attach image");
             }
 
-            testObject.saveInBackground();
-            Intent intent = new Intent(this, OfferingListActivity.class);
-            intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
-            intent.putExtra(MESSAGE_NAME, name.getText().toString());
-            startActivity(intent);
+            final ProgressDialog progress = new ProgressDialog(this);
+            progress.setTitle("Updating your User Profile");
+            progress.setMessage("please wait...");
+            progress.show();
+            testObject.saveInBackground(new SaveCallback() {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        myObjectSavedSuccessfully(testObject, email, name, progress);
+                    } else {
+                        myObjectSaveDidNotSucceed(progress);
+                    }
+                }
+            });
         }
+    }
+    void myObjectSavedSuccessfully(ParseObject po,EditText email,EditText name,ProgressDialog progress){
+        progress.dismiss();
+        Log.i("Testing", "about to submit form 4!!!");
+        Intent intent = new Intent(this, OfferingListActivity.class);
+        intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
+        intent.putExtra(MESSAGE_NAME, name.getText().toString());
+        startActivity(intent);
+    }
+
+    void myObjectSaveDidNotSucceed(ProgressDialog progress){
+        progress.dismiss();
+        Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG);
     }
 
     @Override
