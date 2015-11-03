@@ -1,7 +1,10 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -35,6 +38,11 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.i("Is connected", String.valueOf(isConnected()));
+        if(isConnected() != true){
+            Toast.makeText(LogIn.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        }
 
         Log.i("Yeah", "yeh kya ho raha hai 3!!");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -139,7 +147,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     @Override
     public void onConnected(Bundle bundle) {
 //        onSignInClicked();
-        Log.d(TAG,"Came here!!!");
+        Log.d(TAG, "Came here!!!");
         mShouldResolve = false;
         button_signIn = (SignInButton)findViewById(R.id.sign_in_button);
         //button_signIn.setVisibility(View.GONE);
@@ -201,5 +209,11 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

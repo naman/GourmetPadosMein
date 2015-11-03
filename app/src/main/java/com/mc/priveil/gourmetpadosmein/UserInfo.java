@@ -2,12 +2,15 @@ package com.mc.priveil.gourmetpadosmein;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -76,83 +79,88 @@ public class UserInfo extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
+        if(isConnected() != true){
+            Toast.makeText(UserInfo.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        }
+
+        else{
 
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
-        ParseUser.enableAutomaticUser();
-        Intent intent = getIntent();
-        Log.i("test123", "Came here!!!");
-        name = intent.getStringExtra(MESSAGE_NAME);
-        email = intent.getStringExtra(MESSAGE_EMAIL);
+            ParseUser.enableAutomaticUser();
+            Intent intent = getIntent();
+            Log.i("test123", "Came here!!!");
+            name = intent.getStringExtra(MESSAGE_NAME);
+            email = intent.getStringExtra(MESSAGE_EMAIL);
 
 
-        String sidebar_tap = "F";
-        try {
-            sidebar_tap = intent.getStringExtra(OfferingListActivity.SIDEBAR_TAP);
-            Log.d("test123",sidebar_tap);
-        }catch(Exception e){
-            Log.d("test123","failed to get tap");
-        }
-        if("T".equals(sidebar_tap)){
-            Log.d("test123","Hiding");
-            View skoop = findViewById(R.id.button3);
-            skoop.setVisibility(View.GONE);
-        }
-        EditText editText = (EditText) findViewById(R.id.editText);
-        editText.setText(email);
-        editText.setKeyListener(null);
+            String sidebar_tap = "F";
+            try {
+                sidebar_tap = intent.getStringExtra(OfferingListActivity.SIDEBAR_TAP);
+                Log.d("test123",sidebar_tap);
+            }catch(Exception e){
+                Log.d("test123","failed to get tap");
+            }
+            if("T".equals(sidebar_tap)){
+                Log.d("test123","Hiding");
+                View skoop = findViewById(R.id.button3);
+                skoop.setVisibility(View.GONE);
+            }
+            EditText editText = (EditText) findViewById(R.id.editText);
+            editText.setText(email);
+            editText.setKeyListener(null);
 
-        Log.i("test123", "Came here again!!!");
+            Log.i("test123", "Came here again!!!");
 
 
-        emergency_button = (Button) findViewById(R.id.emergency);
-        emergency_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            emergency_button = (Button) findViewById(R.id.emergency);
+            emergency_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 //                Intent intent = new Intent(Intent.ACTION_PICK, Contacts.People.CONTENT_URI);
 //                startActivityForResult(intent, PICK_CONTACT);
 
-                Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
-                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-                startActivityForResult(contactPickerIntent, PICK_CONTACT);
+                    Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                    startActivityForResult(contactPickerIntent, PICK_CONTACT);
 
-            }
-        });
+                }
+            });
 
-        ParseQuery query = new ParseQuery("User");
-        query.whereEqualTo("username", email);
-        query.findInBackground(new FindCallback() {
-            @Override
-            public void done(List list, ParseException e) {
-                if (e == null) {
-                    if (!list.isEmpty()) {
-                        EditText email = (EditText) findViewById(R.id.editText);
-                        EditText name = (EditText) findViewById(R.id.editText2);
-                        EditText address = (EditText) findViewById(R.id.editText3);
-                        EditText mobile = (EditText) findViewById(R.id.editText4);
-                        EditText emergencyName = (EditText) findViewById(R.id.editText5);
-                        EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
-                        Log.i("Testing",list.get(0).toString());
+            ParseQuery query = new ParseQuery("User");
+            query.whereEqualTo("username", email);
+            query.findInBackground(new FindCallback() {
+                @Override
+                public void done(List list, ParseException e) {
+                    if (e == null) {
+                        if (!list.isEmpty()) {
+                            EditText email = (EditText) findViewById(R.id.editText);
+                            EditText name = (EditText) findViewById(R.id.editText2);
+                            EditText address = (EditText) findViewById(R.id.editText3);
+                            EditText mobile = (EditText) findViewById(R.id.editText4);
+                            EditText emergencyName = (EditText) findViewById(R.id.editText5);
+                            EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
+                            Log.i("Testing",list.get(0).toString());
 //                        address.setText();
 //                        mobile.setText("9876543211");
 //                        emergencyName.setText("aaa");
 //                        emergencyNumber.setText("9876543211");
+                        }
+                        else {
+                            Log.i("Testing","List returned by Parse is empty!");
+                        }
+                    } else {
+                        Log.i("Error!!", "Error in querying parse!");
                     }
-                    else {
-                        Log.i("Testing","List returned by Parse is empty!");
-                    }
-                } else {
-                    Log.i("Error!!", "Error in querying parse!");
                 }
-            }
 
 
 
-            @Override
-            public void done(Object o, Throwable throwable) {
+                @Override
+                public void done(Object o, Throwable throwable) {
 //                Log.i("Testing",throwable.getMessage().toString());
-                Log.i("Testing1",o.toString());
+                    Log.i("Testing1",o.toString());
 
-                List<ParseObject> results = ((List<ParseObject>)o);
+                    List<ParseObject> results = ((List<ParseObject>)o);
 //                Log.i("Testing1",results.toString());
 //                for(ParseObject result: results)
 //                {
@@ -162,78 +170,79 @@ public class UserInfo extends AppCompatActivity {
 //                Log.i("Testing2",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
 
 
-                if(!results.isEmpty()) {
-                    result = results.get(results.size()-1);
-                    if(name==null)
-                    {
-                        EditText perName = (EditText) findViewById(R.id.editText2);
-                        perName.setText(((String) result.get("name")));
+                    if(!results.isEmpty()) {
+                        result = results.get(results.size()-1);
+                        if(name==null)
+                        {
+                            EditText perName = (EditText) findViewById(R.id.editText2);
+                            perName.setText(((String) result.get("name")));
+                        }
+                        else {
+                            EditText perName = (EditText) findViewById(R.id.editText2);
+                            perName.setText(name);
+                        }
+                        EditText address = (EditText) findViewById(R.id.editText3);
+                        EditText mobile = (EditText) findViewById(R.id.editText4);
+                        emergencyName = (EditText) findViewById(R.id.editText5);
+                        emergencyNumber = (EditText) findViewById(R.id.editText6);
+                        Log.i("Testing2",((String) result.get("address")));
+                        Log.i("Testing2",((String) result.get("name")));
+                        address.setText(((String) result.get("address")));
+                        mobile.setText((String)result.get("phoneNumber"));
+                        emergencyName.setText(((String) result.get("emergencyContactName")));
+                        emergencyNumber.setText(((String) result.get("emergencyContactNumber")));
+                        try {
+                            ParseFile fileObject = (ParseFile) result
+                                    .get("image");
+                            fileObject
+                                    .getDataInBackground(new GetDataCallback() {
+
+                                        public void done(byte[] data,
+                                                         ParseException e) {
+                                            if (e == null) {
+                                                Log.d("test",
+                                                        "We've got data in data.");
+                                                // Decode the Byte[] into
+                                                // Bitmap
+                                                bitmap = BitmapFactory
+                                                        .decodeByteArray(
+                                                                data, 0,
+                                                                data.length);
+
+                                                // Get the ImageView from
+                                                // main.xml
+                                                ImageView image = (ImageView) findViewById(R.id.imageView5);
+                                                image.setBackgroundColor(0);
+
+                                                // Set the Bitmap into the
+                                                // ImageView
+                                                image.setImageBitmap(bitmap);
+
+                                            } else {
+                                                Log.d("test",
+                                                        "There was a problem downloading the data.");
+                                            }
+                                        }
+                                    });
+                        }catch(Exception e){
+                            Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                        }
+
+                        flag = 1;
                     }
                     else {
-                        EditText perName = (EditText) findViewById(R.id.editText2);
-                        perName.setText(name);
+                        Log.i("Testing1","");
                     }
-                    EditText address = (EditText) findViewById(R.id.editText3);
-                    EditText mobile = (EditText) findViewById(R.id.editText4);
-                    emergencyName = (EditText) findViewById(R.id.editText5);
-                    emergencyNumber = (EditText) findViewById(R.id.editText6);
-                    Log.i("Testing2",((String) result.get("address")));
-                    Log.i("Testing2",((String) result.get("name")));
-                    address.setText(((String) result.get("address")));
-                    mobile.setText((String)result.get("phoneNumber"));
-                    emergencyName.setText(((String) result.get("emergencyContactName")));
-                    emergencyNumber.setText(((String) result.get("emergencyContactNumber")));
-                    try {
-                        ParseFile fileObject = (ParseFile) result
-                                .get("image");
-                        fileObject
-                                .getDataInBackground(new GetDataCallback() {
-
-                                    public void done(byte[] data,
-                                                     ParseException e) {
-                                        if (e == null) {
-                                            Log.d("test",
-                                                    "We've got data in data.");
-                                            // Decode the Byte[] into
-                                            // Bitmap
-                                            bitmap = BitmapFactory
-                                                    .decodeByteArray(
-                                                            data, 0,
-                                                            data.length);
-
-                                            // Get the ImageView from
-                                            // main.xml
-                                            ImageView image = (ImageView) findViewById(R.id.imageView5);
-                                            image.setBackgroundColor(0);
-
-                                            // Set the Bitmap into the
-                                            // ImageView
-                                            image.setImageBitmap(bitmap);
-
-                                        } else {
-                                            Log.d("test",
-                                                    "There was a problem downloading the data.");
-                                        }
-                                    }
-                                });
-                    }catch(Exception e){
-                        Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
-                    }
-
-                    flag = 1;
-                }
-                else {
-                    Log.i("Testing1","");
-                }
 //                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
 
-            }
-        });
+                }
+            });
 
 
 
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
-        Log.i("test123", "Came here also!!!");
+            Log.i("test123", "Came here also!!!");
+        }
     }
 
     private void setUpToolbar() {
@@ -617,5 +626,10 @@ public class UserInfo extends AppCompatActivity {
         }
     }
 
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 
 }

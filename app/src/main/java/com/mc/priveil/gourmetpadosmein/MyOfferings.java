@@ -1,5 +1,8 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -13,14 +16,28 @@ public class MyOfferings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_offerings);
-      /*  setUpToolbar();
+
+        if(isConnected() != true){
+            Toast.makeText(MyOfferings.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        }
+
+        else{
+            /*  setUpToolbar();
         setUpNavDrawer();
         		*//* Use application class to maintain global state. *//*
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }*/
-        Toast.makeText(MyOfferings.this, "My Hostings", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MyOfferings.this, "My Hostings", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
   /*  private void setUpToolbar() {

@@ -3,9 +3,12 @@ package com.mc.priveil.gourmetpadosmein;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -93,223 +96,223 @@ public class OfferingForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offering_form);
 
-        Log.i("testing123", "Came to offering listing");
         setUpToolbar();
         setUpNavDrawer();
                 /* Use application class to maintain global state. */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
 
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        if(isConnected() != true){
+            Toast.makeText(OfferingForm.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        }
 
+        else{
 
-        Intent intent = getIntent();
-        name = intent.getStringExtra(MESSAGE_NAME);
-        email = intent.getStringExtra(MESSAGE_EMAIL);
-        objId = intent.getStringExtra(MESSAGE_OBJECTID);
+            TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
+            Intent intent = getIntent();
+            name = intent.getStringExtra(MESSAGE_NAME);
+            email = intent.getStringExtra(MESSAGE_EMAIL);
+            objId = intent.getStringExtra(MESSAGE_OBJECTID);
 //        Log.i("testingOBJ",objId);
 
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
-        ParseUser.enableAutomaticUser();
+            ParseUser.enableAutomaticUser();
 
 //        Intent intent = getIntent();
 //        String email = intent.getStringExtra(OfferingListActivity.MESSAGE_EMAIL);
 
-        EditText editText = (EditText) findViewById(R.id.editText7);
-        editText.setText(email);
-        editText.setKeyListener(null);
+            EditText editText = (EditText) findViewById(R.id.editText7);
+            editText.setText(email);
+            editText.setKeyListener(null);
 
-        pickdate2 = (EditText) findViewById(R.id.startdate);
-        picktime2 = (EditText) findViewById(R.id.starttime);
-        myCalendar = Calendar.getInstance();
-        date1 = new DatePickerDialog.OnDateSetListener() {
+            pickdate2 = (EditText) findViewById(R.id.startdate);
+            picktime2 = (EditText) findViewById(R.id.starttime);
+            myCalendar = Calendar.getInstance();
+            date1 = new DatePickerDialog.OnDateSetListener() {
 
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel1();
-            }
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                      int dayOfMonth) {
+                    myCalendar.set(Calendar.YEAR, year);
+                    myCalendar.set(Calendar.MONTH, monthOfYear);
+                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    updateLabel1();
+                }
 
-        };
-        pickdate2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickdate2.setInputType(InputType.TYPE_NULL);
+            };
+            pickdate2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pickdate2.setInputType(InputType.TYPE_NULL);
 //                DatePickerDialog start = new DatePickerDialog(
 //                        OfferingForm.this, date1,
 //                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
 //                        myCalendar.get(Calendar.DAY_OF_MONTH));
 //                start.getDatePicker().setMinDate(System.currentTimeMillis());
 //                start.show();
-                new DatePickerDialog(OfferingForm.this, date1, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                    new DatePickerDialog(OfferingForm.this, date1, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 
-            }
-        });
-        picktime2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                picktime2.setInputType(InputType.TYPE_NULL);
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(OfferingForm.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        picktime2.setText(selectedHour + ":" + selectedMinute);
-                    }
-                }, hour, minute, true);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
-                mTimePicker.show();
-            }
-        });
-
-
+                }
+            });
+            picktime2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    picktime2.setInputType(InputType.TYPE_NULL);
+                    Calendar mcurrentTime = Calendar.getInstance();
+                    int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                    int minute = mcurrentTime.get(Calendar.MINUTE);
+                    TimePickerDialog mTimePicker;
+                    mTimePicker = new TimePickerDialog(OfferingForm.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            picktime2.setText(selectedHour + ":" + selectedMinute);
+                        }
+                    }, hour, minute, true);//Yes 24 hour time
+                    mTimePicker.setTitle("Select Time");
+                    mTimePicker.show();
+                }
+            });
 
 
-        pickdate1 = (EditText) findViewById(R.id.enddate);
-        picktime1 = (EditText) findViewById(R.id.endtime);
-        myCalendar = Calendar.getInstance();
-        date = new DatePickerDialog.OnDateSetListener() {
 
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
 
-        };
-        pickdate1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickdate1.setInputType(InputType.TYPE_NULL);
+            pickdate1 = (EditText) findViewById(R.id.enddate);
+            picktime1 = (EditText) findViewById(R.id.endtime);
+            myCalendar = Calendar.getInstance();
+            date = new DatePickerDialog.OnDateSetListener() {
+
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                      int dayOfMonth) {
+                    myCalendar.set(Calendar.YEAR, year);
+                    myCalendar.set(Calendar.MONTH, monthOfYear);
+                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    updateLabel();
+                }
+
+            };
+            pickdate1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pickdate1.setInputType(InputType.TYPE_NULL);
 //                DatePickerDialog stop = new DatePickerDialog(
 //                        OfferingForm.this, date, myCalendar
 //                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
 //                        myCalendar.get(Calendar.DAY_OF_MONTH));
 //                stop.getDatePicker().setMinDate(System.currentTimeMillis());
 //                stop.show();
-                new DatePickerDialog(OfferingForm.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-        picktime1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                picktime1.setInputType(InputType.TYPE_NULL);
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(OfferingForm.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        picktime1.setText(selectedHour + ":" + selectedMinute);
-                    }
-                }, hour, minute, true);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
-                mTimePicker.show();
-            }
-        });
-
-
-        ParseQuery query = new ParseQuery("User");
-        query.whereEqualTo("username", email);
-        query.findInBackground(new FindCallback() {
-            @Override
-            public void done(List list, ParseException e) {
-                if (e == null) {
-                    if (!list.isEmpty()) {
-                    } else {
-                        Log.i("Testing", "List returned by Parse is empty!");
-                    }
-                } else {
-                    Log.i("Error!!", "Error in querying parse!");
+                    new DatePickerDialog(OfferingForm.this, date, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 }
-            }
+            });
+            picktime1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    picktime1.setInputType(InputType.TYPE_NULL);
+                    Calendar mcurrentTime = Calendar.getInstance();
+                    int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                    int minute = mcurrentTime.get(Calendar.MINUTE);
+                    TimePickerDialog mTimePicker;
+                    mTimePicker = new TimePickerDialog(OfferingForm.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            picktime1.setText(selectedHour + ":" + selectedMinute);
+                        }
+                    }, hour, minute, true);//Yes 24 hour time
+                    mTimePicker.setTitle("Select Time");
+                    mTimePicker.show();
+                }
+            });
 
-            @Override
-            public void done(Object o, Throwable throwable) {
+
+            ParseQuery query = new ParseQuery("User");
+            query.whereEqualTo("username", email);
+            query.findInBackground(new FindCallback() {
+                @Override
+                public void done(List list, ParseException e) {
+                    if (e == null) {
+                        if (!list.isEmpty()) {
+                        } else {
+                            Log.i("Testing", "List returned by Parse is empty!");
+                        }
+                    } else {
+                        Log.i("Error!!", "Error in querying parse!");
+                    }
+                }
+
+                @Override
+                public void done(Object o, Throwable throwable) {
 //                Log.i("Testing",throwable.getMessage().toString());
-                Log.i("Testing1", o.toString());
+                    Log.i("Testing1", o.toString());
 
-                List<ParseObject> results = ((List<ParseObject>) o);
+                    List<ParseObject> results = ((List<ParseObject>) o);
 
 
-                if (!results.isEmpty()) {
-                    result = results.get(results.size() - 1);
-                    EditText lati = (EditText) findViewById(R.id.editText15);
-                    EditText lon = (EditText) findViewById(R.id.editText16);
-                    lati.setText(((String) result.get("Latitude")));
-                    lon.setText(((String) result.get("Longitude")));
-                    Log.i("Testing", "Came to lat and long");
+                    if (!results.isEmpty()) {
+                        result = results.get(results.size() - 1);
+                        EditText lati = (EditText) findViewById(R.id.editText15);
+                        EditText lon = (EditText) findViewById(R.id.editText16);
+                        lati.setText(((String) result.get("Latitude")));
+                        lon.setText(((String) result.get("Longitude")));
+                        Log.i("Testing", "Came to lat and long");
 //                        String longitude = (String)result.get("Longitude");
 
 
-                } else {
-                    Log.i("Testing1", "why did it come here?");
-                    Intent intent = new Intent(OfferingForm.this, UserInfo.class);
-                    intent.putExtra(MESSAGE_NAME, name);
-                    intent.putExtra(MESSAGE_EMAIL, email);
-                    startActivity(intent);
-                }
+                    } else {
+                        Log.i("Testing1", "why did it come here?");
+                        Intent intent = new Intent(OfferingForm.this, UserInfo.class);
+                        intent.putExtra(MESSAGE_NAME, name);
+                        intent.putExtra(MESSAGE_EMAIL, email);
+                        startActivity(intent);
+                    }
 //                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
 
-            }
-        });
-
-
-
-
-
+                }
+            });
 
 
 
 //        String objId = "lol";
 //        String tempN = "aaa"
-        query = new ParseQuery("Offering");
-        query.whereEqualTo("objectId", objId);
-        query.findInBackground(new FindCallback() {
-            @Override
-            public void done(List list, ParseException e) {
-                if (e == null) {
-                    if (!list.isEmpty()) {
+            query = new ParseQuery("Offering");
+            query.whereEqualTo("objectId", objId);
+            query.findInBackground(new FindCallback() {
+                @Override
+                public void done(List list, ParseException e) {
+                    if (e == null) {
+                        if (!list.isEmpty()) {
 //                        EditText email = (EditText) findViewById(R.id.editText);
 //                        EditText name = (EditText) findViewById(R.id.editText2);
 //                        EditText address = (EditText) findViewById(R.id.editText3);
 //                        EditText mobile = (EditText) findViewById(R.id.editText4);
 //                        EditText emergencyName = (EditText) findViewById(R.id.editText5);
 //                        EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
-                        Log.i("Testing", list.get(0).toString());
+                            Log.i("Testing", list.get(0).toString());
 //                        address.setText();
 //                        mobile.setText("9876543211");
 //                        emergencyName.setText("aaa");
 //                        emergencyNumber.setText("9876543211");
+                        } else {
+                            Log.i("Testing", "List returned by Parse is empty!");
+                        }
                     } else {
-                        Log.i("Testing", "List returned by Parse is empty!");
+                        Log.i("Error!!", "Error in querying parse!");
                     }
-                } else {
-                    Log.i("Error!!", "Error in querying parse!");
                 }
-            }
 
-            @Override
-            public void done(Object o, Throwable throwable) {
+                @Override
+                public void done(Object o, Throwable throwable) {
 //                Log.i("Testing",throwable.getMessage().toString());
-                Log.i("Testing1", o.toString());
+                    Log.i("Testing1", o.toString());
 
-                List<ParseObject> results = ((List<ParseObject>) o);
+                    List<ParseObject> results = ((List<ParseObject>) o);
 //                Log.i("Testing1",results.toString());
 //                for(ParseObject result: results)
 //                {
@@ -319,80 +322,80 @@ public class OfferingForm extends AppCompatActivity {
 //                Log.i("Testing2",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
 
 
-                if (!results.isEmpty()) {
-                    resultGlobal = results.get(results.size() - 1);
-                    EditText offeringName = (EditText) findViewById(R.id.editText8);
-                    EditText cost = (EditText) findViewById(R.id.editText9);
-                    EditText cuisine = (EditText) findViewById(R.id.editText10);
-                    EditText enddate = (EditText) findViewById(R.id.enddate);
-                    EditText endtime = (EditText) findViewById(R.id.endtime);
+                    if (!results.isEmpty()) {
+                        resultGlobal = results.get(results.size() - 1);
+                        EditText offeringName = (EditText) findViewById(R.id.editText8);
+                        EditText cost = (EditText) findViewById(R.id.editText9);
+                        EditText cuisine = (EditText) findViewById(R.id.editText10);
+                        EditText enddate = (EditText) findViewById(R.id.enddate);
+                        EditText endtime = (EditText) findViewById(R.id.endtime);
 
-                    EditText startdate = (EditText) findViewById(R.id.startdate);
-                    EditText starttime = (EditText) findViewById(R.id.starttime);
+                        EditText startdate = (EditText) findViewById(R.id.startdate);
+                        EditText starttime = (EditText) findViewById(R.id.starttime);
 
 //                    EditText startTime = (EditText) findViewById(R.id.editText11);
 //                    EditText endTime = (EditText) findViewById(R.id.editText14);
-                    EditText description = (EditText) findViewById(R.id.editText12);
-                    EditText capacity = (EditText) findViewById(R.id.editText13);
+                        EditText description = (EditText) findViewById(R.id.editText12);
+                        EditText capacity = (EditText) findViewById(R.id.editText13);
 
 //                    Log.i("Testing2", ((String) resultGlobal.get("address")));
-                    Log.i("Testing2", (resultGlobal.get("cost")).toString());
+                        Log.i("Testing2", (resultGlobal.get("cost")).toString());
 
-                    offeringName.setText(((String) resultGlobal.get("name")));
-                    cost.setText((resultGlobal.get("cost")).toString());
-                    String cuisinesStr = TextUtils.join(",",((ArrayList<String>)resultGlobal.get("cuisine")));
-                    cuisine.setText(cuisinesStr);
-                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        offeringName.setText(((String) resultGlobal.get("name")));
+                        cost.setText((resultGlobal.get("cost")).toString());
+                        String cuisinesStr = TextUtils.join(",", ((ArrayList<String>) resultGlobal.get("cuisine")));
+                        cuisine.setText(cuisinesStr);
+                        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 
-                    String startTimeStr = dateFormat.format(resultGlobal.get("startTime"));
-                    String endTimeStr = dateFormat.format(resultGlobal.get("endTime"));
+                        String startTimeStr = dateFormat.format(resultGlobal.get("startTime"));
+                        String endTimeStr = dateFormat.format(resultGlobal.get("endTime"));
 
-                    enddate.setText(endTimeStr.split(" ")[0]);
-                    endtime.setText(endTimeStr.split(" ")[1]);
+                        enddate.setText(endTimeStr.split(" ")[0]);
+                        endtime.setText(endTimeStr.split(" ")[1]);
 
-                    startdate.setText(startTimeStr.split(" ")[0]);
-                    starttime.setText(startTimeStr.split(" ")[1]);
+                        startdate.setText(startTimeStr.split(" ")[0]);
+                        starttime.setText(startTimeStr.split(" ")[1]);
 
-                    try {
-                        ParseFile fileObject = (ParseFile) resultGlobal
-                                .get("image");
-                        fileObject
-                                .getDataInBackground(new GetDataCallback() {
+                        try {
+                            ParseFile fileObject = (ParseFile) resultGlobal
+                                    .get("image");
+                            fileObject
+                                    .getDataInBackground(new GetDataCallback() {
 
-                                    public void done(byte[] data,
-                                                     ParseException e) {
-                                        if (e == null) {
-                                            Log.d("test",
-                                                    "We've got data in data.");
-                                            // Decode the Byte[] into
-                                            // Bitmap
-                                            bitmap = BitmapFactory
-                                                    .decodeByteArray(
-                                                            data, 0,
-                                                            data.length);
+                                        public void done(byte[] data,
+                                                         ParseException e) {
+                                            if (e == null) {
+                                                Log.d("test",
+                                                        "We've got data in data.");
+                                                // Decode the Byte[] into
+                                                // Bitmap
+                                                bitmap = BitmapFactory
+                                                        .decodeByteArray(
+                                                                data, 0,
+                                                                data.length);
 
-                                            // Get the ImageView from
-                                            // main.xml
-                                            ImageView image = (ImageView) findViewById(R.id.imageView5);
-                                            image.setBackgroundColor(0);
+                                                // Get the ImageView from
+                                                // main.xml
+                                                ImageView image = (ImageView) findViewById(R.id.imageView5);
+                                                image.setBackgroundColor(0);
 
-                                            // Set the Bitmap into the
-                                            // ImageView
-                                            image.setImageBitmap(bitmap);
+                                                // Set the Bitmap into the
+                                                // ImageView
+                                                image.setImageBitmap(bitmap);
 
-                                        } else {
-                                            Log.d("test",
-                                                    "There was a problem downloading the data.");
+                                            } else {
+                                                Log.d("test",
+                                                        "There was a problem downloading the data.");
+                                            }
                                         }
-                                    }
-                                });
-                    }catch(Exception e){
-                        Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
-                    }
+                                    });
+                        }catch(Exception e){
+                            Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                        }
 
-                    Log.i("Testing",startTimeStr);
-                    Log.i("Testing",endTimeStr);
+                        Log.i("Testing",startTimeStr);
+                        Log.i("Testing",endTimeStr);
 
 //
 //                    picktime.setText(startTimeStr);
@@ -400,28 +403,28 @@ public class OfferingForm extends AppCompatActivity {
 
 //                    startTime.setText((resultGlobal.get("startTime")).toString());
 //                    endTime.setText((resultGlobal.get("endTime")).toString());
-                    description.setText(((String) resultGlobal.get("description")));
-                    capacity.setText((resultGlobal.get("capacity")).toString());
-                    CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
-                    CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
-                    if((resultGlobal.get("packing")).toString()=="true")
-                    {
-                        packingYes.setChecked(true);
-                    }
-                    if((resultGlobal.get("veg")).toString()=="true")
-                    {
-                        veg.setChecked(true);
-                    }
+                        description.setText(((String) resultGlobal.get("description")));
+                        capacity.setText((resultGlobal.get("capacity")).toString());
+                        CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
+                        CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
+                        if((resultGlobal.get("packing")).toString()=="true")
+                        {
+                            packingYes.setChecked(true);
+                        }
+                        if((resultGlobal.get("veg")).toString()=="true")
+                        {
+                            veg.setChecked(true);
+                        }
 
-                    flag = 1;
-                } else {
-                    Log.i("Testing1", "");
-                }
+                        flag = 1;
+                    } else {
+                        Log.i("Testing1", "");
+                    }
 //                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
 
-            }
-        });
-
+                }
+            });
+        }
 
     }
     @Override
@@ -554,8 +557,8 @@ public class OfferingForm extends AppCompatActivity {
                                     Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
                                     LogIn.mGoogleApiClient.disconnect();
                                     LogIn.mGoogleApiClient.connect();
-                                }catch(Exception e){
-                                    Log.e("test123","Failed to Logout, might be already out?");
+                                } catch (Exception e) {
+                                    Log.e("test123", "Failed to Logout, might be already out?");
                                 }
 
                                 startActivity(new Intent(OfferingForm.this, LogIn.class));
@@ -861,5 +864,11 @@ public class OfferingForm extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         pickdate2.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

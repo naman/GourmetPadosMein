@@ -1,9 +1,12 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
@@ -59,159 +63,165 @@ public class OfferingViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offering_view);
-        View button_edit = findViewById(R.id.button_edit);
-
-        button_edit.setVisibility(View.GONE);
 
         setUpToolbar();
         setUpNavDrawer();
 
-        ParseUser.enableAutomaticUser();
-
-        Intent intent = getIntent();
-        objectid = intent.getStringExtra("objectid");
-        email  = intent.getStringExtra("email");
-        name = intent.getStringExtra(MESSAGE_NAME);
-
-        ParseQuery query = new ParseQuery("Offering");
-        query.whereEqualTo("objectId", objectid);
-        query.findInBackground(new FindCallback() {
-            @Override
-            public void done(List list, ParseException e) {
-                if (e == null) {
-                    if (!list.isEmpty()) {
-                        Log.i("Testing", list.get(0).toString());
-                    } else {
-                        Log.i("Testing", "List returned by Parse is empty!");
-                    }
-                } else {
-                    Log.i("Error!!", "Error in querying parse!");
-                }
-            }
-
-            @Override
-            public void done(Object o, Throwable throwable) {
-                if (o != null) {
-                    List<ParseObject> itemlist;
-                    itemlist = (List<ParseObject>) o;
-                    Log.i("LIST", objectid);
-                    Log.i("LIST", itemlist.toString());
-
-                    for (ParseObject p : itemlist) {
-                        foodname = String.valueOf(p.get("name"));
-                        cost = String.valueOf(p.get("cost"));
-                        description = String.valueOf(p.get("description"));
-                        capacity = String.valueOf(p.get("capacity"));
-                        cuisines = String.valueOf(p.get("cuisine"));
-                        parse_username = String.valueOf(p.get("username"));
-                        try {
-                            latitude = String.valueOf(p.get("Latitude"));
-                            longitude = String.valueOf(p.get("Longitude"));
-                        } catch(Exception e){
-                            Log.e("test123", "Failed to get location");
-                        }
-                        try {
-                            ParseFile fileObject = (ParseFile) p
-                                    .get("image");
-                            fileObject
-                                    .getDataInBackground(new GetDataCallback() {
-
-                                        public void done(byte[] data,
-                                                         ParseException e) {
-                                            if (e == null) {
-                                                Log.d("test",
-                                                        "We've got data in data.");
-                                                // Decode the Byte[] into
-                                                // Bitmap
-                                                Bitmap bmp = BitmapFactory
-                                                        .decodeByteArray(
-                                                                data, 0,
-                                                                data.length);
-
-                                                // Get the ImageView from
-                                                // main.xml
-                                                ImageView image = (ImageView) findViewById(R.id.imageView3);
-                                                image.setBackgroundColor(0);
-
-                                                // Set the Bitmap into the
-                                                // ImageView
-                                                image.setImageBitmap(bmp);
-
-                                            } else {
-                                                Log.d("test",
-                                                        "There was a problem downloading the data.");
-                                            }
-                                        }
-                                    });
-                        }catch(Exception e){
-                            Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
-                        }
-
-                    }
-
-                    food = (TextView) findViewById(R.id.foodname);
-                    food.setTextSize(40);
-                    food.setTextColor(Color.DKGRAY);
-                    food.setText(foodname);
-
-                    cuisine_type = (TextView) findViewById(R.id.cuisine);
-                    cuisine_type.setTextSize(15);
-                    cuisine_type.setTextColor(Color.DKGRAY);
-                    cuisine_type.setText(cuisines.substring(1, cuisines.length() - 1));
-
-                    money = (TextView) findViewById(R.id.cost);
-                    money.setTextSize(20);
-                    money.setTextColor(Color.DKGRAY);
-                    money.setText("Cost: ₹" + cost);
-
-                    desc = (TextView) findViewById(R.id.description);
-                    desc.setTextSize(15);
-                    desc.setTextColor(Color.DKGRAY);
-                    desc.setText(description);
-
-                    cap = (TextView) findViewById(R.id.capacity);
-                    cap.setTextSize(15);
-                    cap.setTextColor(Color.DKGRAY);
-                    cap.setText("Capacity: " + capacity);
-
-
-                    View button_edit = findViewById(R.id.button_edit);
-
-                    if(email.equals(parse_username)){
-                        //show edit button
-                        button_edit.setVisibility(View.VISIBLE);
-                        button_edit.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View arg0) {
-                                // Start NewActivity.class
-                                Intent myIntent = new Intent(OfferingViewActivity.this,
-                                        OfferingForm.class);
-                                myIntent.putExtra(MESSAGE_OBJECTID, objectid);
-//                                myIntent.putExtra(MESSAGE_NAME, name);
-                                myIntent.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(myIntent);
-                            }
-                        });
-                    }
-                    else {
-
-                    }
-
-
-                } else
-                    Log.i("Error!!", "NULL");
-            }
-        });
-
-
-//
-// Use application class to maintain global state.
+        // Use application class to maintain global state.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
 
-        Log.i("Testing12", "Came here in Listing class 3");
+        Log.i("Testing12", "Came here in OfferingViewActivity");
+
+        if(isConnected() != true){
+            Toast.makeText(OfferingViewActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        }
+
+        else{
+            View button_edit = findViewById(R.id.button_edit);
+
+            button_edit.setVisibility(View.GONE);
+
+            ParseUser.enableAutomaticUser();
+
+            Intent intent = getIntent();
+            objectid = intent.getStringExtra("objectid");
+            email  = intent.getStringExtra("email");
+            name = intent.getStringExtra(MESSAGE_NAME);
+
+            ParseQuery query = new ParseQuery("Offering");
+            query.whereEqualTo("objectId", objectid);
+            query.findInBackground(new FindCallback() {
+                @Override
+                public void done(List list, ParseException e) {
+                    if (e == null) {
+                        if (!list.isEmpty()) {
+                            Log.i("Testing", list.get(0).toString());
+                        } else {
+                            Log.i("Testing", "List returned by Parse is empty!");
+                        }
+                    } else {
+                        Log.i("Error!!", "Error in querying parse!");
+                    }
+                }
+
+                @Override
+                public void done(Object o, Throwable throwable) {
+                    if (o != null) {
+                        List<ParseObject> itemlist;
+                        itemlist = (List<ParseObject>) o;
+                        Log.i("LIST", objectid);
+                        Log.i("LIST", itemlist.toString());
+
+                        for (ParseObject p : itemlist) {
+                            foodname = String.valueOf(p.get("name"));
+                            cost = String.valueOf(p.get("cost"));
+                            description = String.valueOf(p.get("description"));
+                            capacity = String.valueOf(p.get("capacity"));
+                            cuisines = String.valueOf(p.get("cuisine"));
+                            parse_username = String.valueOf(p.get("username"));
+                            try {
+                                latitude = String.valueOf(p.get("Latitude"));
+                                longitude = String.valueOf(p.get("Longitude"));
+                            } catch (Exception e) {
+                                Log.e("test123", "Failed to get location");
+                            }
+                            try {
+                                ParseFile fileObject = (ParseFile) p
+                                        .get("image");
+                                fileObject
+                                        .getDataInBackground(new GetDataCallback() {
+
+                                            public void done(byte[] data,
+                                                             ParseException e) {
+                                                if (e == null) {
+                                                    Log.d("test",
+                                                            "We've got data in data.");
+                                                    // Decode the Byte[] into
+                                                    // Bitmap
+                                                    Bitmap bmp = BitmapFactory
+                                                            .decodeByteArray(
+                                                                    data, 0,
+                                                                    data.length);
+
+                                                    // Get the ImageView from
+                                                    // main.xml
+                                                    ImageView image = (ImageView) findViewById(R.id.imageView3);
+                                                    image.setBackgroundColor(0);
+
+                                                    // Set the Bitmap into the
+                                                    // ImageView
+                                                    image.setImageBitmap(bmp);
+
+                                                } else {
+                                                    Log.d("test",
+                                                            "There was a problem downloading the data.");
+                                                }
+                                            }
+                                        });
+                            } catch (Exception e) {
+                                Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                            }
+
+                        }
+
+                        food = (TextView) findViewById(R.id.foodname);
+                        food.setTextSize(40);
+                        food.setTextColor(Color.DKGRAY);
+                        food.setText(foodname);
+
+                        cuisine_type = (TextView) findViewById(R.id.cuisine);
+                        cuisine_type.setTextSize(15);
+                        cuisine_type.setTextColor(Color.DKGRAY);
+                        cuisine_type.setText(cuisines.substring(1, cuisines.length() - 1));
+
+                        money = (TextView) findViewById(R.id.cost);
+                        money.setTextSize(20);
+                        money.setTextColor(Color.DKGRAY);
+                        money.setText("Cost: ₹" + cost);
+
+                        desc = (TextView) findViewById(R.id.description);
+                        desc.setTextSize(15);
+                        desc.setTextColor(Color.DKGRAY);
+                        desc.setText(description);
+
+                        cap = (TextView) findViewById(R.id.capacity);
+                        cap.setTextSize(15);
+                        cap.setTextColor(Color.DKGRAY);
+                        cap.setText("Capacity: " + capacity);
+
+
+                        View button_edit = findViewById(R.id.button_edit);
+
+                        if (email.equals(parse_username)) {
+                            //show edit button
+                            button_edit.setVisibility(View.VISIBLE);
+                            button_edit.setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View arg0) {
+                                    // Start NewActivity.class
+                                    Intent myIntent = new Intent(OfferingViewActivity.this,
+                                            OfferingForm.class);
+                                    myIntent.putExtra(MESSAGE_OBJECTID, objectid);
+//                                myIntent.putExtra(MESSAGE_NAME, name);
+                                    myIntent.putExtra(MESSAGE_EMAIL, email);
+                                    startActivity(myIntent);
+                                }
+                            });
+                        } else {
+
+                        }
+
+
+                    } else
+                        Log.i("Error!!", "NULL");
+                }
+            });
+
+
+        }
 
     }
 
@@ -321,5 +331,11 @@ public class OfferingViewActivity extends AppCompatActivity {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         startActivity(intent);
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
