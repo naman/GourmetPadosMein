@@ -23,6 +23,7 @@ import com.google.android.gms.plus.Plus;
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -31,13 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OfferingListActivity extends AppCompatActivity implements LocationListener {
-    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
-    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+//    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+//    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
 
     public final static String SIDEBAR_TAP = "LOL";
     public static final String CLASS_NAME = "Offerings";
     static String fromSkip = "N";
-    public String name;
+//    public String name;
     public String email;
     public ParseObject result = null;
     LocationManager locationManager;
@@ -132,8 +133,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
         else{
             Intent intent = getIntent();
-            name = intent.getStringExtra(MESSAGE_NAME);
-            email = intent.getStringExtra(MESSAGE_EMAIL);
+//            name = null;
+            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);;
 
             try{
                 fromSkip = intent.getStringExtra("SKIPCLICK");
@@ -179,8 +180,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         Log.i("Testing1", "");
                         if (!"Y".equals(fromSkip)) {
                             Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
-                            intent.putExtra(MESSAGE_NAME, name);
-                            intent.putExtra(MESSAGE_EMAIL, email);
+//                            intent.putExtra(MESSAGE_NAME, name);
+//                            intent.putExtra(MESSAGE_EMAIL, email);
                             startActivity(intent);
                         } else {
                             fromSkip = "N";
@@ -205,7 +206,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
             ParseUser.enableAutomaticUser();
 
-            Log.i("Testing12", "Came here in Listing class 2");
+            Log.i("Testing12", "Came here in Listing class 2????");
 
             query = new ParseQuery("Offering");
 //        query.whereEqualTo("name", "aaa");
@@ -252,8 +253,9 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                         ArrayList<Double> distances = new ArrayList<>();
                         for (ParseObject p : itemlist) {
-                            Double lat = Double.parseDouble((String) p.get("Latitude"));
-                            Double longi = Double.parseDouble((String) p.get("Longitude"));
+                            ParseGeoPoint point = (ParseGeoPoint)result.get("Location");
+                            Double lat = Double.parseDouble((String.valueOf(point.getLatitude())));
+                            Double longi = Double.parseDouble((String.valueOf(point.getLongitude())));
                             float[] dist = new float[1];
                             Location.distanceBetween(currLatitude, currLongitude, lat, longi, dist);
                             Double distance = (double) dist[0];
@@ -307,17 +309,19 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         bundle.putSerializable("distances", distances);
                         bundle.putSerializable("object_ids", object_ids);
                         bundle.putSerializable("costs", costs);
-
-                        bundle.putSerializable(MESSAGE_NAME, name);
-                        bundle.putSerializable("email", email);
+                        Log.i("test123", "Before Buggy again in create!!");
+//                        bundle.putSerializable(MESSAGE_NAME, name);
+//                        bundle.putSerializable("email", email);
 
                         OfferingFragment fragment = new OfferingFragment();
                         fragment.setArguments(bundle);
 
                         FragmentManager fragmentManager = getSupportFragmentManager();
+                        Log.i("test123", "Before Buggy again in create 222 what !!");
                         try {
                             fragmentManager.beginTransaction()
                                     .replace(R.id.content_frame, fragment).commit();
+                            Log.i("test123","try for fragment");
                         } catch (Exception e) {
                             Log.e("test123", "Failed to inflate at OfferingListActivity Line 299");
                             Intent intent = getIntent();
@@ -332,6 +336,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
         }
 
+        Log.i("test123","Successfully exiting create");
     }
 
     public void myUpdateOperation()
@@ -443,15 +448,17 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     bundle.putSerializable("object_ids", object_ids);
                     bundle.putSerializable("costs", costs);
 
-                    bundle.putSerializable(MESSAGE_NAME, name);
-                    bundle.putSerializable("email", email);
+                    Log.i("test123","Before Buggy!!");
+//                    bundle.putSerializable(MESSAGE_NAME, name);
+//                    bundle.putSerializable("email", email);
 
                     OfferingFragment fragment = new OfferingFragment();
                     fragment.setArguments(bundle);
-
+                    Log.i("test123", "Before Buggy again!!");
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame, fragment).commit();
+                    Log.i("test123", "Before Buggy again??? !!");
                 } else
                     Log.i("Error!!", "NULL");
             }
@@ -505,17 +512,17 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                                 break;
 
                             case R.id.profile:
-                                Intent ui = new Intent(OfferingListActivity.this, UserInfo.class);
-                                ui.putExtra(MESSAGE_NAME, name);
-                                ui.putExtra(MESSAGE_EMAIL, email);
+                                Intent ui = new Intent(OfferingListActivity.this, UserViewProfile.class);
+//                                ui.putExtra(MESSAGE_NAME, name);
+//                                ui.putExtra(MESSAGE_EMAIL, email);
 
                                 startActivity(ui);
                                 break;
 
                             case R.id.my_offerings:
                                 Intent n = new Intent(OfferingListActivity.this, MyOfferings.class);
-                                n.putExtra(MESSAGE_NAME, name);
-                                n.putExtra(MESSAGE_EMAIL, email);
+//                                n.putExtra(MESSAGE_NAME, name);
+//                                n.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n);
 
                                 break;

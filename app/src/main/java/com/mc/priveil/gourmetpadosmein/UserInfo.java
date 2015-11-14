@@ -34,6 +34,7 @@ import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -89,8 +90,8 @@ public class UserInfo extends AppCompatActivity {
             ParseUser.enableAutomaticUser();
             Intent intent = getIntent();
             Log.i("test123", "Came here!!!");
-            name = intent.getStringExtra(MESSAGE_NAME);
-            email = intent.getStringExtra(MESSAGE_EMAIL);
+            name = null;
+            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
 
 
             String sidebar_tap = "F";
@@ -462,8 +463,12 @@ public class UserInfo extends AppCompatActivity {
             testObject.put("name", name.getText().toString());
             testObject.put("address", address.getText().toString());
 
-            testObject.put("Latitude", String.valueOf(lat));
-            testObject.put("Longitude", String.valueOf(longi));
+            ParseGeoPoint point = new ParseGeoPoint(lat, longi);
+//            ParseObject object = new ParseObject("PlaceObject");
+            testObject.put("Location", point);
+
+//            testObject.put("Latitude", String.valueOf(lat));
+//            testObject.put("Longitude", String.valueOf(longi));
 
             testObject.put("phoneNumber", mobile.getText().toString());
             testObject.put("emergencyContactName", emergencyName.getText().toString());

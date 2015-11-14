@@ -65,7 +65,8 @@ public class OfferingFragment extends Fragment {
             but if you turned it on after it was off while the app was running,
             it crashes. It  doesn't receive the intent from which it is supposed to get email.*/
 
-            email  = bundle.getSerializable("email").toString();
+//            email  = bundle.getSerializable("email").toString();
+            email = "";
 
 //        Log.d("Test", String.format("Proxy object name: %s", itemlist.get(0)));
 

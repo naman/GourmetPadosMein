@@ -26,6 +26,7 @@ import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -33,9 +34,9 @@ import com.parse.ParseUser;
 import java.util.List;
 
 public class OfferingViewActivity extends AppCompatActivity {
-    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+//    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
-    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+//    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
 
     public String email;
     private DrawerLayout mDrawerLayout;
@@ -89,8 +90,8 @@ public class OfferingViewActivity extends AppCompatActivity {
 
             Intent intent = getIntent();
             objectid = intent.getStringExtra("objectid");
-            email  = intent.getStringExtra("email");
-            name = intent.getStringExtra(MESSAGE_NAME);
+            email  = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
+            name = null;
 
             ParseQuery query = new ParseQuery("Offering");
             query.whereEqualTo("objectId", objectid);
@@ -124,8 +125,9 @@ public class OfferingViewActivity extends AppCompatActivity {
                             cuisines = String.valueOf(p.get("cuisine"));
                             parse_username = String.valueOf(p.get("username"));
                             try {
-                                latitude = String.valueOf(p.get("Latitude"));
-                                longitude = String.valueOf(p.get("Longitude"));
+                                ParseGeoPoint point = (ParseGeoPoint)p.get("Location");
+                                latitude = String.valueOf(point.getLatitude());
+                                longitude = String.valueOf(point.getLongitude());
                             } catch (Exception e) {
                                 Log.e("test123", "Failed to get location");
                             }
@@ -206,7 +208,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                                             OfferingForm.class);
                                     myIntent.putExtra(MESSAGE_OBJECTID, objectid);
 //                                myIntent.putExtra(MESSAGE_NAME, name);
-                                    myIntent.putExtra(MESSAGE_EMAIL, email);
+//                                    myIntent.putExtra(MESSAGE_EMAIL, email);
                                     startActivity(myIntent);
                                 }
                             });
@@ -265,22 +267,22 @@ public class OfferingViewActivity extends AppCompatActivity {
                         switch (id) {
                             case R.id.offering_list:
                                 Intent n = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
-                                n.putExtra(MESSAGE_NAME, name);
-                                n.putExtra(MESSAGE_EMAIL, email);
+//                                n.putExtra(MESSAGE_NAME, name);
+//                                n.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n);
                                 break;
 
                             case R.id.profile:
                                 Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
-                                ui.putExtra(MESSAGE_NAME, name);
-                                ui.putExtra(MESSAGE_EMAIL, email);
+//                                ui.putExtra(MESSAGE_NAME, name);
+//                                ui.putExtra(MESSAGE_EMAIL, email);
 
                                 startActivity(ui);
                                 break;
                             case R.id.my_offerings:
                                 Intent n1 = new Intent(OfferingViewActivity.this, MyOfferings.class);
-                                n1.putExtra(MESSAGE_NAME, name);
-                                n1.putExtra(MESSAGE_EMAIL, email);
+//                                n1.putExtra(MESSAGE_NAME, name);
+//                                n1.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n1);
 
                                 break;
@@ -321,8 +323,8 @@ public class OfferingViewActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");
         Intent intent = new Intent(this, OfferingListActivity.class);
-        intent.putExtra(MESSAGE_NAME, name);
-        intent.putExtra(MESSAGE_EMAIL, email);
+//        intent.putExtra(MESSAGE_NAME, name);
+//        intent.putExtra(MESSAGE_EMAIL, email);
         startActivity(intent);
     }
 

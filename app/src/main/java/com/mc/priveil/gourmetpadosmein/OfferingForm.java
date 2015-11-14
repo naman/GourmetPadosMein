@@ -35,6 +35,7 @@ import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -55,8 +56,8 @@ import java.util.regex.Pattern;
 
 public class OfferingForm extends AppCompatActivity {
 
-    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
-    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+//    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+//    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
 
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -114,8 +115,8 @@ public class OfferingForm extends AppCompatActivity {
             TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
             Intent intent = getIntent();
-            name = intent.getStringExtra(MESSAGE_NAME);
-            email = intent.getStringExtra(MESSAGE_EMAIL);
+            name = null;
+            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
             objId = intent.getStringExtra(MESSAGE_OBJECTID);
 //        Log.i("testingOBJ",objId);
 
@@ -259,8 +260,12 @@ public class OfferingForm extends AppCompatActivity {
                         result = results.get(results.size() - 1);
                         EditText lati = (EditText) findViewById(R.id.editText15);
                         EditText lon = (EditText) findViewById(R.id.editText16);
-                        lati.setText(((String) result.get("Latitude")));
-                        lon.setText(((String) result.get("Longitude")));
+                        ParseGeoPoint point = (ParseGeoPoint)result.get("Location");
+
+                        lati.setText(String.valueOf(point.getLatitude()));
+                        lon.setText(String.valueOf(point.getLongitude()));
+//                        lon.setText(((String) result.get("Longitude")));
+
                         Log.i("Testing", "Came to lat and long");
 //                        String longitude = (String)result.get("Longitude");
 
@@ -268,8 +273,8 @@ public class OfferingForm extends AppCompatActivity {
                     } else {
                         Log.i("Testing1", "why did it come here?");
                         Intent intent = new Intent(OfferingForm.this, UserInfo.class);
-                        intent.putExtra(MESSAGE_NAME, name);
-                        intent.putExtra(MESSAGE_EMAIL, email);
+//                        intent.putExtra(MESSAGE_NAME, name);
+//                        intent.putExtra(MESSAGE_EMAIL, email);
                         startActivity(intent);
                     }
 //                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
@@ -532,22 +537,22 @@ public class OfferingForm extends AppCompatActivity {
                         switch (id) {
                             case R.id.offering_list:
                                 Intent n = new Intent(OfferingForm.this, OfferingListActivity.class);
-                                n.putExtra(MESSAGE_NAME, name);
-                                n.putExtra(MESSAGE_EMAIL, email);
+//                                n.putExtra(MESSAGE_NAME, name);
+//                                n.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n);
                                 break;
 
                             case R.id.profile:
                                 Intent ui = new Intent(OfferingForm.this, UserInfo.class);
-                                ui.putExtra(MESSAGE_NAME, name);
-                                ui.putExtra(MESSAGE_EMAIL, email);
+//                                ui.putExtra(MESSAGE_NAME, name);
+//                                ui.putExtra(MESSAGE_EMAIL, email);
 
                                 startActivity(ui);
                                 break;
                             case R.id.my_offerings:
                                 Intent n1 = new Intent(OfferingForm.this, MyOfferings.class);
-                                n1.putExtra(MESSAGE_NAME, name);
-                                n1.putExtra(MESSAGE_EMAIL, email);
+//                                n1.putExtra(MESSAGE_NAME, name);
+//                                n1.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n1);
 
                                 break;
@@ -643,6 +648,7 @@ public class OfferingForm extends AppCompatActivity {
 
         EditText lati = (EditText) findViewById(R.id.editText15);
         EditText lon = (EditText) findViewById(R.id.editText16);
+
         String dateValidity = "OK";
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date startdateD= myCalendar.getTime(), enddateD=myCalendar.getTime();
@@ -754,8 +760,8 @@ public class OfferingForm extends AppCompatActivity {
 //            String latitude;
 //            String longitude;
 
-            testObject.put("Latitude", lati.getText().toString());
-            testObject.put("Longitude", lon.getText().toString());
+            ParseGeoPoint point = new ParseGeoPoint(Double.parseDouble(lati.getText().toString()), Double.parseDouble(lon.getText().toString()));
+            testObject.put("Location", point);
             testObject.put("name", offeringname.getText().toString());
             testObject.put("cost", Double.parseDouble(cost.getText().toString()));
             String cuisineVal = cuisine.getText().toString();
@@ -819,12 +825,12 @@ public class OfferingForm extends AppCompatActivity {
         Log.i("Testing", "about to submit form 4!!!");
         Intent intent = new Intent(this, OfferingViewActivity.class);
         intent.putExtra("objectid", po.getObjectId());
-        intent.putExtra("email",  email);
-        intent.putExtra(OfferingViewActivity.MESSAGE_NAME, name);
+//        intent.putExtra("email",  email);
+//        intent.putExtra(OfferingViewActivity.MESSAGE_NAME, name);
         startActivity(intent);
     }
 
-    void myObjectSaveDidNotSucceed(ProgressDialog progress){
+    void myObjectSaveDidNotSucceed(ProgressDialog progress) {
         progress.dismiss();
         Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG);
     }

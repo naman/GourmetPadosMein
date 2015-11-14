@@ -22,8 +22,8 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
 public class LogIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
-    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
-    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+//    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
+//    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
     private static final String TAG = "talha111";
@@ -173,8 +173,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
             else
                 Log.i("Testing",personName);
 
-            intent.putExtra(MESSAGE_NAME, personName);
-            intent.putExtra(MESSAGE_EMAIL, email);
+//            intent.putExtra(MESSAGE_NAME, personName);
+//            intent.putExtra(MESSAGE_EMAIL, email);
 //            intent.putExtra(MESSAGE_OBJECTID,"lol");
 
             startActivity(intent);
