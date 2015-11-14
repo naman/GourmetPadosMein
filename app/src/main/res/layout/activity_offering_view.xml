@@ -112,6 +112,15 @@
                     android:layout_marginStart="50dp"
                     android:text="EDIT" />
 
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="APPLY"
+                    android:id="@+id/button_apply"
+                    android:layout_below="@+id/button_edit"
+                    android:layout_alignLeft="@+id/button_edit"
+                    android:layout_alignStart="@+id/button_edit" />
+
                 <!--<ImageView-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
