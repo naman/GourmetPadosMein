@@ -417,8 +417,9 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                         ArrayList<Double> distances = new ArrayList<>();
                         for (ParseObject p : itemlist) {
-                            Double lat = Double.parseDouble((String) p.get("Latitude"));
-                            Double longi = Double.parseDouble((String) p.get("Longitude"));
+                            ParseGeoPoint point = (ParseGeoPoint)result.get("Location");
+                            Double lat = Double.parseDouble((String.valueOf(point.getLatitude())));
+                            Double longi = Double.parseDouble((String.valueOf(point.getLongitude())));
                             float[] dist = new float[1];
                             Location.distanceBetween(currLatitude, currLongitude, lat, longi, dist);
                             Double distance = (double) dist[0];

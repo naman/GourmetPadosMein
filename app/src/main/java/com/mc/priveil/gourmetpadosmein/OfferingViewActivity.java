@@ -303,7 +303,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.profile:
-                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
+                                Intent ui = new Intent(OfferingViewActivity.this, UserViewProfile.class);
 //                                ui.putExtra(MESSAGE_NAME, name);
 //                                ui.putExtra(MESSAGE_EMAIL, email);
 
