@@ -24,7 +24,7 @@
         <activity
             android:name=".OfferingListActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -36,7 +36,7 @@
         <activity
             android:name=".LogIn"
             android:label="@string/title_activity_log_in"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,12 +50,12 @@
         <activity
             android:name=".UserInfo"
             android:label="@string/title_activity_user_info"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
         <activity
             android:name=".OfferingForm"
             android:label="@string/title_activity_offering_form"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
         <activity
             android:name=".OfferingViewActivity"
@@ -63,8 +63,10 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MyOfferings"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".SampleNavDrawerActivity">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".SampleNavDrawerActivity" >
+        </activity>
+        <activity android:name=".AcceptGuest" >
         </activity>
     </application>
 
