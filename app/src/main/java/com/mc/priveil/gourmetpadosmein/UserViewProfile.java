@@ -59,8 +59,8 @@ public class UserViewProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_view_profile);
 
-        setUpToolbar();
-        setUpNavDrawer();
+//        setUpToolbar();
+//        setUpNavDrawer();
                 /* Use application class to maintain global state. */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
