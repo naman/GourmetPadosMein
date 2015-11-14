@@ -10,7 +10,7 @@
             android:id="@+id/profile"
             android:checkable="true"
             android:icon="@drawable/ic_account_circle_black_48dp"
-            android:title="Edit Profile" />
+            android:title="Profile" />
 
         <item
             android:id="@+id/my_offerings"

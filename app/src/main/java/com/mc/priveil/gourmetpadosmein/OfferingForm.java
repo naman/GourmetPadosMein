@@ -543,7 +543,7 @@ public class OfferingForm extends AppCompatActivity {
                                 break;
 
                             case R.id.profile:
-                                Intent ui = new Intent(OfferingForm.this, UserInfo.class);
+                                Intent ui = new Intent(OfferingForm.this, UserViewProfile.class);
 //                                ui.putExtra(MESSAGE_NAME, name);
 //                                ui.putExtra(MESSAGE_EMAIL, email);
 

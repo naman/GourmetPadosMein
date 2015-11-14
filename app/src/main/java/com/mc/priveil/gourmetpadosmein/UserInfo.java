@@ -47,8 +47,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserInfo extends AppCompatActivity {
-    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
-    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
     public static final int PICK_CONTACT = 3;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     public String name;
@@ -285,23 +283,16 @@ public class UserInfo extends AppCompatActivity {
                         switch (id) {
                             case R.id.offering_list:
                                 Intent n = new Intent(UserInfo.this, OfferingListActivity.class);
-                                n.putExtra(MESSAGE_NAME, name);
-                                n.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n);
                                 break;
 
                             case R.id.profile:
-                            /*
-                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
-                                ui.putExtra(MESSAGE_NAME, name);
-                                ui.putExtra(MESSAGE_EMAIL, email);
 
-                                startActivity(ui);*/
+                                Intent ui = new Intent(UserInfo.this, UserViewProfile.class);
+                                startActivity(ui);
                                 break;
                             case R.id.my_offerings:
                                 Intent n1 = new Intent(UserInfo.this, MyOfferings.class);
-                                n1.putExtra(MESSAGE_NAME, name);
-                                n1.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n1);
 
                                 break;
@@ -394,7 +385,7 @@ public class UserInfo extends AppCompatActivity {
         Intent intent = new Intent(this, OfferingListActivity.class);
         EditText emailBox = (EditText) findViewById(R.id.editText);
         String email = emailBox.getText().toString();
-        intent.putExtra(MESSAGE_EMAIL, email);
+//        intent.putExtra(MESSAGE_EMAIL, email);
         intent.putExtra("SKIPCLICK", "Y");
 //            intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
         startActivity(intent);
@@ -504,8 +495,6 @@ public class UserInfo extends AppCompatActivity {
         progress.dismiss();
         Log.i("Testing", "about to submit form 4!!!");
         Intent intent = new Intent(this, OfferingListActivity.class);
-        intent.putExtra(MESSAGE_EMAIL, email.getText().toString());
-        intent.putExtra(MESSAGE_NAME, name.getText().toString());
         startActivity(intent);
     }
 
