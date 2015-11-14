@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -58,7 +60,14 @@ public class UserViewProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_view_profile);
-
+        ShowcaseView sv;
+        ViewTarget target = new ViewTarget(R.id.button6, this);
+        sv = new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setTarget(target)
+                .setContentTitle("Kuchh string")
+                .setContentText("hilao na")
+                .build();
         setUpToolbar();
         setUpNavDrawer();
                 /* Use application class to maintain global state. */
