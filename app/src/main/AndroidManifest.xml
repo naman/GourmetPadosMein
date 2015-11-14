@@ -71,6 +71,8 @@
             android:label="@string/title_activity_user_view_profile"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
+        <activity android:name=".AcceptGuestActivity" >
+        </activity>
     </application>
 
 </manifest>

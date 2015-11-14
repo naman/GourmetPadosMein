@@ -65,12 +65,9 @@ public class OfferingFragment extends Fragment {
             but if you turned it on after it was off while the app was running,
             it crashes. It  doesn't receive the intent from which it is supposed to get email.*/
 
-//            email  = bundle.getSerializable("email").toString();
-            email = "";
-
 //        Log.d("Test", String.format("Proxy object name: %s", itemlist.get(0)));
 
-            offeringAdapter = new OfferingAdapter(name, names, cuisines, object_ids, distances, email);
+            offeringAdapter = new OfferingAdapter(name, names, cuisines, object_ids, distances);
             recyclerView.setAdapter(offeringAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             FloatingActionButton fab_add_offering = (FloatingActionButton) view.findViewById(R.id.fab_add_offering);
@@ -78,8 +75,8 @@ public class OfferingFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent ui = new Intent(getActivity(), OfferingForm.class);
-                    ui.putExtra(MESSAGE_NAME, name);
-                    ui.putExtra(MESSAGE_EMAIL, email);
+//                    ui.putExtra(MESSAGE_NAME, name);
+//                    ui.putExtra(MESSAGE_EMAIL, email);
                     ui.putExtra(MESSAGE_OBJECTID, "LOL");
                     startActivity(ui);
 //                Toast.makeText(getActivity(), "ss", Toast.LENGTH_SHORT).show();

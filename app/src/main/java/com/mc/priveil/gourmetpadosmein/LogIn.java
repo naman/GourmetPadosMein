@@ -173,9 +173,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
             else
                 Log.i("Testing",personName);
 
-//            intent.putExtra(MESSAGE_NAME, personName);
-//            intent.putExtra(MESSAGE_EMAIL, email);
-//            intent.putExtra(MESSAGE_OBJECTID,"lol");
+
+            intent.putExtra("fromLogin","Y");
 
             startActivity(intent);
         }

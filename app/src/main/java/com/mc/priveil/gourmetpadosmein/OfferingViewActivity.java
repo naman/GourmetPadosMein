@@ -1,6 +1,8 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,7 +52,7 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String capacity;
     private String cuisines;
     private String parse_username;
-    private String name;
+//    private String name;
     private TextView food;
     private TextView cuisine_type;
     private TextView money;
@@ -83,15 +85,17 @@ public class OfferingViewActivity extends AppCompatActivity {
 
         else{
             View button_edit = findViewById(R.id.button_edit);
+            View button_apply = findViewById(R.id.button_apply);
 
             button_edit.setVisibility(View.GONE);
+            button_apply.setVisibility(View.GONE);
 
             ParseUser.enableAutomaticUser();
 
             Intent intent = getIntent();
             objectid = intent.getStringExtra("objectid");
             email  = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
-            name = null;
+//            name = null;
 
             ParseQuery query = new ParseQuery("Offering");
             query.whereEqualTo("objectId", objectid);
@@ -197,6 +201,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
 
                         View button_edit = findViewById(R.id.button_edit);
+                        View button_apply = findViewById(R.id.button_apply);
 
                         if (email.equals(parse_username)) {
                             //show edit button
@@ -213,7 +218,32 @@ public class OfferingViewActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
+                            //show apply button
+                            button_apply.setVisibility(View.VISIBLE);
+                            button_apply.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OfferingViewActivity.this);
+                                    alertDialogBuilder.setMessage("Are you sure want to apply?");
 
+                                    alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            Toast.makeText(OfferingViewActivity.this,"You clicked yes button",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
+                                    alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    });
+
+                                    AlertDialog alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
+                                }
+                            });
                         }
 
 

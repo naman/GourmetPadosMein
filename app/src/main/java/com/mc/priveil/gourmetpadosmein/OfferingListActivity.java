@@ -1,5 +1,6 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -46,6 +47,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private static Boolean fromLogin;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -133,8 +135,14 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
         else{
             Intent intent = getIntent();
-//            name = null;
             email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);;
+            try{
+                fromLogin = ("Y".equals(intent.getStringExtra("fromLogin")));
+            }catch(Exception e){
+                fromLogin = false;
+            }
+            Log.d("FromLogin",fromLogin.toString());
+
 
             try{
                 fromSkip = intent.getStringExtra("SKIPCLICK");
@@ -145,9 +153,16 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
             ParseQuery query = new ParseQuery("User");
             query.whereEqualTo("username", email);
+
+            final ProgressDialog progress = new ProgressDialog(this);
+            progress.setTitle("Fetching Your User Information");
+            progress.setMessage("please wait...");
+            progress.show();
+
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
+                    progress.dismiss();
                     if (e == null) {
                         if (!list.isEmpty()) {
                         } else {
@@ -160,34 +175,31 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                 @Override
                 public void done(Object o, Throwable throwable) {
+                    progress.dismiss();
 //                Log.i("Testing",throwable.getMessage().toString());
-                    Log.i("Testing1", o.toString());
+                    if (throwable == null) {
+                        progress.dismiss();
+                        Log.i("Testing1", o.toString());
 
-                    List<ParseObject> results = ((List<ParseObject>) o);
-
-
-                    if (!results.isEmpty()) {
-                        result = results.get(results.size() - 1);
-//                    EditText lati = (EditText) findViewById(R.id.editText15);
-//                    EditText lon = (EditText) findViewById(R.id.editText16);
-//                    lati.setText(((String) result.get("Latitude")));
-//                    lon.setText(((String) result.get("Longitude")));
-                        Log.i("Testing", "Came to lat and long");
-//                        String longitude = (String)result.get("Longitude");
+                        List<ParseObject> results = ((List<ParseObject>) o);
 
 
-                    } else {
-                        Log.i("Testing1", "");
-                        if (!"Y".equals(fromSkip)) {
-                            Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
-//                            intent.putExtra(MESSAGE_NAME, name);
-//                            intent.putExtra(MESSAGE_EMAIL, email);
-                            startActivity(intent);
+                        if (!results.isEmpty()) {
+                            result = results.get(results.size() - 1);
+                            Log.i("Testing", "Came to lat and long");
+
+
                         } else {
-                            fromSkip = "N";
+                            Log.i("Testing1", "");
+                            if (!"Y".equals(fromSkip) && fromLogin) {
+                                Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
+                                startActivity(intent);
+                            } else {
+                                fromSkip = "N";
+                            }
                         }
-                    }
 
+                    }
                 }
             });
 
@@ -210,9 +222,15 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
             query = new ParseQuery("Offering");
 //        query.whereEqualTo("name", "aaa");
+            final ProgressDialog progress2 = new ProgressDialog(this);
+            progress.setTitle("Fetching offerings around you");
+            progress.setMessage("please wait...");
+            progress.show();
+
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
+                    progress2.dismiss();
                     if (e == null) {
                         if (!list.isEmpty()) {
                             Log.i("Testing", list.get(0).toString());
@@ -226,6 +244,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                 @Override
                 public void done(Object o, Throwable throwable) {
+                    progress2.dismiss();
                     if (o != null) {
                         List<ParseObject> itemlist;
                         itemlist = (List<ParseObject>) o;
@@ -344,64 +363,74 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         Log.i("refreshTest","It came here!!");
         ParseQuery query = new ParseQuery("Offering");
 //        query.whereEqualTo("name", "aaa");
-        query.findInBackground(new FindCallback() {
-            @Override
-            public void done(List list, ParseException e) {
-                if (e == null) {
-                    if (!list.isEmpty()) {
-                        Log.i("Testing", list.get(0).toString());
+        if(isConnected() != true){
+            Toast.makeText(OfferingListActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+            final ProgressDialog progress = new ProgressDialog(this);
+            progress.setTitle("Refreshing Listing Information");
+            progress.setMessage("please wait...");
+            progress.show();
+
+            query.findInBackground(new FindCallback() {
+                @Override
+                public void done(List list, ParseException e) {
+                    progress.dismiss();
+                    if (e == null) {
+                        if (!list.isEmpty()) {
+                            Log.i("Testing", list.get(0).toString());
+                        } else {
+                            Log.i("Testing", "List returned by Parse is empty!");
+                        }
                     } else {
-                        Log.i("Testing", "List returned by Parse is empty!");
+                        Log.i("Error!!", "Error in querying parse!");
                     }
-                } else {
-                    Log.i("Error!!", "Error in querying parse!");
                 }
-            }
 
-            @Override
-            public void done(Object o, Throwable throwable) {
-                if (o != null) {
-                    List<ParseObject> itemlist;
-                    itemlist = (List<ParseObject>) o;
-                    Log.i("LIST", itemlist.get(0).get("name").toString());
+                @Override
+                public void done(Object o, Throwable throwable) {
+                    progress.dismiss();
+                    if (o != null && throwable == null) {
+                        List<ParseObject> itemlist;
+                        itemlist = (List<ParseObject>) o;
+                        Log.i("LIST", itemlist.get(0).get("name").toString());
 
-                    Bundle bundle = new Bundle();
-                    ArrayList<String> names = new ArrayList<String>();
-                    for (ParseObject p : itemlist) {
-                        names.add(p.get("name").toString());
-                    }
+                        Bundle bundle = new Bundle();
+                        ArrayList<String> names = new ArrayList<String>();
+                        for (ParseObject p : itemlist) {
+                            names.add(p.get("name").toString());
+                        }
 
-                    Log.d("List", String.valueOf(names));
+                        Log.d("List", String.valueOf(names));
 
-                    ArrayList<ArrayList<String>> cuisines = new ArrayList<ArrayList<String>>();
-                    for (ParseObject p : itemlist) {
-                        cuisines.add((ArrayList<String>) p.get("cuisine"));
-                    }
-                    Log.d("List", String.valueOf(cuisines));
+                        ArrayList<ArrayList<String>> cuisines = new ArrayList<ArrayList<String>>();
+                        for (ParseObject p : itemlist) {
+                            cuisines.add((ArrayList<String>) p.get("cuisine"));
+                        }
+                        Log.d("List", String.valueOf(cuisines));
 
-                    ArrayList<String> object_ids = new ArrayList<String>();
-                    for (ParseObject p : itemlist) {
-                        object_ids.add(p.getObjectId());
-                    }
+                        ArrayList<String> object_ids = new ArrayList<String>();
+                        for (ParseObject p : itemlist) {
+                            object_ids.add(p.getObjectId());
+                        }
 
 
+                        ArrayList<Double> distances = new ArrayList<>();
+                        for (ParseObject p : itemlist) {
+                            Double lat = Double.parseDouble((String) p.get("Latitude"));
+                            Double longi = Double.parseDouble((String) p.get("Longitude"));
+                            float[] dist = new float[1];
+                            Location.distanceBetween(currLatitude, currLongitude, lat, longi, dist);
+                            Double distance = (double) dist[0];
+                            distances.add(distance);
+                        }
+                        Log.d("List", String.valueOf(cuisines));
 
-                    ArrayList<Double> distances = new ArrayList<>();
-                    for (ParseObject p : itemlist) {
-                        Double lat = Double.parseDouble((String)p.get("Latitude"));
-                        Double longi = Double.parseDouble((String) p.get("Longitude"));
-                        float[] dist = new float[1];
-                        Location.distanceBetween(currLatitude, currLongitude, lat, longi, dist);
-                        Double distance = (double)dist[0];
-                        distances.add(distance);
-                    }
-                    Log.d("List", String.valueOf(cuisines));
-
-                    ArrayList<String> costs = new ArrayList<>();
-                    for (ParseObject p : itemlist) {
-                        costs.add(p.get("cost").toString());
-                    }
-
+                        ArrayList<String> costs = new ArrayList<>();
+                        for (ParseObject p : itemlist) {
+                            costs.add(p.get("cost").toString());
+                        }
 
 
 //                    ArrayList<ArrayList<String>> cuisines = new ArrayList<ArrayList<String>>();
@@ -412,41 +441,38 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 //
 //
 //
-                    int sizeOfList = distances.size();
-                    for(int iter1 = 0 ; iter1 < sizeOfList ; iter1++)
-                    {
-                        for(int iter2 = iter1+1 ; iter2 < sizeOfList ; iter2++)
-                        {
-                            if(distances.get(iter2) < distances.get(iter1))
-                            {
-                                double temp = distances.get(iter1);
-                                distances.set(iter1,distances.get(iter2));
-                                distances.set(iter2,temp);
+                        int sizeOfList = distances.size();
+                        for (int iter1 = 0; iter1 < sizeOfList; iter1++) {
+                            for (int iter2 = iter1 + 1; iter2 < sizeOfList; iter2++) {
+                                if (distances.get(iter2) < distances.get(iter1)) {
+                                    double temp = distances.get(iter1);
+                                    distances.set(iter1, distances.get(iter2));
+                                    distances.set(iter2, temp);
 
-                                String tempName = names.get(iter1);
-                                names.set(iter1,names.get(iter2));
-                                names.set(iter2,tempName);
+                                    String tempName = names.get(iter1);
+                                    names.set(iter1, names.get(iter2));
+                                    names.set(iter2, tempName);
 
-                                ArrayList<String> tempCuisine = cuisines.get(iter1);
-                                cuisines.set(iter1,cuisines.get(iter2));
-                                cuisines.set(iter2, tempCuisine);
+                                    ArrayList<String> tempCuisine = cuisines.get(iter1);
+                                    cuisines.set(iter1, cuisines.get(iter2));
+                                    cuisines.set(iter2, tempCuisine);
 
-                                String tempObjectId = object_ids.get(iter1);
-                                object_ids.set(iter1, object_ids.get(iter2));
-                                object_ids.set(iter2,tempObjectId);
+                                    String tempObjectId = object_ids.get(iter1);
+                                    object_ids.set(iter1, object_ids.get(iter2));
+                                    object_ids.set(iter2, tempObjectId);
 
-                                String tempCost = costs.get(iter1);
-                                costs.set(iter1,costs.get(iter2));
-                                costs.set(iter2,tempCost);
+                                    String tempCost = costs.get(iter1);
+                                    costs.set(iter1, costs.get(iter2));
+                                    costs.set(iter2, tempCost);
+                                }
                             }
                         }
-                    }
 
-                    bundle.putSerializable("names", names);
-                    bundle.putSerializable("cuisines", cuisines);
-                    bundle.putSerializable("distances", distances);
-                    bundle.putSerializable("object_ids", object_ids);
-                    bundle.putSerializable("costs", costs);
+                        bundle.putSerializable("names", names);
+                        bundle.putSerializable("cuisines", cuisines);
+                        bundle.putSerializable("distances", distances);
+                        bundle.putSerializable("object_ids", object_ids);
+                        bundle.putSerializable("costs", costs);
 
                     Log.i("test123","Before Buggy!!");
 //                    bundle.putSerializable(MESSAGE_NAME, name);
@@ -463,6 +489,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                     Log.i("Error!!", "NULL");
             }
         });
+
+    }
     }
 
     private void setUpToolbar() {

@@ -22,17 +22,19 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
     ArrayList<ArrayList<String>> cuisines;
     ArrayList<String> object_ids;
     ArrayList<Double> distances;
-    String email;
+    //String email;
     String name;
 
-    public OfferingAdapter(String name, ArrayList<String> names, ArrayList<ArrayList<String>> cuisines, ArrayList<String> object_ids, ArrayList<Double> distances, String email) {
+    public OfferingAdapter(String name, ArrayList<String> names, ArrayList<ArrayList<String>> cuisines, ArrayList<String> object_ids, ArrayList<Double> distances) {
         this.name = name;
         this.names = names;
         this.cuisines = cuisines;
         this.object_ids = object_ids;
         this.distances = distances;
-        this.email = email;
+        //this.email = email;
     }
+
+
 
     @Override
     public OfferingViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -85,7 +87,7 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
                     Context c = itemView.getContext();
                     Intent intent = new Intent(c, OfferingViewActivity.class);
                     intent.putExtra("objectid", objectid.getText().toString());
-                    intent.putExtra("email", email);
+                 //   intent.putExtra("email", email);
                     intent.putExtra(MESSAGE_NAME, name);
                     c.startActivity(intent);
 
