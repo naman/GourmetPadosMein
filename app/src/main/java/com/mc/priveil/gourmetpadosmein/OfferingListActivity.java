@@ -45,6 +45,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private static Boolean fromLogin;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -134,6 +135,13 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
             Intent intent = getIntent();
             name = intent.getStringExtra(MESSAGE_NAME);
             email = intent.getStringExtra(MESSAGE_EMAIL);
+            try{
+                fromLogin = ("Y".equals(intent.getStringExtra("fromLogin")));
+            }catch(Exception e){
+                fromLogin = false;
+            }
+            Log.d("FromLogin",fromLogin.toString());
+
 
             try{
                 fromSkip = intent.getStringExtra("SKIPCLICK");
@@ -160,33 +168,35 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                 @Override
                 public void done(Object o, Throwable throwable) {
 //                Log.i("Testing",throwable.getMessage().toString());
-                    Log.i("Testing1", o.toString());
+                    if (throwable == null) {
+                        Log.i("Testing1", o.toString());
 
-                    List<ParseObject> results = ((List<ParseObject>) o);
+                        List<ParseObject> results = ((List<ParseObject>) o);
 
 
-                    if (!results.isEmpty()) {
-                        result = results.get(results.size() - 1);
+                        if (!results.isEmpty()) {
+                            result = results.get(results.size() - 1);
 //                    EditText lati = (EditText) findViewById(R.id.editText15);
 //                    EditText lon = (EditText) findViewById(R.id.editText16);
 //                    lati.setText(((String) result.get("Latitude")));
 //                    lon.setText(((String) result.get("Longitude")));
-                        Log.i("Testing", "Came to lat and long");
+                            Log.i("Testing", "Came to lat and long");
 //                        String longitude = (String)result.get("Longitude");
 
 
-                    } else {
-                        Log.i("Testing1", "");
-                        if (!"Y".equals(fromSkip)) {
-                            Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
-                            intent.putExtra(MESSAGE_NAME, name);
-                            intent.putExtra(MESSAGE_EMAIL, email);
-                            startActivity(intent);
                         } else {
-                            fromSkip = "N";
+                            Log.i("Testing1", "");
+                            if (!"Y".equals(fromSkip) && fromLogin) {
+                                Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
+                                intent.putExtra(MESSAGE_NAME, name);
+                                intent.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(intent);
+                            } else {
+                                fromSkip = "N";
+                            }
                         }
-                    }
 
+                    }
                 }
             });
 
@@ -355,7 +365,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
             @Override
             public void done(Object o, Throwable throwable) {
-                if (o != null) {
+                if (o != null && throwable == null) {
                     List<ParseObject> itemlist;
                     itemlist = (List<ParseObject>) o;
                     Log.i("LIST", itemlist.get(0).get("name").toString());

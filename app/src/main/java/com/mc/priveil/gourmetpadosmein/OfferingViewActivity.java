@@ -89,7 +89,8 @@ public class OfferingViewActivity extends AppCompatActivity {
 
             Intent intent = getIntent();
             objectid = intent.getStringExtra("objectid");
-            email  = intent.getStringExtra("email");
+            //email  = intent.getStringExtra("email");
+            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
             name = intent.getStringExtra(MESSAGE_NAME);
 
             ParseQuery query = new ParseQuery("Offering");

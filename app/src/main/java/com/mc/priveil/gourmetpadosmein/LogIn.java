@@ -175,6 +175,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
             intent.putExtra(MESSAGE_NAME, personName);
             intent.putExtra(MESSAGE_EMAIL, email);
+            intent.putExtra("fromLogin","Y");
 //            intent.putExtra(MESSAGE_OBJECTID,"lol");
 
             startActivity(intent);

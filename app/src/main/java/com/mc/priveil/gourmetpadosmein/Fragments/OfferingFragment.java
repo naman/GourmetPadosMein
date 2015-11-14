@@ -64,12 +64,11 @@ public class OfferingFragment extends Fragment {
             This is because if your net was off, then simply a toast would've been thrown at you,
             but if you turned it on after it was off while the app was running,
             it crashes. It  doesn't receive the intent from which it is supposed to get email.*/
-
-            email  = bundle.getSerializable("email").toString();
+           // email = bundle.getSerializable("email").toString();
 
 //        Log.d("Test", String.format("Proxy object name: %s", itemlist.get(0)));
 
-            offeringAdapter = new OfferingAdapter(name, names, cuisines, object_ids, distances, email);
+            offeringAdapter = new OfferingAdapter(name, names, cuisines, object_ids, distances);
             recyclerView.setAdapter(offeringAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             FloatingActionButton fab_add_offering = (FloatingActionButton) view.findViewById(R.id.fab_add_offering);
