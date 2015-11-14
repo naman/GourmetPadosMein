@@ -30,7 +30,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class OfferingListActivity extends AppCompatActivity implements LocationListener {
 //    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
@@ -141,7 +143,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
             }catch(Exception e){
                 fromLogin = false;
             }
-            Log.d("FromLogin",fromLogin.toString());
+            Log.d("FromLogin", fromLogin.toString());
 
 
             try{
@@ -219,9 +221,14 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
             ParseUser.enableAutomaticUser();
 
             Log.i("Testing12", "Came here in Listing class 2????");
+            TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MINUTE, 330);
+            Log.i("date111",cal.getTime().toString());
 
             query = new ParseQuery("Offering");
-//        query.whereEqualTo("name", "aaa");
+            query.whereGreaterThan("endTime", cal.getTime());
             final ProgressDialog progress2 = new ProgressDialog(this);
             progress.setTitle("Fetching offerings around you");
             progress.setMessage("please wait...");
@@ -272,7 +279,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                         ArrayList<Double> distances = new ArrayList<>();
                         for (ParseObject p : itemlist) {
-                            ParseGeoPoint point = (ParseGeoPoint)result.get("Location");
+                            ParseGeoPoint point = (ParseGeoPoint) p.get("Location");
                             Double lat = Double.parseDouble((String.valueOf(point.getLatitude())));
                             Double longi = Double.parseDouble((String.valueOf(point.getLongitude())));
                             float[] dist = new float[1];
@@ -361,8 +368,10 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     public void myUpdateOperation()
     {
         Log.i("refreshTest","It came here!!");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, 330);
         ParseQuery query = new ParseQuery("Offering");
-//        query.whereEqualTo("name", "aaa");
+        query.whereGreaterThan("endTime", cal.getTime());
         if(isConnected() != true){
             Toast.makeText(OfferingListActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
         }
@@ -418,7 +427,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                         ArrayList<Double> distances = new ArrayList<>();
                         for (ParseObject p : itemlist) {
-                            ParseGeoPoint point = (ParseGeoPoint)result.get("Location");
+                            ParseGeoPoint point = (ParseGeoPoint) p.get("Location");
                             Double lat = Double.parseDouble((String.valueOf(point.getLatitude())));
                             Double longi = Double.parseDouble((String.valueOf(point.getLongitude())));
                             float[] dist = new float[1];
