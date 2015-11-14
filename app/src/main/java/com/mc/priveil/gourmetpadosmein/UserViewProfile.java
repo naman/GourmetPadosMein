@@ -26,6 +26,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -69,6 +71,14 @@ public class UserViewProfile extends AppCompatActivity {
 
 //        setUpToolbar();
 //        setUpNavDrawer();
+        ShowcaseView sv;
+        ViewTarget target = new ViewTarget(R.id.button6, this);
+        sv = new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setTarget(target)
+                .setContentTitle("Kuchh string")
+                .setContentText("hilao na")
+                .build();
                 /* Use application class to maintain global state. */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
