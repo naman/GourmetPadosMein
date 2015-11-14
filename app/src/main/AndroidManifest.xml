@@ -66,7 +66,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".SampleNavDrawerActivity" >
         </activity>
-        <activity android:name=".AcceptGuest" >
+        <activity android:name=".AcceptGuestActivity" >
         </activity>
     </application>
 

@@ -3,7 +3,7 @@ package com.mc.priveil.gourmetpadosmein;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class AcceptGuest extends AppCompatActivity {
+public class AcceptGuestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
