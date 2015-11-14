@@ -86,9 +86,11 @@ public class OfferingViewActivity extends AppCompatActivity {
         else{
             View button_edit = findViewById(R.id.button_edit);
             View button_apply = findViewById(R.id.button_apply);
+            View button_view_guests = findViewById(R.id.button_view_guests);
 
             button_edit.setVisibility(View.GONE);
             button_apply.setVisibility(View.GONE);
+            button_view_guests.setVisibility(View.GONE);
 
             ParseUser.enableAutomaticUser();
 
@@ -202,6 +204,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                         View button_edit = findViewById(R.id.button_edit);
                         View button_apply = findViewById(R.id.button_apply);
+                        View button_view_guests = findViewById(R.id.button_view_guests);
 
                         if (email.equals(parse_username)) {
                             //show edit button
@@ -211,6 +214,21 @@ public class OfferingViewActivity extends AppCompatActivity {
                                     // Start NewActivity.class
                                     Intent myIntent = new Intent(OfferingViewActivity.this,
                                             OfferingForm.class);
+                                    myIntent.putExtra(MESSAGE_OBJECTID, objectid);
+//                                myIntent.putExtra(MESSAGE_NAME, name);
+//                                    myIntent.putExtra(MESSAGE_EMAIL, email);
+                                    startActivity(myIntent);
+                                }
+                            });
+
+                            //show view_guests button
+                            button_view_guests.setVisibility(View.VISIBLE);
+                            button_view_guests.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // Start NewActivity.class
+                                    Intent myIntent = new Intent(OfferingViewActivity.this,
+                                            AcceptGuestActivity.class);
                                     myIntent.putExtra(MESSAGE_OBJECTID, objectid);
 //                                myIntent.putExtra(MESSAGE_NAME, name);
 //                                    myIntent.putExtra(MESSAGE_EMAIL, email);
@@ -230,6 +248,9 @@ public class OfferingViewActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
                                             Toast.makeText(OfferingViewActivity.this,"You clicked yes button",Toast.LENGTH_LONG).show();
+                                            ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
+                                            apply.add("bhukkads", email);
+                                            apply.saveInBackground();
                                         }
                                     });
 
