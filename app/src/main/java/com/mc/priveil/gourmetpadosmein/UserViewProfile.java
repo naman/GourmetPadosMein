@@ -1,12 +1,18 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +63,9 @@ public class UserViewProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_view_profile);
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("Title");
 
 //        setUpToolbar();
 //        setUpNavDrawer();
@@ -176,6 +184,8 @@ public class UserViewProfile extends AppCompatActivity {
                             fileObject
                                     .getDataInBackground(new GetDataCallback() {
 
+                                        @SuppressLint("NewApi")
+                                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                                         public void done(byte[] data,
                                                          ParseException e) {
                                             if (e == null) {
@@ -190,12 +200,14 @@ public class UserViewProfile extends AppCompatActivity {
 
                                                 // Get the ImageView from
                                                 // main.xml
-                                                ImageView image = (ImageView) findViewById(R.id.imageView5);
-                                                image.setBackgroundColor(0);
+                                                CollapsingToolbarLayout image = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+                                                Drawable d = new BitmapDrawable(getResources(), bitmap);
+                                                image.setBackground(d);
+//                                                image.setBackgroundColor(0);
 
                                                 // Set the Bitmap into the
                                                 // ImageView
-                                                image.setImageBitmap(bitmap);
+//                                                image.setImageBitmap(bitmap);
 
                                             } else {
                                                 Log.d("test",
