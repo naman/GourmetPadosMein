@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -346,6 +347,17 @@ public class UserViewProfile extends AppCompatActivity {
 //                                n.putExtra(MESSAGE_EMAIL, email);
         startActivity(n);
     }
+
+    public void sendEmail(View view)
+    {
+        TextView v = (TextView) view;
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", v.getText().toString(), null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
