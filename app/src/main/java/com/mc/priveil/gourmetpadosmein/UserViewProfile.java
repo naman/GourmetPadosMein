@@ -25,11 +25,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -74,15 +73,6 @@ public class UserViewProfile extends AppCompatActivity {
 
         setUpToolbar();
         setUpNavDrawer();
-        ShowcaseView sv;
-        ViewTarget target = new ViewTarget(R.id.button6, this);
-        sv = new ShowcaseView.Builder(this)
-                .withMaterialShowcase()
-                .setTarget(target)
-                .setContentTitle("Kuchh string")
-                .setContentText("hilao na")
-                .build();
-                /* Use application class to maintain global state. */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -99,8 +89,11 @@ public class UserViewProfile extends AppCompatActivity {
             Intent intent = getIntent();
             Log.i("test123", "Came here!!!");
             name = null;
-            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
-
+            try {
+                email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
+            } catch(Exception e){
+                LogIn.mGoogleApiClient.connect();
+            }
 
             String sidebar_tap = "F";
             try {
@@ -134,7 +127,17 @@ public class UserViewProfile extends AppCompatActivity {
 //                }
 //            });
 
+
             Log.i("test123", "Dekho Maggi aa gayi 222 !!");
+            try{
+                Intent currentIntent = getIntent();
+                String userBeingViewed = currentIntent.getStringExtra("viewingUser");
+                Toast.makeText(this, "You are trying to view "+userBeingViewed, Toast.LENGTH_LONG);
+            }catch(Exception e){
+                Log.d("shit", "oh no "+e.getMessage());
+            }
+            RatingBar rb = (RatingBar) findViewById(R.id.ratingBar2);
+            rb.setRating(3.75f);
             ParseQuery query = new ParseQuery("User");
             query.whereEqualTo("username", email);
             query.findInBackground(new FindCallback() {
@@ -350,7 +353,7 @@ public class UserViewProfile extends AppCompatActivity {
 
     public void sendEmail(View view)
     {
-        TextView v = (TextView) view;
+        TextView v = (TextView) findViewById(R.id.textView);
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", v.getText().toString(), null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
@@ -358,6 +361,25 @@ public class UserViewProfile extends AppCompatActivity {
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 
+    public void sendCall(View view)
+    {
+        TextView v = (TextView) findViewById(R.id.textView4);
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + v.getText()));
+        startActivity(intent);
+    }
+
+    public void sendEmergencyCall(View view)
+    {
+        TextView v = (TextView) findViewById(R.id.textView6);
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + v.getText()));
+        startActivity(intent);
+    }
+    public void viewAddressOnMap(View view) {
+        TextView v = (TextView) findViewById(R.id.textView3);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("google.navigation:q="+v.getText().toString()));
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

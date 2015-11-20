@@ -86,13 +86,15 @@
             <LinearLayout
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="70dp">
 
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
                     android:id="@+id/imageView4"
-                    android:background="@drawable/ic_email_black_24dp" />
+                    android:background="@drawable/ic_email_black_24dp"
+                    android:onClick="sendEmail" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -106,7 +108,8 @@
                     android:layout_height="50dp"
                     android:id="@+id/imageView7"
                     android:background="@drawable/ic_home_black_48dp"
-                    android:layout_marginTop="2dp" />
+                    android:layout_marginTop="2dp"
+                    android:onClick="viewAddressOnMap" />
 
                 <ImageView
                     android:layout_width="fill_parent"
@@ -115,7 +118,8 @@
                     android:baselineAlignBottom="true"
                     android:background="@drawable/ic_call_black_24dp"
                     android:clickable="true"
-                    android:layout_marginTop="2dp" />
+                    android:layout_marginTop="2dp"
+                    android:onClick="sendCall" />
 
                 <ImageView
                     android:layout_width="fill_parent"
@@ -125,7 +129,9 @@
                     android:background="@drawable/ic_contact_phone_black_24dp"
                     android:clickable="true"
                     android:adjustViewBounds="true"
-                    android:layout_marginTop="35dp" />
+                    android:layout_marginTop="35dp"
+                    android:nestedScrollingEnabled="true"
+                    android:onClick="sendEmergencyCall" />
             </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -136,7 +142,13 @@
         android:layout_marginTop="18dp">
 
 
-                <TextView
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar2"
+            android:isIndicator="true"/>
+
+        <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -146,7 +158,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center_vertical"
-                    android:onClick="sendEmail" />
+                    android:onClick="sendEmail"
+            android:layout_marginTop="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"

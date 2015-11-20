@@ -20,8 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 import com.google.android.gms.plus.Plus;
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.parse.FindCallback;
@@ -141,7 +139,12 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
         else{
             Intent intent = getIntent();
-            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);;
+            try {
+                email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
+            }catch(Exception e){
+                LogIn.mGoogleApiClient.connect();
+                email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
+            }
             try{
                 fromLogin = ("Y".equals(intent.getStringExtra("fromLogin")));
             }catch(Exception e){
@@ -193,7 +196,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         if (!results.isEmpty()) {
                             result = results.get(results.size() - 1);
                             Log.i("Testing", "Came to lat and long");
-
 
 
                         } else {
