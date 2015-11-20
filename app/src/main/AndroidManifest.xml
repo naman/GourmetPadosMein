@@ -114,6 +114,7 @@
         <activity
             android:name=".ReviewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         </activity>
     </application>
 
