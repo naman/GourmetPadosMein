@@ -107,8 +107,6 @@ public class UserViewProfile extends AppCompatActivity {
                 View skoop = findViewById(R.id.button3);
                 skoop.setVisibility(View.GONE);
             }
-            TextView emailView = (TextView) findViewById(R.id.textView);
-            emailView.setText(email);
 
             Log.i("test123", "Came here again???!!!");
 
@@ -126,20 +124,28 @@ public class UserViewProfile extends AppCompatActivity {
 //
 //                }
 //            });
-
+            String tolookup = email;
 
             Log.i("test123", "Dekho Maggi aa gayi 222 !!");
             try{
                 Intent currentIntent = getIntent();
                 String userBeingViewed = currentIntent.getStringExtra("viewingUser");
-                Toast.makeText(this, "You are trying to view "+userBeingViewed, Toast.LENGTH_LONG);
+                Log.d("who","he:"+userBeingViewed);
+                if (userBeingViewed != null) {
+                    tolookup = userBeingViewed;
+                }
             }catch(Exception e){
                 Log.d("shit", "oh no "+e.getMessage());
             }
-            RatingBar rb = (RatingBar) findViewById(R.id.ratingBar2);
-            rb.setRating(3.75f);
+            TextView emailView = (TextView) findViewById(R.id.textView);
+            emailView.setText(tolookup);
+            if(tolookup.equals(email)){
+                findViewById(R.id.button6).setVisibility(View.VISIBLE);
+            }
+//            RatingBar rb = (RatingBar) findViewById(R.id.ratingBar2);
+//            rb.setRating(3.75f);
             ParseQuery query = new ParseQuery("User");
-            query.whereEqualTo("username", email);
+            query.whereEqualTo("username", tolookup);
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
@@ -189,11 +195,15 @@ public class UserViewProfile extends AppCompatActivity {
                         emergencyName = (TextView) findViewById(R.id.textView5);
                         emergencyNumber = (TextView) findViewById(R.id.textView6);
                         Log.i("Testing2",((String) result.get("address")));
-                        Log.i("Testing2",((String) result.get("name")));
+                        Log.i("Testing2", ((String) result.get("name")));
                         address.setText(((String) result.get("address")));
                         mobile.setText((String)result.get("phoneNumber"));
                         emergencyName.setText(((String) result.get("emergencyContactName")));
                         emergencyNumber.setText(((String) result.get("emergencyContactNumber")));
+                        RatingBar rb = (RatingBar) findViewById(R.id.ratingBar2);
+                        rb.setRating(Float.parseFloat(result.get("rating").toString()));
+                        TextView rat = (TextView) findViewById(R.id.textView7);
+                        rat.setText(result.get("rating").toString());
                         try {
                             ParseFile fileObject = (ParseFile) result
                                     .get("image");
