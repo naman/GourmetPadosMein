@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -24,11 +25,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -73,15 +73,6 @@ public class UserViewProfile extends AppCompatActivity {
 
         setUpToolbar();
         setUpNavDrawer();
-        ShowcaseView sv;
-        ViewTarget target = new ViewTarget(R.id.button6, this);
-        sv = new ShowcaseView.Builder(this)
-                .withMaterialShowcase()
-                .setTarget(target)
-                .setContentTitle("Kuchh string")
-                .setContentText("hilao na")
-                .build();
-                /* Use application class to maintain global state. */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -98,8 +89,11 @@ public class UserViewProfile extends AppCompatActivity {
             Intent intent = getIntent();
             Log.i("test123", "Came here!!!");
             name = null;
-            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
-
+            try {
+                email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
+            } catch(Exception e){
+                LogIn.mGoogleApiClient.connect();
+            }
 
             String sidebar_tap = "F";
             try {
@@ -113,8 +107,6 @@ public class UserViewProfile extends AppCompatActivity {
                 View skoop = findViewById(R.id.button3);
                 skoop.setVisibility(View.GONE);
             }
-            TextView emailView = (TextView) findViewById(R.id.textView);
-            emailView.setText(email);
 
             Log.i("test123", "Came here again???!!!");
 
@@ -132,10 +124,28 @@ public class UserViewProfile extends AppCompatActivity {
 //
 //                }
 //            });
+            String tolookup = email;
 
             Log.i("test123", "Dekho Maggi aa gayi 222 !!");
+            try{
+                Intent currentIntent = getIntent();
+                String userBeingViewed = currentIntent.getStringExtra("viewingUser");
+                Log.d("who","he:"+userBeingViewed);
+                if (userBeingViewed != null) {
+                    tolookup = userBeingViewed;
+                }
+            }catch(Exception e){
+                Log.d("shit", "oh no "+e.getMessage());
+            }
+            TextView emailView = (TextView) findViewById(R.id.textView);
+            emailView.setText(tolookup);
+            if(tolookup.equals(email)){
+                findViewById(R.id.button6).setVisibility(View.VISIBLE);
+            }
+//            RatingBar rb = (RatingBar) findViewById(R.id.ratingBar2);
+//            rb.setRating(3.75f);
             ParseQuery query = new ParseQuery("User");
-            query.whereEqualTo("username", email);
+            query.whereEqualTo("username", tolookup);
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
@@ -185,11 +195,15 @@ public class UserViewProfile extends AppCompatActivity {
                         emergencyName = (TextView) findViewById(R.id.textView5);
                         emergencyNumber = (TextView) findViewById(R.id.textView6);
                         Log.i("Testing2",((String) result.get("address")));
-                        Log.i("Testing2",((String) result.get("name")));
+                        Log.i("Testing2", ((String) result.get("name")));
                         address.setText(((String) result.get("address")));
                         mobile.setText((String)result.get("phoneNumber"));
                         emergencyName.setText(((String) result.get("emergencyContactName")));
                         emergencyNumber.setText(((String) result.get("emergencyContactNumber")));
+                        RatingBar rb = (RatingBar) findViewById(R.id.ratingBar2);
+                        rb.setRating(Float.parseFloat(result.get("rating").toString()));
+                        TextView rat = (TextView) findViewById(R.id.textView7);
+                        rat.setText(result.get("rating").toString());
                         try {
                             ParseFile fileObject = (ParseFile) result
                                     .get("image");
@@ -345,6 +359,36 @@ public class UserViewProfile extends AppCompatActivity {
 //                                n.putExtra(MESSAGE_NAME, name);
 //                                n.putExtra(MESSAGE_EMAIL, email);
         startActivity(n);
+    }
+
+    public void sendEmail(View view)
+    {
+        TextView v = (TextView) findViewById(R.id.textView);
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", v.getText().toString(), null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+
+    public void sendCall(View view)
+    {
+        TextView v = (TextView) findViewById(R.id.textView4);
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + v.getText()));
+        startActivity(intent);
+    }
+
+    public void sendEmergencyCall(View view)
+    {
+        TextView v = (TextView) findViewById(R.id.textView6);
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + v.getText()));
+        startActivity(intent);
+    }
+    public void viewAddressOnMap(View view) {
+        TextView v = (TextView) findViewById(R.id.textView3);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("google.navigation:q="+v.getText().toString()));
+        startActivity(intent);
     }
 
     @Override

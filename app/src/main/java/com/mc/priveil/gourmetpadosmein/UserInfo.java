@@ -73,6 +73,7 @@ public class UserInfo extends AppCompatActivity {
 
         setUpToolbar();
         setUpNavDrawer();
+
                 /* Use application class to maintain global state. */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {

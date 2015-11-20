@@ -146,7 +146,8 @@
                     android:text="View Host"
                     android:id="@+id/button_view_host"
                     android:layout_alignTop="@+id/button_apply"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:onClick="viewHost" />
 
                 <!--<ImageView-->
                 <!--android:layout_width="wrap_content"-->

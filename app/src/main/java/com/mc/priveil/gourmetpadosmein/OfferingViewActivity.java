@@ -486,6 +486,15 @@ public class OfferingViewActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void viewHost(View view){
+        Intent myIntent = new Intent(OfferingViewActivity.this,
+                UserViewProfile.class);
+        myIntent.putExtra("viewingUser", parse_username);
+        startActivity(myIntent);
+
+    }
+
+
     public void takeMe(View view){
         String url = "http://maps.google.com/maps?f=d&daddr="+ latitude+","+longitude+"&dirflg=d&layer=t";
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
