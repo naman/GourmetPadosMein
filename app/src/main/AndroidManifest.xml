@@ -71,18 +71,17 @@
             android:name=".OfferingListActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
+
         <activity
             android:name=".LogIn"
             android:label="@string/title_activity_log_in"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -103,7 +102,7 @@
         <activity
             android:name=".MyOfferings"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".SampleNavDrawerActivity"></activity>
+
         <activity
             android:name=".UserViewProfile"
             android:label="@string/title_activity_user_view_profile"
@@ -115,14 +114,6 @@
         <activity
             android:name=".ReviewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-
         </activity>
     </application>
 
