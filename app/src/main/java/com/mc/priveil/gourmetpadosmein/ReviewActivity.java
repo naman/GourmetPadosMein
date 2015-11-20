@@ -149,6 +149,49 @@ public class ReviewActivity extends AppCompatActivity {
         progress.show();
         Log.i("test", "Failed Here 2!!");
 
+        ParseQuery query = new ParseQuery("User");
+        query.whereEqualTo("username", offererId);
+        query.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                if (e == null) {
+                    if (!list.isEmpty()) {
+                        Log.i("Testing", list.get(0).toString());
+                    } else {
+                        Log.i("Testing", "List returned by Parse is empty!");
+                    }
+                } else {
+                    Log.i("Error!!", "Error in querying parse!");
+                }
+            }
+
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+                Log.i("Testing1", o.toString());
+
+                List<ParseObject> results = ((List<ParseObject>) o);
+
+                if (!results.isEmpty()) {
+                    Log.i("test123", "Dekho Maggi aa gayi!!");
+                    result = results.get(results.size() - 1);
+                    float userRating = Float.parseFloat(result.get("rating").toString());
+                    int numRating = Integer.parseInt(result.get("numRatings").toString());
+                    float tempRatingSum = userRating * numRating;
+                    tempRatingSum += ratingUser;
+                    numRating += 1;
+                    float finalRating = tempRatingSum / numRating;
+                    result.put("rating", finalRating);
+                    result.put("numRatings", numRating);
+                    result.saveInBackground();
+                } else {
+                    Log.i("Testing1", "User Profile is not created");
+                }
+
+            }
+        });
+
+
         testObject.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
 
