@@ -143,7 +143,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                 email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
             }catch(Exception e){
                 LogIn.mGoogleApiClient.connect();
-                email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
             }
             try{
                 fromLogin = ("Y".equals(intent.getStringExtra("fromLogin")));
