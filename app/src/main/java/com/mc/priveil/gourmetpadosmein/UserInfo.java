@@ -35,6 +35,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -477,6 +478,10 @@ public class UserInfo extends AppCompatActivity {
                 Log.d("test123", "Failed to attach image");
             }
 
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("user", ParseUser.getCurrentUser());
+            installation.saveInBackground();
+
             final ProgressDialog progress = new ProgressDialog(this);
             progress.setTitle("Updating your User Profile");
             progress.setMessage("please wait...");
@@ -490,6 +495,8 @@ public class UserInfo extends AppCompatActivity {
                     }
                 }
             });
+
+
         }
     }
     void myObjectSavedSuccessfully(ParseObject po,EditText email,EditText name,ProgressDialog progress){
