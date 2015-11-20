@@ -52,7 +52,9 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String capacity;
     private String cuisines;
     private String parse_username;
-//    private String name;
+    private String applied;
+    private List<String> bhukkads;
+    //    private String name;
     private TextView food;
     private TextView cuisine_type;
     private TextView money;
@@ -85,12 +87,14 @@ public class OfferingViewActivity extends AppCompatActivity {
 
         else{
             View button_edit = findViewById(R.id.button_edit);
-            View button_apply = findViewById(R.id.button_apply);
+            final View button_apply = findViewById(R.id.button_apply);
             View button_view_guests = findViewById(R.id.button_view_guests);
+            final View button_cancel = findViewById(R.id.button_cancel);
 
             button_edit.setVisibility(View.GONE);
             button_apply.setVisibility(View.GONE);
             button_view_guests.setVisibility(View.GONE);
+            button_cancel.setVisibility(View.GONE);
 
             ParseUser.enableAutomaticUser();
 
@@ -130,6 +134,35 @@ public class OfferingViewActivity extends AppCompatActivity {
                             capacity = String.valueOf(p.get("capacity"));
                             cuisines = String.valueOf(p.get("cuisine"));
                             parse_username = String.valueOf(p.get("username"));
+                            applied = String.valueOf(p.get("bhukkads"));
+
+                            //get array of bhukkads
+                            List<String> bhukkads;
+                            if (p.getList("bhukkads")!=null) {
+                                bhukkads =  p.getList("bhukkads");
+                            }
+                            else
+                            {
+                                bhukkads =  null;
+                            }
+//                            if (bhukkads!=null) {
+//
+//                                if (bhukkads.contains(email)) {
+//                                    button_cancel.setVisibility(View.VISIBLE);
+//                                    bhukkads.remove(email);
+//                                    p.put("bhukkads", bhukkads);
+//                                    p.saveInBackground(new SaveCallback() {
+//                                        @Override
+//                                        public void done(ParseException arg0) {
+//                                            Toast.makeText(OfferingViewActivity.this, "HAHAHAH!!!!!!", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    });
+//
+//                                }else{
+//                                    button_apply.setVisibility(View.VISIBLE);
+//                                }
+//                            }
+
                             try {
                                 ParseGeoPoint point = (ParseGeoPoint)p.get("Location");
                                 latitude = String.valueOf(point.getLatitude());
@@ -202,8 +235,74 @@ public class OfferingViewActivity extends AppCompatActivity {
 
 
                         View button_edit = findViewById(R.id.button_edit);
-                        View button_apply = findViewById(R.id.button_apply);
+                        final View button_apply = findViewById(R.id.button_apply);
                         View button_view_guests = findViewById(R.id.button_view_guests);
+
+                        button_apply.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                //if already applied
+                                if(applied.contains(email)){
+                                    button_apply.setBackgroundColor(Color.rgb(131,208,201));
+                                    Toast.makeText(OfferingViewActivity.this, "You have already applied!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                else{
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OfferingViewActivity.this);
+                                    alertDialogBuilder.setMessage("Are you sure want to apply?");
+
+                                    alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            Toast.makeText(OfferingViewActivity.this, "You clicked yes button", Toast.LENGTH_LONG).show();
+                                            ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
+                                            apply.addUnique("bhukkads", email);
+                                            apply.saveInBackground();
+//                                        button_apply.setVisibility(View.GONE);
+//                                        button_cancel.setVisibility(View.VISIBLE);
+                                        }
+                                    });
+
+                                    alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    });
+
+                                    AlertDialog alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
+                                }
+                            }
+                        });
+
+
+//                        button_cancel.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                ParseObject updated_bhukkads = ParseObject.createWithoutData("Offering", objectid);
+//                                if (bhukkads!=null) {
+//
+//                                    if (bhukkads.contains(email)) {
+////                                        button_cancel.setVisibility(View.VISIBLE);
+//                                        bhukkads.remove(email);
+//                                        updated_bhukkads.put("bhukkads", bhukkads);
+//                                        updated_bhukkads.saveInBackground(new SaveCallback() {
+//                                            @Override
+//                                            public void done(ParseException arg0) {
+//                                                Toast.makeText(OfferingViewActivity.this, "Application Removed!", Toast.LENGTH_SHORT).show();
+//                                            }
+//                                        });
+//
+//                                    }else{
+//                                        button_apply.setVisibility(View.VISIBLE);
+//                                    }
+//                                }
+//                            }
+//                        });
+
+
 
                         if (email.equals(parse_username)) {
                             //show edit button
@@ -234,37 +333,9 @@ public class OfferingViewActivity extends AppCompatActivity {
                                     startActivity(myIntent);
                                 }
                             });
-                        } else {
-                            //show apply button
+                        } else
                             button_apply.setVisibility(View.VISIBLE);
-                            button_apply.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OfferingViewActivity.this);
-                                    alertDialogBuilder.setMessage("Are you sure want to apply?");
 
-                                    alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            Toast.makeText(OfferingViewActivity.this,"You clicked yes button",Toast.LENGTH_LONG).show();
-                                            ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
-                                            apply.add("bhukkads", email);
-                                            apply.saveInBackground();
-                                        }
-                                    });
-
-                                    alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    });
-
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    alertDialog.show();
-                                }
-                            });
-                        }
 
 
                     } else
