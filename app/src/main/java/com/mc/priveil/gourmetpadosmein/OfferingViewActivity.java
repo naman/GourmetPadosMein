@@ -173,7 +173,6 @@ public class OfferingViewActivity extends AppCompatActivity {
                             } catch (Exception e) {
                                 Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
                             }
-
                         }
 
                         food = (TextView) findViewById(R.id.foodname);
