@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:numStars="5"
-                    android:rating="2.0"
+                    android:rating="1.0"
                     android:stepSize="1.0" />
 
 
@@ -60,7 +60,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Submit" />
+                    android:hint="Submit"
+                    android:onClick="submitRating" />
 
             </LinearLayout>
 
