@@ -33,6 +33,14 @@
             app:expandedTitleMarginBottom="60dp"
             app:expandedTitleMarginEnd="64dp">
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"
+                android:clickable="true" />
+
             <ImageView
                 android:id="@+id/backdrop"
                 android:layout_width="match_parent"
@@ -41,45 +49,107 @@
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="7dp">
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/drawer" />
+
+    </android.support.v4.widget.DrawerLayout>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:paddingLeft="20dp">
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp">
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/imageView4"
+                    android:background="@drawable/ic_email_black_24dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:id="@+id/imageView6"
+                    android:background="@drawable/ic_account_circle_black_48dp"
+                    android:layout_marginTop="2dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:id="@+id/imageView7"
+                    android:background="@drawable/ic_home_black_48dp"
+                    android:layout_marginTop="2dp" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/imageView8"
+                    android:baselineAlignBottom="true"
+                    android:background="@drawable/ic_call_black_24dp"
+                    android:clickable="true"
+                    android:layout_marginTop="2dp" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/imageView10"
+                    android:baselineAlignBottom="true"
+                    android:background="@drawable/ic_contact_phone_black_24dp"
+                    android:clickable="true"
+                    android:adjustViewBounds="true"
+                    android:layout_marginTop="35dp" />
+            </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
 
-        >
+        android:paddingLeft="20dp"
+        android:layout_marginTop="18dp">
 
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Email"
                     android:id="@+id/textView"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_vertical" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Name"
                     android:id="@+id/textView2"
@@ -89,7 +159,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Address"
                     android:id="@+id/textView3"
@@ -99,7 +169,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Mobile Number"
                     android:id="@+id/textView4"
@@ -107,9 +177,20 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
 
-                <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Emergency Contact :"
+            android:id="@+id/textView9"
+            android:layout_below="@+id/textView4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold|italic" />
+
+        <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Emergency Name"
                     android:id="@+id/textView5"
@@ -117,9 +198,9 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
 
-                <TextView
+        <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Emergency Number"
                     android:id="@+id/textView6"
@@ -146,7 +227,9 @@
 
 
     </LinearLayout>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
 
 </android.support.design.widget.CoordinatorLayout>
     <!--</FrameLayout>-->

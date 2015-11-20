@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -68,9 +69,10 @@ public class UserViewProfile extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("Title");
+        collapsingToolbar.setCollapsedTitleTextColor(Color.BLACK);
 
-//        setUpToolbar();
-//        setUpNavDrawer();
+        setUpToolbar();
+        setUpNavDrawer();
         ShowcaseView sv;
         ViewTarget target = new ViewTarget(R.id.button6, this);
         sv = new ShowcaseView.Builder(this)
