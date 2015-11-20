@@ -29,7 +29,9 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -264,6 +266,37 @@ public class OfferingViewActivity extends AppCompatActivity {
                                             apply.saveInBackground();
 //                                        button_apply.setVisibility(View.GONE);
 //                                        button_cancel.setVisibility(View.VISIBLE);
+
+
+                                            // Find user who posted the offering
+                                            ParseQuery userQuery = ParseUser.getQuery();
+                                            userQuery.whereEqualTo("user", parse_username);
+
+//                                            Log.d("HHAHAH", parse_username);
+
+                                            // Find devices associated with these users
+                                            ParseQuery pushQuery = ParseInstallation.getQuery();
+                                            pushQuery.whereEqualTo("user", userQuery);
+
+
+//                                            Log.d("HHAHAH", String.valueOf(userQuery));
+
+
+                                            // Create time interval
+                                            long weekInterval = 60 * 60 * 24 * 7; // 1 week
+
+
+                                            // Send push notification to query
+                                            ParsePush push = new ParsePush();
+                                            push.setExpirationTimeInterval(weekInterval);
+                                            push.setQuery(pushQuery); // Set our Installation query
+                                            push.setMessage(email.split("@")[0] + " wants to eat your meal!");
+//                                            push.setMessage("Berr.");
+                                            push.sendInBackground();
+
+
+//                                            Log.d("HHAHAH", String.valueOf(push));
+
                                         }
                                     });
 
@@ -336,10 +369,10 @@ public class OfferingViewActivity extends AppCompatActivity {
                                     startActivity(myIntent);
                                 }
                             });
-                        } else
+                        } else {
                             button_apply.setVisibility(View.VISIBLE);
                             button_view_host.setVisibility(View.VISIBLE);
-
+                        }
 
 
                     } else
