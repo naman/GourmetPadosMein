@@ -454,6 +454,8 @@ public class UserInfo extends AppCompatActivity {
                 testObject = new ParseObject("User");
             }
             testObject.put("username", email.getText().toString());
+            testObject.put("rating",0);
+            testObject.put("numRatings",0);
             testObject.put("name", name.getText().toString());
             testObject.put("address", address.getText().toString());
 

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.plus.Plus;
 import com.parse.FindCallback;
@@ -50,6 +51,9 @@ public class AcceptGuestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_accept_guest);
 
         ParseUser.enableAutomaticUser();
+
+        TextView text = (TextView)findViewById(R.id.textView15);
+        text.setVisibility(View.INVISIBLE);
 
         setUpToolbar();
         setUpNavDrawer();
@@ -107,65 +111,75 @@ public class AcceptGuestActivity extends AppCompatActivity {
                         for (int iter = 0; iter < bhukkads.size(); iter++) {
                             guests.add(String.valueOf(bhukkads.get(iter)));
                         }
+                        if(bhukkads.size()==0)
+                        {
+                            String noGuest = "You have no guests for this offering!!";
+                            TextView text = (TextView)findViewById(R.id.textView15);
+                            text.setText(noGuest);
+                            text.setVisibility(View.VISIBLE);
+                        }
+                        else {
 
-                        ArrayAdapter adapter = new ArrayAdapter<String>(AcceptGuestActivity.this, activity_accept_guest_listview, guests);
+                            ArrayAdapter adapter = new ArrayAdapter<String>(AcceptGuestActivity.this, activity_accept_guest_listview, guests);
 
-                        listView = (ListView) findViewById(R.id.mobile_list);
-                        listView.setAdapter(adapter);
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            listView = (ListView) findViewById(R.id.mobile_list);
+                            listView.setAdapter(adapter);
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                                emailGuest = (String) listView.getItemAtPosition(position);
+                                    emailGuest = (String) listView.getItemAtPosition(position);
 //                                Toast.makeText(AcceptGuestActivity.this, temp, Toast.LENGTH_SHORT).show();
-
-
 
 
 //                                Toast.makeText(AcceptGuestActivity.this, "Item click check!", Toast.LENGTH_SHORT).show();
 
-                                //Dialog Box
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AcceptGuestActivity.this);
-                                alertDialogBuilder.setMessage("View User or Reject User?");
+                                    //Dialog Box
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AcceptGuestActivity.this);
+                                    alertDialogBuilder.setMessage("View User or Reject User?");
 
-                                alertDialogBuilder.setPositiveButton("View Profile", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface arg0, int arg1) {
+                                    alertDialogBuilder.setPositiveButton("View Profile", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
 //                                        Toast.makeText(AcceptGuestActivity.this, "You clicked profile!", Toast.LENGTH_SHORT).show();
 
-                                        Intent intent = new Intent(AcceptGuestActivity.this, UserViewProfile.class);
-                                        intent.putExtra("viewingUser", emailGuest);
-                                        startActivity(intent);
+                                            Intent intent = new Intent(AcceptGuestActivity.this, UserViewProfile.class);
+                                            intent.putExtra("viewingUser", emailGuest);
+                                            startActivity(intent);
 
-                                    }
-                                });
+                                        }
+                                    });
 
-                                alertDialogBuilder.setNegativeButton("Reject User",new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                                    alertDialogBuilder.setNegativeButton("Reject User", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
 
-                                        bhukkads.remove(bhukkads.indexOf(emailGuest));
-                                        result.put("bhukkads", bhukkads);
-                                        result.saveInBackground();
+                                            bhukkads.remove(bhukkads.indexOf(emailGuest));
+                                            result.put("bhukkads", bhukkads);
+                                            result.saveInBackground();
 
-                                        Intent intent = new Intent(AcceptGuestActivity.this, AcceptGuestActivity.class);
-                                        intent.putExtra(MESSAGE_OBJECTID, objectid);
-                                        startActivity(intent);
+                                            Intent intent = new Intent(AcceptGuestActivity.this, AcceptGuestActivity.class);
+                                            intent.putExtra(MESSAGE_OBJECTID, objectid);
+                                            startActivity(intent);
 
 //                                        Toast.makeText(AcceptGuestActivity.this, "You clicked reject!", Toast.LENGTH_SHORT).show();;
-                                    }
-                                });
+                                        }
+                                    });
 
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.show();
-
-                            }
-                        });
+                                    AlertDialog alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
+                                }
+                            });
+                        }
 
                     } catch (Exception e) {
                         Log.i("test", "Null Value encountered!");
                         numBhukkads = -1;
+                        String noGuest = "You have no guests for this offering!!";
+                        TextView text = (TextView)findViewById(R.id.textView15);
+                        text.setText(noGuest);
+                        text.setVisibility(View.VISIBLE);
                     }
 //                    Log.i("test11", String.valueOf(bhukkads.size()));
                 } else {
