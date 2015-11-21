@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -413,10 +414,10 @@ public class OfferingViewActivity extends AppCompatActivity {
 
     private void goo(){
         final Button button_apply = (Button) findViewById(R.id.button_apply);
-
-        button_apply.setBackgroundColor(Color.rgb(131, 208, 201));
+        button_apply.getBackground().setColorFilter(Color.rgb(131, 208, 201), PorterDuff.Mode.MULTIPLY);
+//        button_apply.setBackgroundColor(Color.rgb(131, 208, 201));
         button_apply.setText("~ GOING ~");
-        button_apply.setEnabled(false);
+//        button_apply.setEnabled(false);
     }
 
     private void setUpToolbar() {
