@@ -40,7 +40,7 @@
                     android:id="@+id/backdrop"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
-                    android:scaleType="fitXY"
+                    android:scaleType="fitCenter"
                     android:fitsSystemWindows="true" />
 
                 <Button
@@ -52,7 +52,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:onClick="editProfile"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_gravity="right"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp" />

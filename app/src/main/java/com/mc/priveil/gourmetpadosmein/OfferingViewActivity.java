@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,11 +95,15 @@ public class OfferingViewActivity extends AppCompatActivity {
             final View button_view_host = findViewById(R.id.button_view_host);
 //            final View button_cancel = findViewById(R.id.button_cancel);
 
-            button_edit.setVisibility(View.GONE);
-            button_apply.setVisibility(View.GONE);
-            button_view_guests.setVisibility(View.GONE);
-            button_view_host.setVisibility(View.GONE);
+//            button_edit.setVisibility(View.GONE);
+//            button_apply.setVisibility(View.GONE);
+//            button_view_guests.setVisibility(View.GONE);
+//            button_view_host.setVisibility(View.GONE);
 //            button_cancel.setVisibility(View.GONE);
+            final LinearLayout visitor = (LinearLayout) findViewById(R.id.visitor);
+            final LinearLayout owner = (LinearLayout) findViewById(R.id.owner);
+            visitor.setVisibility(View.GONE);
+            owner.setVisibility(View.GONE);
 
             ParseUser.enableAutomaticUser();
 
@@ -342,7 +347,8 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                         if (email.equals(parse_username)) {
                             //show edit button
-                            button_edit.setVisibility(View.VISIBLE);
+                            owner.setVisibility(View.VISIBLE);
+//                            button_edit.setVisibility(View.VISIBLE);
                             button_edit.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View arg0) {
                                     // Start NewActivity.class
@@ -356,7 +362,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                             });
 
                             //show view_guests button
-                            button_view_guests.setVisibility(View.VISIBLE);
+//                            button_view_guests.setVisibility(View.VISIBLE);
                             button_view_guests.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -370,8 +376,9 @@ public class OfferingViewActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            button_apply.setVisibility(View.VISIBLE);
-                            button_view_host.setVisibility(View.VISIBLE);
+                            visitor.setVisibility(View.VISIBLE);
+//                            button_apply.setVisibility(View.VISIBLE);
+//                            button_view_host.setVisibility(View.VISIBLE);
                         }
 
 
