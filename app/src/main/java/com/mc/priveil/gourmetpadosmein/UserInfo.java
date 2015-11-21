@@ -479,7 +479,7 @@ public class UserInfo extends AppCompatActivity {
             }
 
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-            installation.put("username", email.getText().toString());
+            installation.put("user", ParseUser.getCurrentUser());
             installation.saveInBackground();
 
             final ProgressDialog progress = new ProgressDialog(this);

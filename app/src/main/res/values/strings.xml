@@ -33,5 +33,6 @@
     <string name="title_activity_image_temp">ImageTempActivity</string>
     <string name="menu_refresh">Refresh</string>
     <string name="title_activity_user_view_profile">UserViewProfile</string>
+    <string name="title_activity_just_for_testing">justForTestingActivity</string>
 
 </resources>
