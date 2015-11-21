@@ -2,6 +2,7 @@ package com.mc.priveil.gourmetpadosmein;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -150,15 +151,21 @@ public class UserViewProfile extends AppCompatActivity {
 //            rb.setRating(3.75f);
             ParseQuery query = new ParseQuery("User");
             query.whereEqualTo("username", tolookup);
+
+            final ProgressDialog progress = new ProgressDialog(UserViewProfile.this);
+            progress.setTitle("Loading User Information");
+            progress.setMessage("please wait...");
+            progress.show();
+
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
+                    progress.dismiss();
                     if (e == null) {
                         if (!list.isEmpty()) {
-                            Log.i("Testing",list.get(0).toString());
-                        }
-                        else {
-                            Log.i("Testing","List returned by Parse is empty!");
+                            Log.i("Testing", list.get(0).toString());
+                        } else {
+                            Log.i("Testing", "List returned by Parse is empty!");
                         }
                     } else {
                         Log.i("Error!!", "Error in querying parse!");
@@ -166,100 +173,87 @@ public class UserViewProfile extends AppCompatActivity {
                 }
 
 
-
                 @Override
                 public void done(Object o, Throwable throwable) {
-//                Log.i("Testing",throwable.getMessage().toString());
-                    Log.i("Testing1",o.toString());
-
-                    List<ParseObject> results = ((List<ParseObject>)o);
-//                Log.i("Testing1",results.toString());
-//                for(ParseObject result: results)
-//                {
-//                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
-//
-//                }
-//                Log.i("Testing2",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
+                    progress.dismiss();
+                    if (throwable == null) {
+                        List<ParseObject> results = ((List<ParseObject>) o);
 
 
-                    if(!results.isEmpty()) {
-                        Log.i("test123","Dekho Maggi aa gayi!!");
-                        result = results.get(results.size()-1);
-                        if(name==null)
-                        {
-                            TextView perName = (TextView) findViewById(R.id.textView2);
-                            perName.setText(((String) result.get("name")));
-                        }
-                        else {
-                            TextView perName = (TextView) findViewById(R.id.textView2);
-                            perName.setText(name);
-                        }
-                        TextView address = (TextView) findViewById(R.id.textView3);
-                        TextView mobile = (TextView) findViewById(R.id.textView4);
-                        emergencyName = (TextView) findViewById(R.id.textView5);
-                        emergencyNumber = (TextView) findViewById(R.id.textView6);
-                        Log.i("Testing2",((String) result.get("address")));
-                        Log.i("Testing2", ((String) result.get("name")));
-                        address.setText(((String) result.get("address")));
-                        mobile.setText((String)result.get("phoneNumber"));
-                        emergencyName.setText(((String) result.get("emergencyContactName")));
-                        emergencyNumber.setText(((String) result.get("emergencyContactNumber")));
-                        RatingBar rb = (RatingBar) findViewById(R.id.ratingBar2);
-                        rb.setRating(Float.parseFloat(result.get("rating").toString()));
-                        TextView rat = (TextView) findViewById(R.id.textView7);
-                        rat.setText(result.get("rating").toString());
-                        try {
-                            ParseFile fileObject = (ParseFile) result
-                                    .get("image");
-                            fileObject
-                                    .getDataInBackground(new GetDataCallback() {
+                        if (!results.isEmpty()) {
+                            Log.i("test123", "Dekho Maggi aa gayi!!");
+                            result = results.get(results.size() - 1);
+                            if (name == null) {
+                                TextView perName = (TextView) findViewById(R.id.textView2);
+                                perName.setText(((String) result.get("name")));
+                            } else {
+                                TextView perName = (TextView) findViewById(R.id.textView2);
+                                perName.setText(name);
+                            }
+                            TextView address = (TextView) findViewById(R.id.textView3);
+                            TextView mobile = (TextView) findViewById(R.id.textView4);
+                            emergencyName = (TextView) findViewById(R.id.textView5);
+                            emergencyNumber = (TextView) findViewById(R.id.textView6);
+                            Log.i("Testing2", ((String) result.get("address")));
+                            Log.i("Testing2", ((String) result.get("name")));
+                            address.setText(((String) result.get("address")));
+                            mobile.setText((String) result.get("phoneNumber"));
+                            emergencyName.setText(((String) result.get("emergencyContactName")));
+                            emergencyNumber.setText(((String) result.get("emergencyContactNumber")));
+                            RatingBar rb = (RatingBar) findViewById(R.id.ratingBar2);
+                            rb.setRating(Float.parseFloat(result.get("rating").toString()));
+                            TextView rat = (TextView) findViewById(R.id.textView7);
+                            rat.setText(result.get("rating").toString());
+                            try {
+                                ParseFile fileObject = (ParseFile) result
+                                        .get("image");
+                                fileObject
+                                        .getDataInBackground(new GetDataCallback() {
 
-                                        @SuppressLint("NewApi")
-                                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                                        public void done(byte[] data,
-                                                         ParseException e) {
-                                            if (e == null) {
-                                                Log.d("test",
-                                                        "We've got data in data.");
-                                                // Decode the Byte[] into
-                                                // Bitmap
-                                                bitmap = BitmapFactory
-                                                        .decodeByteArray(
-                                                                data, 0,
-                                                                data.length);
+                                            @SuppressLint("NewApi")
+                                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                                            public void done(byte[] data,
+                                                             ParseException e) {
+                                                if (e == null) {
+                                                    Log.d("test",
+                                                            "We've got data in data.");
+                                                    // Decode the Byte[] into
+                                                    // Bitmap
+                                                    bitmap = BitmapFactory
+                                                            .decodeByteArray(
+                                                                    data, 0,
+                                                                    data.length);
 
-                                                // Get the ImageView from
-                                                // main.xml
-                                                ImageView image = (ImageView) findViewById(R.id.backdrop);
-                                                Drawable d = new BitmapDrawable(getResources(), bitmap);
-                                                image.setBackground(d);
-//                                                image.setBackgroundColor(0);
+                                                    // Get the ImageView from
+                                                    // main.xml
+                                                    ImageView image = (ImageView) findViewById(R.id.backdrop);
+                                                    Drawable d = new BitmapDrawable(getResources(), bitmap);
+                                                    image.setBackground(d);
+                                                    //                                                image.setBackgroundColor(0);
 
-                                                // Set the Bitmap into the
-                                                // ImageView
-//                                                image.setImageBitmap(bitmap);
+                                                    // Set the Bitmap into the
+                                                    // ImageView
+                                                    //                                                image.setImageBitmap(bitmap);
 
-                                            } else {
-                                                Log.d("test",
-                                                        "There was a problem downloading the data.");
+                                                } else {
+                                                    Log.d("test",
+                                                            "There was a problem downloading the data.");
+                                                }
                                             }
-                                        }
-                                    });
-                        }catch(Exception e){
-                            Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                                        });
+                            } catch (Exception e) {
+                                Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                            }
+
+                            flag = 1;
+                        } else {
+                            Log.i("Testing1", "User Profile is not created");
+                            Intent intent = new Intent(UserViewProfile.this, UserInfo.class);
+                            //                        intent.putExtra(MESSAGE_NAME, name);
+                            //                        intent.putExtra(MESSAGE_EMAIL, email);
+                            startActivity(intent);
                         }
-
-                        flag = 1;
                     }
-                    else {
-                        Log.i("Testing1","User Profile is not created");
-                        Intent intent = new Intent(UserViewProfile.this, UserInfo.class);
-//                        intent.putExtra(MESSAGE_NAME, name);
-//                        intent.putExtra(MESSAGE_EMAIL, email);
-                        startActivity(intent);
-                    }
-//                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
-
                 }
             });
 

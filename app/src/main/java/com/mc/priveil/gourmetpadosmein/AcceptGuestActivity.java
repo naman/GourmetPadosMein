@@ -1,5 +1,7 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,13 +11,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.android.gms.plus.Plus;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.mc.priveil.gourmetpadosmein.R.layout.activity_accept_guest_listview;
 
 public class AcceptGuestActivity extends AppCompatActivity {
 
@@ -26,7 +37,11 @@ public class AcceptGuestActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     ArrayList<String> guests;
     private String objectid;
-
+    public ParseObject result = null;
+    ArrayList<String> bhukkads = new ArrayList<String>();
+    int numBhukkads = 0;
+    ListView listView;
+    String emailGuest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,21 +63,120 @@ public class AcceptGuestActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         objectid = intent.getStringExtra(MESSAGE_OBJECTID);
-        Log.d("objectid", objectid);
+//        objectid = "LHYkhTJ3oH";
 
-        guests.add("Item 1");
-        guests.add("Item 2");
-        guests.add("Item 3");
-        guests.add("Item 4");
-        guests.add("Item 5");
-        guests.add("Item 6");
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_accept_guest_listview, guests);
 
-        ListView listView = (ListView) findViewById(R.id.mobile_list);
-        listView.setAdapter(adapter);
+
+        ParseQuery query = new ParseQuery("Offering");
+        query.whereEqualTo("objectId", objectid);
+        query.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                if (e == null) {
+                    if (!list.isEmpty()) {
+                        Log.i("Testing", list.get(0).toString());
+                    } else {
+                        Log.i("Testing", "List returned by Parse is empty!");
+                    }
+                } else {
+                    Log.i("Error!!", "Error in querying parse!");
+                }
+            }
+
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+                Log.i("Testing1", o.toString());
+
+                List<ParseObject> results = ((List<ParseObject>) o);
+
+
+                if (!results.isEmpty()) {
+                    Log.i("test123", "Dekho Maggi aa gayi kya?!!");
+                    result = results.get(results.size() - 1);
+                    try {
+                        bhukkads = (ArrayList<String>) result.get("bhukkads");
+                        Log.d("objectid", objectid);
+                        Log.i("test", "size of bhukkads " + String.valueOf(bhukkads.size()));
+
+                        for (int iter = 0; iter < bhukkads.size(); iter++) {
+                            guests.add(String.valueOf(bhukkads.get(iter)));
+                        }
+
+                        ArrayAdapter adapter = new ArrayAdapter<String>(AcceptGuestActivity.this, activity_accept_guest_listview, guests);
+
+                        listView = (ListView) findViewById(R.id.mobile_list);
+                        listView.setAdapter(adapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                emailGuest = (String) listView.getItemAtPosition(position);
+//                                Toast.makeText(AcceptGuestActivity.this, temp, Toast.LENGTH_SHORT).show();
+
+
+
+
+//                                Toast.makeText(AcceptGuestActivity.this, "Item click check!", Toast.LENGTH_SHORT).show();
+
+                                //Dialog Box
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AcceptGuestActivity.this);
+                                alertDialogBuilder.setMessage("View User or Reject User?");
+
+                                alertDialogBuilder.setPositiveButton("View Profile", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        Toast.makeText(AcceptGuestActivity.this, "You clicked profile!", Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(AcceptGuestActivity.this, UserViewProfile.class);
+                                        intent.putExtra("viewingUser", emailGuest);
+                                        startActivity(intent);
+
+                                    }
+                                });
+
+                                alertDialogBuilder.setNegativeButton("Reject User",new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        bhukkads.remove(bhukkads.indexOf(emailGuest));
+                                        result.put("bhukkads", bhukkads);
+                                        result.saveInBackground();
+
+                                        Intent intent = new Intent(AcceptGuestActivity.this, AcceptGuestActivity.class);
+                                        intent.putExtra(MESSAGE_OBJECTID, objectid);
+                                        startActivity(intent);
+
+//                                        Toast.makeText(AcceptGuestActivity.this, "You clicked reject!", Toast.LENGTH_SHORT).show();;
+                                    }
+                                });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        Log.i("test", "Null Value encountered!");
+                        numBhukkads = -1;
+                    }
+//                    Log.i("test11", String.valueOf(bhukkads.size()));
+                } else {
+                    Log.i("Testing1", "User Profile is not created");
+                }
+//                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
+
+            }
+        });
+
+
+
 
     }
+
 
     private void setUpToolbar() {
         Log.i("Testing12", "Came in setUpToolBar");

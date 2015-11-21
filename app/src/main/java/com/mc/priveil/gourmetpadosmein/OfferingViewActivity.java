@@ -1,6 +1,7 @@
 package com.mc.priveil.gourmetpadosmein;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,11 +37,13 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SendCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OfferingViewActivity extends AppCompatActivity {
@@ -58,6 +62,7 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String foodname;
     private String capacity;
     private String cuisines;
+    private String start;
     private String parse_username;
     private String applied;
     private List<String> bhukkads;
@@ -67,9 +72,10 @@ public class OfferingViewActivity extends AppCompatActivity {
     private TextView money;
     private TextView desc;
     private TextView cap;
+    private TextView when;
     private String latitude;
     private String longitude;
-
+    private Integer currentLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,16 +100,9 @@ public class OfferingViewActivity extends AppCompatActivity {
 
         else{
             View button_edit = findViewById(R.id.button_edit);
-            final View button_apply = findViewById(R.id.button_apply);
+            final Button button_apply = (Button) findViewById(R.id.button_apply);
             View button_view_guests = findViewById(R.id.button_view_guests);
             final View button_view_host = findViewById(R.id.button_view_host);
-//            final View button_cancel = findViewById(R.id.button_cancel);
-
-//            button_edit.setVisibility(View.GONE);
-//            button_apply.setVisibility(View.GONE);
-//            button_view_guests.setVisibility(View.GONE);
-//            button_view_host.setVisibility(View.GONE);
-//            button_cancel.setVisibility(View.GONE);
             final LinearLayout visitor = (LinearLayout) findViewById(R.id.visitor);
             final LinearLayout owner = (LinearLayout) findViewById(R.id.owner);
             visitor.setVisibility(View.GONE);
@@ -147,7 +146,17 @@ public class OfferingViewActivity extends AppCompatActivity {
                             capacity = String.valueOf(p.get("capacity"));
                             cuisines = String.valueOf(p.get("cuisine"));
                             parse_username = String.valueOf(p.get("username"));
-                            applied = String.valueOf(p.get("bhukkads"));
+                            start = String.valueOf(p.get("startTime"));
+                            try {
+                                applied = String.valueOf(p.get("bhukkads"));
+                                currentLeft = Integer.parseInt(capacity);
+                                ArrayList<String> bhukkads = (ArrayList<String>) p.get("bhukkads");
+                                currentLeft -=  bhukkads.size();
+                            }catch(Exception e){
+                                Log.e("Testing123", "Failed" + e.getMessage());
+                            }
+
+                            go();
 
                             //get array of bhukkads
                             List<String> bhukkads;
@@ -237,42 +246,75 @@ public class OfferingViewActivity extends AppCompatActivity {
                         money.setText("Cost: ₹" + cost);
 
                         desc = (TextView) findViewById(R.id.description);
-                        desc.setTextSize(15);
+                        desc.setTextSize(20);
                         desc.setTextColor(Color.DKGRAY);
                         desc.setText(description);
 
                         cap = (TextView) findViewById(R.id.capacity);
-                        cap.setTextSize(15);
+                        cap.setTextSize(20);
                         cap.setTextColor(Color.DKGRAY);
-                        cap.setText("Capacity: " + capacity);
+                        try {
+                            cap.setText("Capacity: " + currentLeft.toString());
+                        }catch(Exception e){
+                            Log.e("Testing123","Failed in getting capacity");
+                            cap.setText("Capacity: " + capacity);
+                        }
 
+
+                        when = (TextView) findViewById(R.id.when);
+                        when.setTextSize(18);
+                        when.setTextColor(Color.DKGRAY);
+                        when.setText("Starts: " + start);
 
                         View button_edit = findViewById(R.id.button_edit);
                         final View button_apply = findViewById(R.id.button_apply);
                         View button_view_guests = findViewById(R.id.button_view_guests);
                         final View button_view_host = findViewById(R.id.button_view_host);
 
-                        button_apply.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                        if(currentLeft <=0){
+                            final Button button_apply_ = (Button) findViewById(R.id.button_apply);
+                            button_apply_.setEnabled(false);
+                            if(applied.contains(email)){
+                                goo();
+                            }else {
+                                button_apply_.setText("Out of Capacity");
+                                button_apply_.setTextColor(Color.WHITE);
+                                button_apply_.setBackgroundColor(Color.RED);
+                            }
+                        }else {
+                            button_apply.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
 
-                                //if already applied
-                                if(applied.contains(email)){
-                                    button_apply.setBackgroundColor(Color.rgb(131,208,201));
-                                    Toast.makeText(OfferingViewActivity.this, "You have already applied!", Toast.LENGTH_SHORT).show();
-                                }
+                                    //if already applied
+                                    if (applied.contains(email)) {
+                                        go();
+                                        Toast.makeText(OfferingViewActivity.this, "You have already applied!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OfferingViewActivity.this);
+                                        alertDialogBuilder.setMessage("Are you sure want to apply?");
 
-                                else{
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OfferingViewActivity.this);
-                                    alertDialogBuilder.setMessage("Are you sure want to apply?");
+                                        alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface arg0, int arg1) {
+                                                ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
+                                                apply.addUnique("bhukkads", email);
 
-                                    alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            Toast.makeText(OfferingViewActivity.this, "You clicked yes button", Toast.LENGTH_LONG).show();
-                                            ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
-                                            apply.addUnique("bhukkads", email);
-                                            apply.saveInBackground();
+                                                final ProgressDialog progress = new ProgressDialog(OfferingViewActivity.this);
+                                                progress.setTitle("Sending Request");
+                                                progress.setMessage("please wait...");
+                                                progress.show();
+
+                                                apply.saveInBackground(new SaveCallback() {
+                                                    public void done(ParseException e) {
+                                                        progress.dismiss();
+                                                        if (e == null) {
+                                                            goo();
+                                                        } else {
+                                                            Log.d("Testing123", "Failed, Internet issue");
+                                                        }
+                                                    }
+                                                });
 //                                        button_apply.setVisibility(View.GONE);
 //                                        button_cancel.setVisibility(View.VISIBLE);
 
@@ -304,21 +346,27 @@ public class OfferingViewActivity extends AppCompatActivity {
                                                 }
                                             });
 
-                                        }
-                                    });
+                                                Intent intent = new Intent(OfferingViewActivity.this, OfferingViewActivity.class);
+                                                Log.i("test","Printing OBJ ID -: " + objectid);
+                                                intent.putExtra("objectid", objectid);
+                                                startActivity(intent);
 
-                                    alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    });
+                                            }
+                                        });
 
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    alertDialog.show();
+                                        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        });
+
+                                        AlertDialog alertDialog = alertDialogBuilder.create();
+                                        alertDialog.show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
 
 
 //                        button_cancel.setOnClickListener(new View.OnClickListener() {
@@ -394,6 +442,21 @@ public class OfferingViewActivity extends AppCompatActivity {
 
     }
 
+    private void go(){
+        final Button button_apply = (Button) findViewById(R.id.button_apply);
+        if(applied.contains(email)){
+            goo();
+        }
+
+    }
+
+    private void goo(){
+        final Button button_apply = (Button) findViewById(R.id.button_apply);
+//        button_apply.getBackground().setColorFilter(Color.rgb(131, 208, 201), PorterDuff.Mode.MULTIPLY);
+        button_apply.setBackgroundColor(Color.rgb(131, 208, 201));
+        button_apply.setText("~ GOING ~");
+//        button_apply.setEnabled(false);
+    }
 
     private void setUpToolbar() {
         Log.i("Testing12", "Came in setUpToolBar");
@@ -515,5 +578,14 @@ public class OfferingViewActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public void share(View view){
+        String message = "Hey! Check out this delicious " + foodname + "! #gourmetpadosmein";
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, message);
+
+        startActivity(Intent.createChooser(share, "Choose where you want to share!"));
     }
 }
