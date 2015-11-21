@@ -275,13 +275,13 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                                             // Find user who posted the offering
                                             ParseQuery userQuery = ParseUser.getQuery();
-                                            userQuery.whereEqualTo("user", parse_username);
+                                            userQuery.whereEqualTo("username", parse_username);
 
 //                                            Log.d("HHAHAH", parse_username);
 
                                             // Find devices associated with these users
                                             ParseQuery pushQuery = ParseInstallation.getQuery();
-                                            pushQuery.whereEqualTo("user", userQuery);
+                                            pushQuery.whereEqualTo("username", userQuery);
 
 
 //                                            Log.d("HHAHAH", String.valueOf(userQuery));
