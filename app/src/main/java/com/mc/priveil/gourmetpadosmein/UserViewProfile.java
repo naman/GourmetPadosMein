@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -14,7 +13,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,11 +64,16 @@ public class UserViewProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_view_profile);
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Title");
-        collapsingToolbar.setCollapsedTitleTextColor(Color.BLACK);
+        setContentView(R.layout.activity_user_view_profile_noparallax);
+
+        setUpToolbar();
+        setUpNavDrawer();
+
+
+//        CollapsingToolbarLayout collapsingToolbar =
+//                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+//        collapsingToolbar.setTitle("Title");
+//        collapsingToolbar.setCollapsedTitleTextColor(Color.BLACK);
 
         setUpToolbar();
         setUpNavDrawer();
@@ -226,7 +230,7 @@ public class UserViewProfile extends AppCompatActivity {
 
                                                 // Get the ImageView from
                                                 // main.xml
-                                                CollapsingToolbarLayout image = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+                                                ImageView image = (ImageView) findViewById(R.id.backdrop);
                                                 Drawable d = new BitmapDrawable(getResources(), bitmap);
                                                 image.setBackground(d);
 //                                                image.setBackgroundColor(0);
