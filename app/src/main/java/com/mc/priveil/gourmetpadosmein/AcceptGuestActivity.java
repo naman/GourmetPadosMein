@@ -1,5 +1,7 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -36,6 +40,8 @@ public class AcceptGuestActivity extends AppCompatActivity {
     public ParseObject result = null;
     ArrayList<String> bhukkads = new ArrayList<String>();
     int numBhukkads = 0;
+    ListView listView;
+    String emailGuest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,8 +106,59 @@ public class AcceptGuestActivity extends AppCompatActivity {
 
                         ArrayAdapter adapter = new ArrayAdapter<String>(AcceptGuestActivity.this, activity_accept_guest_listview, guests);
 
-                        ListView listView = (ListView) findViewById(R.id.mobile_list);
+                        listView = (ListView) findViewById(R.id.mobile_list);
                         listView.setAdapter(adapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                emailGuest = (String) listView.getItemAtPosition(position);
+//                                Toast.makeText(AcceptGuestActivity.this, temp, Toast.LENGTH_SHORT).show();
+
+
+
+
+//                                Toast.makeText(AcceptGuestActivity.this, "Item click check!", Toast.LENGTH_SHORT).show();
+
+                                //Dialog Box
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AcceptGuestActivity.this);
+                                alertDialogBuilder.setMessage("View User or Reject User?");
+
+                                alertDialogBuilder.setPositiveButton("View Profile", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+//                                        Toast.makeText(AcceptGuestActivity.this, "You clicked profile!", Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(AcceptGuestActivity.this, UserViewProfile.class);
+                                        intent.putExtra("viewingUser", emailGuest);
+                                        startActivity(intent);
+
+                                    }
+                                });
+
+                                alertDialogBuilder.setNegativeButton("Reject User",new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        bhukkads.remove(bhukkads.indexOf(emailGuest));
+                                        result.put("bhukkads", bhukkads);
+                                        result.saveInBackground();
+
+                                        Intent intent = new Intent(AcceptGuestActivity.this, AcceptGuestActivity.class);
+                                        intent.putExtra(MESSAGE_OBJECTID, objectid);
+                                        startActivity(intent);
+
+//                                        Toast.makeText(AcceptGuestActivity.this, "You clicked reject!", Toast.LENGTH_SHORT).show();;
+                                    }
+                                });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+
+                            }
+                        });
+
                     } catch (Exception e) {
                         Log.i("test", "Null Value encountered!");
                         numBhukkads = -1;
@@ -119,6 +176,7 @@ public class AcceptGuestActivity extends AppCompatActivity {
 
 
     }
+
 
     private void setUpToolbar() {
         Log.i("Testing12", "Came in setUpToolBar");
