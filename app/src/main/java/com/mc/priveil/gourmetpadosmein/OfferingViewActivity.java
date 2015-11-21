@@ -1,6 +1,7 @@
 package com.mc.priveil.gourmetpadosmein;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -90,16 +93,9 @@ public class OfferingViewActivity extends AppCompatActivity {
 
         else{
             View button_edit = findViewById(R.id.button_edit);
-            final View button_apply = findViewById(R.id.button_apply);
+            final Button button_apply = (Button) findViewById(R.id.button_apply);
             View button_view_guests = findViewById(R.id.button_view_guests);
             final View button_view_host = findViewById(R.id.button_view_host);
-//            final View button_cancel = findViewById(R.id.button_cancel);
-
-//            button_edit.setVisibility(View.GONE);
-//            button_apply.setVisibility(View.GONE);
-//            button_view_guests.setVisibility(View.GONE);
-//            button_view_host.setVisibility(View.GONE);
-//            button_cancel.setVisibility(View.GONE);
             final LinearLayout visitor = (LinearLayout) findViewById(R.id.visitor);
             final LinearLayout owner = (LinearLayout) findViewById(R.id.owner);
             visitor.setVisibility(View.GONE);
@@ -144,6 +140,8 @@ public class OfferingViewActivity extends AppCompatActivity {
                             cuisines = String.valueOf(p.get("cuisine"));
                             parse_username = String.valueOf(p.get("username"));
                             applied = String.valueOf(p.get("bhukkads"));
+
+                            go();
 
                             //get array of bhukkads
                             List<String> bhukkads;
@@ -254,7 +252,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                                 //if already applied
                                 if(applied.contains(email)){
-                                    button_apply.setBackgroundColor(Color.rgb(131,208,201));
+                                    go();
                                     Toast.makeText(OfferingViewActivity.this, "You have already applied!", Toast.LENGTH_SHORT).show();
                                 }
 
@@ -265,10 +263,24 @@ public class OfferingViewActivity extends AppCompatActivity {
                                     alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
-                                            Toast.makeText(OfferingViewActivity.this, "You clicked yes button", Toast.LENGTH_LONG).show();
                                             ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
                                             apply.addUnique("bhukkads", email);
-                                            apply.saveInBackground();
+
+                                            final ProgressDialog progress = new ProgressDialog(OfferingViewActivity.this);
+                                            progress.setTitle("Sending Request");
+                                            progress.setMessage("please wait...");
+                                            progress.show();
+
+                                            apply.saveInBackground(new SaveCallback() {
+                                                public void done(ParseException e) {
+                                                    if (e == null) {
+                                                        progress.dismiss();
+                                                        goo();
+                                                    } else {
+                                                        Log.d("Testing123","Failed, Internet issue");
+                                                    }
+                                                }
+                                            });
 //                                        button_apply.setVisibility(View.GONE);
 //                                        button_cancel.setVisibility(View.VISIBLE);
 
@@ -392,6 +404,21 @@ public class OfferingViewActivity extends AppCompatActivity {
 
     }
 
+    private void go(){
+        final Button button_apply = (Button) findViewById(R.id.button_apply);
+        if(applied.contains(email)){
+            goo();
+        }
+
+    }
+
+    private void goo(){
+        final Button button_apply = (Button) findViewById(R.id.button_apply);
+
+        button_apply.setBackgroundColor(Color.rgb(131, 208, 201));
+        button_apply.setText("~ GOING ~");
+        button_apply.setEnabled(false);
+    }
 
     private void setUpToolbar() {
         Log.i("Testing12", "Came in setUpToolBar");
