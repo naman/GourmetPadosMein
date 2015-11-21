@@ -480,9 +480,7 @@ public class UserInfo extends AppCompatActivity {
                 Log.d("test123", "Failed to attach image");
             }
 
-            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-            installation.put("user", ParseUser.getCurrentUser());
-            installation.saveInBackground();
+
 
             final ProgressDialog progress = new ProgressDialog(this);
             progress.setTitle("Updating your User Profile");
@@ -492,6 +490,10 @@ public class UserInfo extends AppCompatActivity {
                 public void done(ParseException e) {
                     if (e == null) {
                         myObjectSavedSuccessfully(testObject, email, name, progress);
+                        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                        installation.put("username", email.getText().toString());
+                        installation.saveInBackground();
+
                     } else {
                         myObjectSaveDidNotSucceed(progress);
                     }
