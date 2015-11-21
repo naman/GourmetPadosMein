@@ -37,7 +37,7 @@
         android:theme="@style/AppTheme" >
         <service android:name="com.parse.PushService" />
 
-        <receiver
+<!--        <receiver
             android:name="com.parse.ParsePushBroadcastReceiver"
             android:exported="false" >
             <intent-filter>
@@ -45,7 +45,7 @@
                 <action android:name="com.parse.push.intent.DELETE" />
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <receiver
             android:name="com.mc.priveil.gourmetpadosmein.MyReceiver"
@@ -113,11 +113,15 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".AcceptGuestActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".ReviewActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:launchMode="singleTask"
+            />
+
         <activity
             android:name=".justForTestingActivity"
             android:label="@string/title_activity_just_for_testing" >

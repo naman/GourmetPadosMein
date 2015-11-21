@@ -21,6 +21,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.List;
@@ -37,14 +38,24 @@ public class ReviewActivity extends AppCompatActivity {
     public ParseObject result = null;
     String offererId;
 
+    public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Notification", "Switching to  a new activity!");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
 
 
-        String objId = "M1VnxQGNLS";
+        ParseUser.enableAutomaticUser();
+
+
+        String objId = getIntent().getExtras().getString(MESSAGE_OBJECTID);
+
 
         ParseQuery query = new ParseQuery("Offering");
         query.whereEqualTo("objectId", objId);

@@ -44,8 +44,12 @@ public class AcceptGuestActivity extends AppCompatActivity {
     String emailGuest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.d("Notification", "in accept guest!");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accept_guest);
+
+        ParseUser.enableAutomaticUser();
 
         setUpToolbar();
         setUpNavDrawer();

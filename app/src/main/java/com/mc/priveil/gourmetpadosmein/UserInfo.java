@@ -35,7 +35,6 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -83,6 +82,8 @@ public class UserInfo extends AppCompatActivity {
         if(isConnected() != true){
             Toast.makeText(UserInfo.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
         }
+
+
 
         else{
 
@@ -488,9 +489,6 @@ public class UserInfo extends AppCompatActivity {
                 public void done(ParseException e) {
                     if (e == null) {
                         myObjectSavedSuccessfully(testObject, email, name, progress);
-                        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                        installation.put("username", email.getText().toString());
-                        installation.saveInBackground();
 
                     } else {
                         myObjectSaveDidNotSucceed(progress);

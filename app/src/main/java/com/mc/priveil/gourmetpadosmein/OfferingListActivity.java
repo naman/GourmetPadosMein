@@ -25,6 +25,7 @@ import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -119,8 +120,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offerings);
 
-
-
         Log.i("Testing12", "Came here in Listing class");
         setUpToolbar();
         setUpNavDrawer();
@@ -159,6 +158,15 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                 Log.d("test123","failed to get skipclick");
             }
 
+
+            try {
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.put("username", email);
+                installation.saveInBackground();
+            }catch(Exception e){
+                Log.d("TEST", "Unable to get email and send it to ParseInsta");
+            }
+
             ParseQuery query = new ParseQuery("User");
             query.whereEqualTo("username", email);
 
@@ -166,6 +174,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
             progress.setTitle("Fetching Your User Information");
             progress.setMessage("please wait...");
             progress.show();
+
+
 
             query.findInBackground(new FindCallback() {
                 @Override
