@@ -286,149 +286,159 @@ public class OfferingForm extends AppCompatActivity {
 
 //        String objId = "lol";
 //        String tempN = "aaa"
-            query = new ParseQuery("Offering");
-            query.whereEqualTo("objectId", objId);
-            query.findInBackground(new FindCallback() {
-                @Override
-                public void done(List list, ParseException e) {
-                    if (e == null) {
-                        if (!list.isEmpty()) {
-//                        EditText email = (EditText) findViewById(R.id.editText);
-//                        EditText name = (EditText) findViewById(R.id.editText2);
-//                        EditText address = (EditText) findViewById(R.id.editText3);
-//                        EditText mobile = (EditText) findViewById(R.id.editText4);
-//                        EditText emergencyName = (EditText) findViewById(R.id.editText5);
-//                        EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
-                            Log.i("Testing", list.get(0).toString());
-//                        address.setText();
-//                        mobile.setText("9876543211");
-//                        emergencyName.setText("aaa");
-//                        emergencyNumber.setText("9876543211");
+            if("LOL".equals(objId)){
+
+            }else {
+                query = new ParseQuery("Offering");
+                query.whereEqualTo("objectId", objId);
+
+                final ProgressDialog progress = new ProgressDialog(OfferingForm.this);
+                progress.setTitle("Fetching Current Offering Info");
+                progress.setMessage("please wait...");
+                progress.show();
+
+                query.findInBackground(new FindCallback() {
+                    @Override
+                    public void done(List list, ParseException e) {
+                        progress.dismiss();
+                        if (e == null) {
+                            if (!list.isEmpty()) {
+                                //                        EditText email = (EditText) findViewById(R.id.editText);
+                                //                        EditText name = (EditText) findViewById(R.id.editText2);
+                                //                        EditText address = (EditText) findViewById(R.id.editText3);
+                                //                        EditText mobile = (EditText) findViewById(R.id.editText4);
+                                //                        EditText emergencyName = (EditText) findViewById(R.id.editText5);
+                                //                        EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
+                                Log.i("Testing", list.get(0).toString());
+                                //                        address.setText();
+                                //                        mobile.setText("9876543211");
+                                //                        emergencyName.setText("aaa");
+                                //                        emergencyNumber.setText("9876543211");
+                            } else {
+                                Log.i("Testing", "List returned by Parse is empty!");
+                            }
                         } else {
-                            Log.i("Testing", "List returned by Parse is empty!");
+                            Log.i("Error!!", "Error in querying parse!");
                         }
-                    } else {
-                        Log.i("Error!!", "Error in querying parse!");
                     }
-                }
 
-                @Override
-                public void done(Object o, Throwable throwable) {
-//                Log.i("Testing",throwable.getMessage().toString());
-                    Log.i("Testing1", o.toString());
+                    @Override
+                    public void done(Object o, Throwable throwable) {
+                        progress.dismiss();
+                        //                Log.i("Testing",throwable.getMessage().toString());
+                        Log.i("Testing1", o.toString());
 
-                    List<ParseObject> results = ((List<ParseObject>) o);
-//                Log.i("Testing1",results.toString());
-//                for(ParseObject result: results)
-//                {
-//                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
-//
-//                }
-//                Log.i("Testing2",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
-
-
-                    if (!results.isEmpty()) {
-                        resultGlobal = results.get(results.size() - 1);
-                        EditText offeringName = (EditText) findViewById(R.id.editText8);
-                        EditText cost = (EditText) findViewById(R.id.editText9);
-                        EditText cuisine = (EditText) findViewById(R.id.editText10);
-                        EditText enddate = (EditText) findViewById(R.id.enddate);
-                        EditText endtime = (EditText) findViewById(R.id.endtime);
-
-                        EditText startdate = (EditText) findViewById(R.id.startdate);
-                        EditText starttime = (EditText) findViewById(R.id.starttime);
-
-//                    EditText startTime = (EditText) findViewById(R.id.editText11);
-//                    EditText endTime = (EditText) findViewById(R.id.editText14);
-                        EditText description = (EditText) findViewById(R.id.editText12);
-                        EditText capacity = (EditText) findViewById(R.id.editText13);
-
-//                    Log.i("Testing2", ((String) resultGlobal.get("address")));
-                        Log.i("Testing2", (resultGlobal.get("cost")).toString());
-
-                        offeringName.setText(((String) resultGlobal.get("name")));
-                        cost.setText((resultGlobal.get("cost")).toString());
-                        String cuisinesStr = TextUtils.join(",", ((ArrayList<String>) resultGlobal.get("cuisine")));
-                        cuisine.setText(cuisinesStr);
-                        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        List<ParseObject> results = ((List<ParseObject>) o);
+                        //                Log.i("Testing1",results.toString());
+                        //                for(ParseObject result: results)
+                        //                {
+                        //                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
+                        //
+                        //                }
+                        //                Log.i("Testing2",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
 
 
-                        String startTimeStr = dateFormat.format(resultGlobal.get("startTime"));
-                        String endTimeStr = dateFormat.format(resultGlobal.get("endTime"));
+                        if (!results.isEmpty()) {
+                            resultGlobal = results.get(results.size() - 1);
+                            EditText offeringName = (EditText) findViewById(R.id.editText8);
+                            EditText cost = (EditText) findViewById(R.id.editText9);
+                            EditText cuisine = (EditText) findViewById(R.id.editText10);
+                            EditText enddate = (EditText) findViewById(R.id.enddate);
+                            EditText endtime = (EditText) findViewById(R.id.endtime);
 
-                        enddate.setText(endTimeStr.split(" ")[0]);
-                        endtime.setText(endTimeStr.split(" ")[1]);
+                            EditText startdate = (EditText) findViewById(R.id.startdate);
+                            EditText starttime = (EditText) findViewById(R.id.starttime);
 
-                        startdate.setText(startTimeStr.split(" ")[0]);
-                        starttime.setText(startTimeStr.split(" ")[1]);
+                            //                    EditText startTime = (EditText) findViewById(R.id.editText11);
+                            //                    EditText endTime = (EditText) findViewById(R.id.editText14);
+                            EditText description = (EditText) findViewById(R.id.editText12);
+                            EditText capacity = (EditText) findViewById(R.id.editText13);
 
-                        try {
-                            ParseFile fileObject = (ParseFile) resultGlobal
-                                    .get("image");
-                            fileObject
-                                    .getDataInBackground(new GetDataCallback() {
+                            //                    Log.i("Testing2", ((String) resultGlobal.get("address")));
+                            Log.i("Testing2", (resultGlobal.get("cost")).toString());
 
-                                        public void done(byte[] data,
-                                                         ParseException e) {
-                                            if (e == null) {
-                                                Log.d("test",
-                                                        "We've got data in data.");
-                                                // Decode the Byte[] into
-                                                // Bitmap
-                                                bitmap = BitmapFactory
-                                                        .decodeByteArray(
-                                                                data, 0,
-                                                                data.length);
+                            offeringName.setText(((String) resultGlobal.get("name")));
+                            cost.setText((resultGlobal.get("cost")).toString());
+                            String cuisinesStr = TextUtils.join(",", ((ArrayList<String>) resultGlobal.get("cuisine")));
+                            cuisine.setText(cuisinesStr);
+                            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-                                                // Get the ImageView from
-                                                // main.xml
-                                                ImageView image = (ImageView) findViewById(R.id.imageView5);
-                                                image.setBackgroundColor(0);
 
-                                                // Set the Bitmap into the
-                                                // ImageView
-                                                image.setImageBitmap(bitmap);
+                            String startTimeStr = dateFormat.format(resultGlobal.get("startTime"));
+                            String endTimeStr = dateFormat.format(resultGlobal.get("endTime"));
 
-                                            } else {
-                                                Log.d("test",
-                                                        "There was a problem downloading the data.");
+                            enddate.setText(endTimeStr.split(" ")[0]);
+                            endtime.setText(endTimeStr.split(" ")[1]);
+
+                            startdate.setText(startTimeStr.split(" ")[0]);
+                            starttime.setText(startTimeStr.split(" ")[1]);
+
+                            try {
+                                ParseFile fileObject = (ParseFile) resultGlobal
+                                        .get("image");
+                                fileObject
+                                        .getDataInBackground(new GetDataCallback() {
+
+                                            public void done(byte[] data,
+                                                             ParseException e) {
+                                                if (e == null) {
+                                                    Log.d("test",
+                                                            "We've got data in data.");
+                                                    // Decode the Byte[] into
+                                                    // Bitmap
+                                                    bitmap = BitmapFactory
+                                                            .decodeByteArray(
+                                                                    data, 0,
+                                                                    data.length);
+
+                                                    // Get the ImageView from
+                                                    // main.xml
+                                                    ImageView image = (ImageView) findViewById(R.id.imageView5);
+                                                    image.setBackgroundColor(0);
+
+                                                    // Set the Bitmap into the
+                                                    // ImageView
+                                                    image.setImageBitmap(bitmap);
+
+                                                } else {
+                                                    Log.d("test",
+                                                            "There was a problem downloading the data.");
+                                                }
                                             }
-                                        }
-                                    });
-                        }catch(Exception e){
-                            Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                                        });
+                            } catch (Exception e) {
+                                Log.d("test123", "Failed to get image!" + e.getLocalizedMessage());
+                            }
+
+                            Log.i("Testing", startTimeStr);
+                            Log.i("Testing", endTimeStr);
+
+                            //
+                            //                    picktime.setText(startTimeStr);
+                            //                    picktime.setText(endTimeStr);
+
+                            //                    startTime.setText((resultGlobal.get("startTime")).toString());
+                            //                    endTime.setText((resultGlobal.get("endTime")).toString());
+                            description.setText(((String) resultGlobal.get("description")));
+                            capacity.setText((resultGlobal.get("capacity")).toString());
+                            CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
+                            CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
+                            if ((resultGlobal.get("packing")).toString() == "true") {
+                                packingYes.setChecked(true);
+                            }
+                            if ((resultGlobal.get("veg")).toString() == "true") {
+                                veg.setChecked(true);
+                            }
+
+                            flag = 1;
+                        } else {
+                            Log.i("Testing1", "");
                         }
+                        //                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
 
-                        Log.i("Testing",startTimeStr);
-                        Log.i("Testing",endTimeStr);
-
-//
-//                    picktime.setText(startTimeStr);
-//                    picktime.setText(endTimeStr);
-
-//                    startTime.setText((resultGlobal.get("startTime")).toString());
-//                    endTime.setText((resultGlobal.get("endTime")).toString());
-                        description.setText(((String) resultGlobal.get("description")));
-                        capacity.setText((resultGlobal.get("capacity")).toString());
-                        CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
-                        CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
-                        if((resultGlobal.get("packing")).toString()=="true")
-                        {
-                            packingYes.setChecked(true);
-                        }
-                        if((resultGlobal.get("veg")).toString()=="true")
-                        {
-                            veg.setChecked(true);
-                        }
-
-                        flag = 1;
-                    } else {
-                        Log.i("Testing1", "");
                     }
-//                    Log.i("Testing1",((String)result.get("username"))+" name: "+((String)result.get("name"))+" phoneNumber: "+((String)result.get("phoneNumber")));
-
-                }
-            });
+                });
+            }
         }
 
     }

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -40,6 +39,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OfferingViewActivity extends AppCompatActivity {
@@ -58,6 +58,7 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String foodname;
     private String capacity;
     private String cuisines;
+    private String start;
     private String parse_username;
     private String applied;
     private List<String> bhukkads;
@@ -67,9 +68,10 @@ public class OfferingViewActivity extends AppCompatActivity {
     private TextView money;
     private TextView desc;
     private TextView cap;
+    private TextView when;
     private String latitude;
     private String longitude;
-
+    private Integer currentLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +142,15 @@ public class OfferingViewActivity extends AppCompatActivity {
                             capacity = String.valueOf(p.get("capacity"));
                             cuisines = String.valueOf(p.get("cuisine"));
                             parse_username = String.valueOf(p.get("username"));
-                            applied = String.valueOf(p.get("bhukkads"));
+                            start = String.valueOf(p.get("startTime"));
+                            try {
+                                applied = String.valueOf(p.get("bhukkads"));
+                                currentLeft = Integer.parseInt(capacity);
+                                ArrayList<String> bhukkads = (ArrayList<String>) p.get("bhukkads");
+                                currentLeft -=  bhukkads.size();
+                            }catch(Exception e){
+                                Log.e("Testing123", "Failed" + e.getMessage());
+                            }
 
                             go();
 
@@ -232,15 +242,25 @@ public class OfferingViewActivity extends AppCompatActivity {
                         money.setText("Cost: ₹" + cost);
 
                         desc = (TextView) findViewById(R.id.description);
-                        desc.setTextSize(15);
+                        desc.setTextSize(20);
                         desc.setTextColor(Color.DKGRAY);
                         desc.setText(description);
 
                         cap = (TextView) findViewById(R.id.capacity);
-                        cap.setTextSize(15);
+                        cap.setTextSize(20);
                         cap.setTextColor(Color.DKGRAY);
-                        cap.setText("Capacity: " + capacity);
+                        try {
+                            cap.setText("Capacity: " + currentLeft.toString());
+                        }catch(Exception e){
+                            Log.e("Testing123","Failed in getting capacity");
+                            cap.setText("Capacity: " + capacity);
+                        }
 
+
+                        when = (TextView) findViewById(R.id.when);
+                        when.setTextSize(18);
+                        when.setTextColor(Color.DKGRAY);
+                        when.setText("Starts: " + start);
 
                         View button_edit = findViewById(R.id.button_edit);
                         final View button_apply = findViewById(R.id.button_apply);
@@ -274,8 +294,8 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                                             apply.saveInBackground(new SaveCallback() {
                                                 public void done(ParseException e) {
+                                                    progress.dismiss();
                                                     if (e == null) {
-                                                        progress.dismiss();
                                                         goo();
                                                     } else {
                                                         Log.d("Testing123","Failed, Internet issue");
@@ -414,8 +434,8 @@ public class OfferingViewActivity extends AppCompatActivity {
 
     private void goo(){
         final Button button_apply = (Button) findViewById(R.id.button_apply);
-        button_apply.getBackground().setColorFilter(Color.rgb(131, 208, 201), PorterDuff.Mode.MULTIPLY);
-//        button_apply.setBackgroundColor(Color.rgb(131, 208, 201));
+//        button_apply.getBackground().setColorFilter(Color.rgb(131, 208, 201), PorterDuff.Mode.MULTIPLY);
+        button_apply.setBackgroundColor(Color.rgb(131, 208, 201));
         button_apply.setText("~ GOING ~");
 //        button_apply.setEnabled(false);
     }
