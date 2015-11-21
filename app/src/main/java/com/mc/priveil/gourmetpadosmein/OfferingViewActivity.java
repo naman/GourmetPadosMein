@@ -35,6 +35,10 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SendCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -272,34 +276,33 @@ public class OfferingViewActivity extends AppCompatActivity {
 //                                        button_apply.setVisibility(View.GONE);
 //                                        button_cancel.setVisibility(View.VISIBLE);
 
-
-                                            // Find user who posted the offering
-                                            ParseQuery userQuery = ParseUser.getQuery();
-                                            userQuery.whereEqualTo("username", parse_username);
-
-//                                            Log.d("HHAHAH", parse_username);
-
                                             // Find devices associated with these users
                                             ParseQuery pushQuery = ParseInstallation.getQuery();
-                                            pushQuery.whereEqualTo("user", userQuery);
-
-//                                            Log.d("HHAHAH", String.valueOf(userQuery));
-
+                                            pushQuery.whereEqualTo("username", parse_username);
 
                                             // Create time interval
                                             long weekInterval = 60 * 60 * 24 * 7; // 1 week
-
-
+                                            String alert = email.split("@")[0] + " wants to eat your meal!";
+                                            String apply_ = "apply";
+                                            JSONObject data = null;
+                                            try {
+                                                data = new JSONObject("{\"alert\": \""+alert+"\", \"offeringId\":\""+ objectid + "\", \"type\":\""+apply_+"\" }");
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            Log.d("JSON",data.toString());
                                             // Send push notification to query
                                             ParsePush push = new ParsePush();
                                             push.setExpirationTimeInterval(weekInterval);
                                             push.setQuery(pushQuery); // Set our Installation query
-                                            push.setMessage(email.split("@")[0] + " wants to eat your meal!");
-//                                            push.setMessage("Berr.");
-                                            push.sendInBackground();
-
-
-//                                            Log.d("HHAHAH", String.valueOf(push));
+//                                            push.setMessage(email.split("@")[0] + " wants to eat your meal!");
+                                            push.setData(data);
+                                            push.sendInBackground(new SendCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    Toast.makeText(OfferingViewActivity.this, "Notification Sent!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
 
                                         }
                                     });
