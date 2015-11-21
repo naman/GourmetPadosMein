@@ -175,6 +175,7 @@ public class UserViewProfile extends AppCompatActivity {
 
                 @Override
                 public void done(Object o, Throwable throwable) {
+                    progress.dismiss();
                     if (throwable == null) {
                         List<ParseObject> results = ((List<ParseObject>) o);
 

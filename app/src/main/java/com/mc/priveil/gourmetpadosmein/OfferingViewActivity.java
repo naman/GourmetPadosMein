@@ -267,88 +267,98 @@ public class OfferingViewActivity extends AppCompatActivity {
                         View button_view_guests = findViewById(R.id.button_view_guests);
                         final View button_view_host = findViewById(R.id.button_view_host);
 
-                        button_apply.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                        if(currentLeft <=0){
+                            final Button button_apply_ = (Button) findViewById(R.id.button_apply);
+                            button_apply_.setEnabled(false);
+                            if(applied.contains(email)){
+                                goo();
+                            }else {
+                                button_apply_.setText("Out of Capacity");
+                                button_apply_.setTextColor(Color.WHITE);
+                                button_apply_.setBackgroundColor(Color.RED);
+                            }
+                        }else {
+                            button_apply.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
 
-                                //if already applied
-                                if(applied.contains(email)){
-                                    go();
-                                    Toast.makeText(OfferingViewActivity.this, "You have already applied!", Toast.LENGTH_SHORT).show();
-                                }
+                                    //if already applied
+                                    if (applied.contains(email)) {
+                                        go();
+                                        Toast.makeText(OfferingViewActivity.this, "You have already applied!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OfferingViewActivity.this);
+                                        alertDialogBuilder.setMessage("Are you sure want to apply?");
 
-                                else{
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OfferingViewActivity.this);
-                                    alertDialogBuilder.setMessage("Are you sure want to apply?");
+                                        alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface arg0, int arg1) {
+                                                ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
+                                                apply.addUnique("bhukkads", email);
 
-                                    alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
-                                            apply.addUnique("bhukkads", email);
+                                                final ProgressDialog progress = new ProgressDialog(OfferingViewActivity.this);
+                                                progress.setTitle("Sending Request");
+                                                progress.setMessage("please wait...");
+                                                progress.show();
 
-                                            final ProgressDialog progress = new ProgressDialog(OfferingViewActivity.this);
-                                            progress.setTitle("Sending Request");
-                                            progress.setMessage("please wait...");
-                                            progress.show();
-
-                                            apply.saveInBackground(new SaveCallback() {
-                                                public void done(ParseException e) {
-                                                    progress.dismiss();
-                                                    if (e == null) {
-                                                        goo();
-                                                    } else {
-                                                        Log.d("Testing123","Failed, Internet issue");
+                                                apply.saveInBackground(new SaveCallback() {
+                                                    public void done(ParseException e) {
+                                                        progress.dismiss();
+                                                        if (e == null) {
+                                                            goo();
+                                                        } else {
+                                                            Log.d("Testing123", "Failed, Internet issue");
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
 //                                        button_apply.setVisibility(View.GONE);
 //                                        button_cancel.setVisibility(View.VISIBLE);
 
 
-                                            // Find user who posted the offering
-                                            ParseQuery userQuery = ParseUser.getQuery();
-                                            userQuery.whereEqualTo("username", parse_username);
+                                                // Find user who posted the offering
+                                                ParseQuery userQuery = ParseUser.getQuery();
+                                                userQuery.whereEqualTo("username", parse_username);
 
 //                                            Log.d("HHAHAH", parse_username);
 
-                                            // Find devices associated with these users
-                                            ParseQuery pushQuery = ParseInstallation.getQuery();
-                                            pushQuery.whereEqualTo("user", userQuery);
+                                                // Find devices associated with these users
+                                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                                                pushQuery.whereEqualTo("user", userQuery);
 
 //                                            Log.d("HHAHAH", String.valueOf(userQuery));
 
 
-                                            // Create time interval
-                                            long weekInterval = 60 * 60 * 24 * 7; // 1 week
+                                                // Create time interval
+                                                long weekInterval = 60 * 60 * 24 * 7; // 1 week
 
 
-                                            // Send push notification to query
-                                            ParsePush push = new ParsePush();
-                                            push.setExpirationTimeInterval(weekInterval);
-                                            push.setQuery(pushQuery); // Set our Installation query
-                                            push.setMessage(email.split("@")[0] + " wants to eat your meal!");
+                                                // Send push notification to query
+                                                ParsePush push = new ParsePush();
+                                                push.setExpirationTimeInterval(weekInterval);
+                                                push.setQuery(pushQuery); // Set our Installation query
+                                                push.setMessage(email.split("@")[0] + " wants to eat your meal!");
 //                                            push.setMessage("Berr.");
-                                            push.sendInBackground();
+                                                push.sendInBackground();
 
 
 //                                            Log.d("HHAHAH", String.valueOf(push));
 
-                                        }
-                                    });
+                                            }
+                                        });
 
-                                    alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    });
+                                        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        });
 
-                                    AlertDialog alertDialog = alertDialogBuilder.create();
-                                    alertDialog.show();
+                                        AlertDialog alertDialog = alertDialogBuilder.create();
+                                        alertDialog.show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
 
 
 //                        button_cancel.setOnClickListener(new View.OnClickListener() {
