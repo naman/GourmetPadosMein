@@ -343,6 +343,11 @@ public class OfferingViewActivity extends AppCompatActivity {
 
 //                                            Log.d("HHAHAH", String.valueOf(push));
 
+                                                Intent intent = new Intent(OfferingViewActivity.this, OfferingViewActivity.class);
+                                                Log.i("test","Printing OBJ ID -: " + objectid);
+                                                intent.putExtra("objectid", objectid);
+                                                startActivity(intent);
+
                                             }
                                         });
 
