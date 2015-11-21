@@ -26,12 +26,11 @@
             android:elevation="7dp">
 
 
-            <!--
-
-            ENTER YOUR LAYOUTS, BUTTONS, ANYTHING HERE!!!
-
-
-            -->
+            <ListView
+                android:id="@+id/mobile_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </ListView>
 
             <android.support.design.widget.NavigationView
                 android:id="@+id/nav_view"
