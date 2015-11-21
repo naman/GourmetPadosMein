@@ -19,6 +19,13 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textView15"
+            android:layout_gravity="center_horizontal" />
+
         <android.support.v4.widget.DrawerLayout
             android:id="@+id/drawer"
             android:layout_width="match_parent"
