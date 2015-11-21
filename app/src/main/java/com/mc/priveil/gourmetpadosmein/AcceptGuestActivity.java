@@ -9,19 +9,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.android.gms.plus.Plus;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
 
 public class AcceptGuestActivity extends AppCompatActivity {
+
+    public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+    ArrayList<String> guests;
+    private String objectid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample_nav_drawer);
+        setContentView(R.layout.activity_accept_guest);
 
         setUpToolbar();
         setUpNavDrawer();
@@ -32,23 +41,28 @@ public class AcceptGuestActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        /*uncomment the intent calls in setupDrawerContent() method
-        *Change them to suit the "this" activity.
-        * Start writing your code here!
-        * Now, check the layout.xml corresponding to this activity.
-        * Check for this code             <!--
+        guests = new ArrayList<String>();
 
-            ENTER YOUR LAYOUTS, BUTTONS, ANYTHING HERE!!!
+        //fetch guests
+        ParseUser.enableAutomaticUser();
 
+        Intent intent = getIntent();
+        objectid = intent.getStringExtra(MESSAGE_OBJECTID);
+        Log.d("objectid", objectid);
 
-            -->
-        *Add this line to AndroidManifest in activity tag of this activity.
-                    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        */
+        guests.add("Item 1");
+        guests.add("Item 2");
+        guests.add("Item 3");
+        guests.add("Item 4");
+        guests.add("Item 5");
+        guests.add("Item 6");
 
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_accept_guest_listview, guests);
+
+        ListView listView = (ListView) findViewById(R.id.mobile_list);
+        listView.setAdapter(adapter);
 
     }
-
 
     private void setUpToolbar() {
         Log.i("Testing12", "Came in setUpToolBar");
