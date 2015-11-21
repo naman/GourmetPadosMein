@@ -74,9 +74,6 @@
                             android:layout_height="wrap_content"
                             android:text="Take Me Here"
                             android:id="@+id/button6"
-                            android:layout_alignTop="@+id/imageView3"
-                            android:layout_toRightOf="@+id/capacity"
-                            android:layout_toEndOf="@+id/capacity"
                             android:onClick="takeMe"
                             android:layout_gravity="center"
                             android:layout_weight="1" />
@@ -86,8 +83,6 @@
                             android:layout_height="wrap_content"
                             android:text="View Host"
                             android:id="@+id/button_view_host"
-                            android:layout_alignTop="@+id/button_apply"
-                            android:layout_centerHorizontal="true"
                             android:layout_weight="1"
                             android:onClick="viewHost" />
 
@@ -97,7 +92,7 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:weightSum="2"
+                        android:weightSum="3"
                         android:id="@+id/owner">
 
                         <Button
@@ -105,9 +100,6 @@
                         android:layout_height="wrap_content"
                         android:text="View Guests"
                         android:id="@+id/button_view_guests"
-                        android:layout_below="@+id/button_edit"
-                        android:layout_alignLeft="@+id/button_edit"
-                        android:layout_alignStart="@+id/button_edit"
                             android:layout_weight="1" />
 
                         <Button
@@ -115,18 +107,16 @@
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/capacity"
-                            android:text="EDIT Offering"
-                            android:layout_weight="1" />
+                        android:text="EDIT Offering"
+                        android:layout_weight="1" />
 
                         <Button
-                            style="?android:attr/buttonStyleSmall"
-                            android:id="@+id/button7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/capacity"
-                            android:text="FINISH Offering"
-                            android:layout_weight="1" />
+                        style="?android:attr/buttonStyleSmall"
+                        android:id="@+id/button7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FINISH Offering"
+                        android:layout_weight="1" />
 
                     </LinearLayout>
 
@@ -143,6 +133,15 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true" />
+
+                        <TextView
+                        android:id="@+id/cuisine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/foodname"
+                        android:textStyle="italic" />
 
                         <TextView
                         android:id="@+id/capacity"
@@ -163,15 +162,6 @@
                         android:layout_below="@+id/cuisine"
                             android:layout_gravity="right"
                             android:layout_marginRight="50dp" />
-
-                        <TextView
-                        android:id="@+id/cuisine"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/foodname"
-                        android:textStyle="italic" />
 
                         <TextView
                         android:id="@+id/description"
