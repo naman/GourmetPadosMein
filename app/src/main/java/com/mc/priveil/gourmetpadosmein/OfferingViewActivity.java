@@ -576,4 +576,13 @@ public class OfferingViewActivity extends AppCompatActivity {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
+    public void share(View view){
+        String message = "Hey! Check out this delicious " + foodname + "! #gourmetpadosmein";
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, message);
+
+        startActivity(Intent.createChooser(share, "Choose where you want to share!"));
+    }
 }
