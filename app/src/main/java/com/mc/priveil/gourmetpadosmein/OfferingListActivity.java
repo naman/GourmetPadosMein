@@ -379,7 +379,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
     public void myUpdateOperation()
     {
-        Log.i("refreshTest","It came here!!");
+        Log.i("refreshTest", "It came here!!");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 330);
         ParseQuery query = new ParseQuery("Offering");
@@ -514,6 +514,19 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
     }
     }
+
+
+
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
     private void setUpToolbar() {
         Log.i("Testing12", "Came in setUpToolBar");

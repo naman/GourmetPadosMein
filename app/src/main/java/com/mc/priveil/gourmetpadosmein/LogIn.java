@@ -189,6 +189,27 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
 
     @Override
+    public void onBackPressed()
+    {
+//        onPause();
+//        if(backButtonCount >= 1)
+//        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+//        }
+//        else
+//        {
+//            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+//            backButtonCount++;
+//        }
+    }
+
+
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_log_in, menu);
