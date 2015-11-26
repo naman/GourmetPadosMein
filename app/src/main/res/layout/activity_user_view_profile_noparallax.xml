@@ -39,9 +39,10 @@
                 <ImageView
                     android:id="@+id/backdrop"
                     android:layout_width="match_parent"
-                    android:layout_height="450dp"
+                    android:layout_height="350dp"
                     android:scaleType="fitCenter"
-                    android:fitsSystemWindows="true" />
+                    android:fitsSystemWindows="true"
+                    android:background="@drawable/default_user_image" />
 
                 <Button
                     android:layout_width="wrap_content"

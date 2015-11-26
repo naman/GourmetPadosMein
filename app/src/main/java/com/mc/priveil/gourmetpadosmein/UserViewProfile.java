@@ -171,7 +171,6 @@ public class UserViewProfile extends AppCompatActivity {
 
                 @Override
                 public void done(Object o, Throwable throwable) {
-                    progress.dismiss();
                     if (throwable == null) {
                         List<ParseObject> results = ((List<ParseObject>) o);
 
@@ -200,9 +199,12 @@ public class UserViewProfile extends AppCompatActivity {
                             rb.setRating(Float.parseFloat(result.get("rating").toString()));
                             TextView rat = (TextView) findViewById(R.id.textView7);
                             rat.setText(result.get("rating").toString());
+
+
                             try {
                                 ParseFile fileObject = (ParseFile) result
                                         .get("image");
+
                                 fileObject
                                         .getDataInBackground(new GetDataCallback() {
 
@@ -249,6 +251,7 @@ public class UserViewProfile extends AppCompatActivity {
                             //                        intent.putExtra(MESSAGE_EMAIL, email);
                             startActivity(intent);
                         }
+                        progress.dismiss();
                     }
                 }
             });
