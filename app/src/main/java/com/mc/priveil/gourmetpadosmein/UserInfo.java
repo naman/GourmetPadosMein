@@ -386,34 +386,39 @@ public class UserInfo extends AppCompatActivity {
     }
 
     public void submitForm(View view) {
-        final EditText email = (EditText) findViewById(R.id.editText);
-        final EditText name = (EditText) findViewById(R.id.editText2);
-        EditText address = (EditText) findViewById(R.id.editText3);
-        EditText mobile = (EditText) findViewById(R.id.editText4);
-        EditText emergencyName = (EditText) findViewById(R.id.editText5);
-        EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
+        if(isConnected() != true){
+            Toast.makeText(UserInfo.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        else {
+
+            final EditText email = (EditText) findViewById(R.id.editText);
+            final EditText name = (EditText) findViewById(R.id.editText2);
+            EditText address = (EditText) findViewById(R.id.editText3);
+            EditText mobile = (EditText) findViewById(R.id.editText4);
+            EditText emergencyName = (EditText) findViewById(R.id.editText5);
+            EditText emergencyNumber = (EditText) findViewById(R.id.editText6);
 
 //        address.setText("aa");
 //        mobile.setText("9876543211");
 //        emergencyName.setText("aaa");
 //        emergencyNumber.setText("9876543211");
-        if(email.getText().toString().isEmpty() || name.getText().toString().isEmpty() || address.getText().toString().isEmpty() || mobile.getText().toString().isEmpty() || emergencyName.getText().toString().isEmpty() || emergencyNumber.getText().toString().isEmpty())
-        {
-            Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
-        } else if (mobile.getText().length()!=10 || !isNumeric2(mobile.getText().toString()))
-        {
-            Toast.makeText(this, "Enter a valid Mobile Number!!", Toast.LENGTH_LONG).show();
-        }
+            if (email.getText().toString().isEmpty() || name.getText().toString().isEmpty() || address.getText().toString().isEmpty() || mobile.getText().toString().isEmpty() || emergencyName.getText().toString().isEmpty() || emergencyNumber.getText().toString().isEmpty()) {
+                Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
+            } else if (mobile.getText().length() != 10 || !isNumeric2(mobile.getText().toString())) {
+                Toast.makeText(this, "Enter a valid Mobile Number!!", Toast.LENGTH_LONG).show();
+            }
 /*
         else if(emergencyNumber.getText().length()!=10 || !isNumeric2(emergencyNumber.getText().toString()))
         {
             Toast.makeText(this, "Enter a valid Emergency Mobile Number!!", Toast.LENGTH_LONG).show();
         }
 */
-        else if(!isName(name.getText().toString()))
-        {
-            Toast.makeText(this, "Enter a valid Name!!", Toast.LENGTH_LONG).show();
-        }
+            else if (!isName(name.getText().toString())) {
+                Toast.makeText(this, "Enter a valid Name!!", Toast.LENGTH_LONG).show();
+            }
 
 /*
         else if(!isName(emergencyName.getText().toString()))
@@ -422,74 +427,65 @@ public class UserInfo extends AppCompatActivity {
         }
 */
 
-        else if(!addressValidation(address.getText().toString()))
-        {
-            Toast.makeText(this, "Enter a valid address!!Only [a-zA-Z0-9.,-] are allowed", Toast.LENGTH_LONG).show();
-        }
-
-        else if(!getLatLong(address.getText().toString())) {
-            Toast.makeText(this, "Couldn't locate Address!!", Toast.LENGTH_LONG).show();
-            }
-
-
-        else
-        {
-            final ParseObject testObject;
-            if(flag==1)
-            {
-                testObject = result;
-            }
+            else if (!addressValidation(address.getText().toString())) {
+                Toast.makeText(this, "Enter a valid address!!Only [a-zA-Z0-9.,-] are allowed", Toast.LENGTH_LONG).show();
+            } else if (!getLatLong(address.getText().toString())) {
+                Toast.makeText(this, "Couldn't locate Address!!", Toast.LENGTH_LONG).show();
+            } else {
+                final ParseObject testObject;
+                if (flag == 1) {
+                    testObject = result;
+                }
 //            Log.i("test123","Came in else statement 1");
-            else
-            {
-                testObject = new ParseObject("User");
-            }
-            testObject.put("username", email.getText().toString());
-            testObject.put("rating",0);
-            testObject.put("numRatings",0);
-            testObject.put("name", name.getText().toString());
-            testObject.put("address", address.getText().toString());
+                else {
+                    testObject = new ParseObject("User");
+                }
+                testObject.put("username", email.getText().toString());
+                testObject.put("rating", 0);
+                testObject.put("numRatings", 0);
+                testObject.put("name", name.getText().toString());
+                testObject.put("address", address.getText().toString());
 
-            ParseGeoPoint point = new ParseGeoPoint(lat, longi);
+                ParseGeoPoint point = new ParseGeoPoint(lat, longi);
 //            ParseObject object = new ParseObject("PlaceObject");
-            testObject.put("Location", point);
+                testObject.put("Location", point);
 
 //            testObject.put("Latitude", String.valueOf(lat));
 //            testObject.put("Longitude", String.valueOf(longi));
 
-            testObject.put("phoneNumber", mobile.getText().toString());
-            testObject.put("emergencyContactName", emergencyName.getText().toString());
-            testObject.put("emergencyContactNumber", emergencyNumber.getText().toString());
+                testObject.put("phoneNumber", mobile.getText().toString());
+                testObject.put("emergencyContactName", emergencyName.getText().toString());
+                testObject.put("emergencyContactNumber", emergencyNumber.getText().toString());
 //            Log.i("test123","Came in else statement 2");
-            try {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] imagefile = stream.toByteArray();
-                ParseFile file = new ParseFile("offerimage.png", imagefile);
-                file.saveInBackground();
-                testObject.put("image", file);
-            }catch(Exception e){
-                Log.d("test123", "Failed to attach image");
-            }
-
-
-
-            final ProgressDialog progress = new ProgressDialog(this);
-            progress.setTitle("Updating your User Profile");
-            progress.setMessage("please wait...");
-            progress.show();
-            testObject.saveInBackground(new SaveCallback() {
-                public void done(ParseException e) {
-                    if (e == null) {
-                        myObjectSavedSuccessfully(testObject, email, name, progress);
-
-                    } else {
-                        myObjectSaveDidNotSucceed(progress);
-                    }
+                try {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] imagefile = stream.toByteArray();
+                    ParseFile file = new ParseFile("offerimage.png", imagefile);
+                    file.saveInBackground();
+                    testObject.put("image", file);
+                } catch (Exception e) {
+                    Log.d("test123", "Failed to attach image");
                 }
-            });
 
 
+                final ProgressDialog progress = new ProgressDialog(this);
+                progress.setTitle("Updating your User Profile");
+                progress.setMessage("please wait...");
+                progress.show();
+                testObject.saveInBackground(new SaveCallback() {
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            myObjectSavedSuccessfully(testObject, email, name, progress);
+
+                        } else {
+                            myObjectSaveDidNotSucceed(progress);
+                        }
+                    }
+                });
+
+
+            }
         }
     }
     void myObjectSavedSuccessfully(ParseObject po,EditText email,EditText name,ProgressDialog progress){

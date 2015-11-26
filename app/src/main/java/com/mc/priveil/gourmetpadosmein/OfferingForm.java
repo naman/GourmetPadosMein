@@ -613,106 +613,82 @@ public class OfferingForm extends AppCompatActivity {
     }
 
     public void submitForm(View view) {
-        EditText email = (EditText) findViewById(R.id.editText7);
-        EditText offeringname = (EditText) findViewById(R.id.editText8);
-        EditText cost = (EditText) findViewById(R.id.editText9);
-        EditText cuisine = (EditText) findViewById(R.id.editText10);
+        if(isConnected() != true){
+            Toast.makeText(OfferingForm.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        else {
+
+            EditText email = (EditText) findViewById(R.id.editText7);
+            EditText offeringname = (EditText) findViewById(R.id.editText8);
+            EditText cost = (EditText) findViewById(R.id.editText9);
+            EditText cuisine = (EditText) findViewById(R.id.editText10);
 //        EditText startTime = (EditText) findViewById(R.id.);
 //        EditText endTime = (EditText) findViewById(R.id.editText14);
-        EditText enddate = (EditText) findViewById(R.id.enddate);
-        EditText endtime = (EditText) findViewById(R.id.endtime);
-        String endtimeStr = enddate.getText().toString()+" "+endtime.getText().toString();
+            EditText enddate = (EditText) findViewById(R.id.enddate);
+            EditText endtime = (EditText) findViewById(R.id.endtime);
+            String endtimeStr = enddate.getText().toString() + " " + endtime.getText().toString();
 
-        EditText startdate = (EditText) findViewById(R.id.startdate);
-        EditText starttime = (EditText) findViewById(R.id.starttime);
-        String starttimeStr = startdate.getText().toString()+" "+starttime.getText().toString();
-
-
-        EditText description = (EditText) findViewById(R.id.editText12);
-        EditText capacity = (EditText) findViewById(R.id.editText13);
-
-        CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
-        CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
+            EditText startdate = (EditText) findViewById(R.id.startdate);
+            EditText starttime = (EditText) findViewById(R.id.starttime);
+            String starttimeStr = startdate.getText().toString() + " " + starttime.getText().toString();
 
 
-        EditText lati = (EditText) findViewById(R.id.editText15);
-        EditText lon = (EditText) findViewById(R.id.editText16);
+            EditText description = (EditText) findViewById(R.id.editText12);
+            EditText capacity = (EditText) findViewById(R.id.editText13);
 
-        String dateValidity = "OK";
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date startdateD= myCalendar.getTime(), enddateD=myCalendar.getTime();
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, 330);
-        try
-        {
-            startdateD = dateFormat.parse(starttimeStr.toString());
-        }
+            CheckBox packingYes = (CheckBox) findViewById(R.id.checkBox);
+            CheckBox veg = (CheckBox) findViewById(R.id.checkBox2);
 
-        catch(Exception e)
-        {
+
+            EditText lati = (EditText) findViewById(R.id.editText15);
+            EditText lon = (EditText) findViewById(R.id.editText16);
+
+            String dateValidity = "OK";
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date startdateD = myCalendar.getTime(), enddateD = myCalendar.getTime();
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MINUTE, 330);
+            try {
+                startdateD = dateFormat.parse(starttimeStr.toString());
+            } catch (Exception e) {
 //            Toast.makeText(this, "Error in startTime!", Toast.LENGTH_LONG).show();
-            dateValidity = "ERROR IN STARTTIME";
-        }
+                dateValidity = "ERROR IN STARTTIME";
+            }
 
-        try
-        {
-            enddateD = dateFormat.parse(endtimeStr.toString());
+            try {
+                enddateD = dateFormat.parse(endtimeStr.toString());
 
-        }
-        catch(Exception e)
-        {
-            dateValidity="ERROR IN ENDTIME";
+            } catch (Exception e) {
+                dateValidity = "ERROR IN ENDTIME";
 //            Toast.makeText(this, "Error in endTime!", Toast.LENGTH_LONG).show();
-        }
+            }
 
 
-        if(email.getText().toString().isEmpty() || offeringname.getText().toString().isEmpty() || cost.getText().toString().isEmpty() || cuisine.getText().toString().isEmpty() || description.getText().toString().isEmpty() || capacity.getText().toString().isEmpty())
-        {
-            Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
-        }
-
-        else if(!isAlphaNumeric(offeringname.getText().toString()))
-        {
-            Toast.makeText(this, "Enter a valid Offering Name!![Alphanumeric string starting with letter]", Toast.LENGTH_LONG).show();
-        }
-
-        else if(!isDouble(cost.getText().toString()) || Double.parseDouble(cost.getText().toString())<0)
-        {
-            Toast.makeText(this, "Enter a vaid Cost!![Numeric value only]", Toast.LENGTH_LONG).show();
-        }
-
-        else if(!isCuisine(cuisine.getText().toString()))
-        {
-            Toast.makeText(this, "Enter valid comma seperated cuisines!!", Toast.LENGTH_LONG).show();
-        }
-
-        else if(!isAlphaNumeric(description.getText().toString()))
-        {
-            Toast.makeText(this, "Enter a valid Description!![Alphanumeric string starting with letter]", Toast.LENGTH_LONG).show();
-        }
-
-        else if(!isNumeric(capacity.getText().toString()) || capacity.getText().toString().length()>3 || Integer.parseInt(capacity.getText().toString())<=0)
-        {
-            Toast.makeText(this, "Enter a vaild Capacity!![Numeric value only > 0]", Toast.LENGTH_LONG).show();
-        }
-
-        else if(!isDouble(lati.getText().toString()) || !isDouble(lon.getText().toString()))
-        {
-            Toast.makeText(this, "Could not locate address", Toast.LENGTH_LONG).show();
-        }
-        else if(dateValidity!="OK")
-        {
-            Toast.makeText(this, dateValidity, Toast.LENGTH_LONG).show();
-        }
-        else if(!startdateD.after(cal.getTime()))
-        {
-            Toast.makeText(this, "Startdate-time should be after current-time", Toast.LENGTH_LONG).show();
-        }
-        else if(!enddateD.after(startdateD))
-        {
-            Toast.makeText(this, "Enddate-time should be after startdate-time", Toast.LENGTH_LONG).show();
-            Log.i("talha123",cal.getTime().toString());
-        }
+            if (email.getText().toString().isEmpty() || offeringname.getText().toString().isEmpty() || cost.getText().toString().isEmpty() || cuisine.getText().toString().isEmpty() || description.getText().toString().isEmpty() || capacity.getText().toString().isEmpty()) {
+                Toast.makeText(this, "All form fields are required!!", Toast.LENGTH_LONG).show();
+            } else if (!isAlphaNumeric(offeringname.getText().toString())) {
+                Toast.makeText(this, "Enter a valid Offering Name!![Alphanumeric string starting with letter]", Toast.LENGTH_LONG).show();
+            } else if (!isDouble(cost.getText().toString()) || Double.parseDouble(cost.getText().toString()) < 0) {
+                Toast.makeText(this, "Enter a vaid Cost!![Numeric value only]", Toast.LENGTH_LONG).show();
+            } else if (!isCuisine(cuisine.getText().toString())) {
+                Toast.makeText(this, "Enter valid comma seperated cuisines!!", Toast.LENGTH_LONG).show();
+            } else if (!isAlphaNumeric(description.getText().toString())) {
+                Toast.makeText(this, "Enter a valid Description!![Alphanumeric string starting with letter]", Toast.LENGTH_LONG).show();
+            } else if (!isNumeric(capacity.getText().toString()) || capacity.getText().toString().length() > 3 || Integer.parseInt(capacity.getText().toString()) <= 0) {
+                Toast.makeText(this, "Enter a vaild Capacity!![Numeric value only > 0]", Toast.LENGTH_LONG).show();
+            } else if (!isDouble(lati.getText().toString()) || !isDouble(lon.getText().toString())) {
+                Toast.makeText(this, "Could not locate address", Toast.LENGTH_LONG).show();
+            } else if (dateValidity != "OK") {
+                Toast.makeText(this, dateValidity, Toast.LENGTH_LONG).show();
+            } else if (!startdateD.after(cal.getTime())) {
+                Toast.makeText(this, "Startdate-time should be after current-time", Toast.LENGTH_LONG).show();
+            } else if (!enddateD.after(startdateD)) {
+                Toast.makeText(this, "Enddate-time should be after startdate-time", Toast.LENGTH_LONG).show();
+                Log.i("talha123", cal.getTime().toString());
+            }
 
 
 /*
@@ -727,85 +703,81 @@ public class OfferingForm extends AppCompatActivity {
         }
 */
 
-        else
-        {
-            final ParseObject testObject;
-            Log.i("Testing","about to submit form 3!!!");
-            if(flag==1)
-            {
-                testObject = resultGlobal;
-            }
+            else {
+                final ParseObject testObject;
+                Log.i("Testing", "about to submit form 3!!!");
+                if (flag == 1) {
+                    testObject = resultGlobal;
+                }
 //            Log.i("test123","Came in else statement 1");
-            else
-            {
-                testObject = new ParseObject("Offering");
-            }
-            Log.i("Testing","about to submit form 2!!!");
+                else {
+                    testObject = new ParseObject("Offering");
+                }
+                Log.i("Testing", "about to submit form 2!!!");
 //  ParseObject testObject = new ParseObject("Offering");
-            testObject.put("username", email.getText().toString());
-
+                testObject.put("username", email.getText().toString());
 
 
 //            String latitude;
 //            String longitude;
 
-            ParseGeoPoint point = new ParseGeoPoint(Double.parseDouble(lati.getText().toString()), Double.parseDouble(lon.getText().toString()));
-            testObject.put("Location", point);
-            testObject.put("name", offeringname.getText().toString());
-            testObject.put("cost", Double.parseDouble(cost.getText().toString()));
-            String cuisineVal = cuisine.getText().toString();
-            String[] arr = cuisineVal.split(",");
-            ArrayList<String> allCuisines = new ArrayList<String>();
-            for(String c:arr)
-            {
-                allCuisines.add(c);
-            }
-            testObject.put("cuisine", allCuisines);
-            testObject.put("description", description.getText().toString());
+                ParseGeoPoint point = new ParseGeoPoint(Double.parseDouble(lati.getText().toString()), Double.parseDouble(lon.getText().toString()));
+                testObject.put("Location", point);
+                testObject.put("name", offeringname.getText().toString());
+                testObject.put("cost", Double.parseDouble(cost.getText().toString()));
+                String cuisineVal = cuisine.getText().toString();
+                String[] arr = cuisineVal.split(",");
+                ArrayList<String> allCuisines = new ArrayList<String>();
+                for (String c : arr) {
+                    allCuisines.add(c);
+                }
+                testObject.put("cuisine", allCuisines);
+                testObject.put("description", description.getText().toString());
 //            testObject.put("endTime", endtimeStr);
 
 //            Calendar cal = Calendar.getInstance();
-            //dateFormat.format(cal.getTime()))
+                //dateFormat.format(cal.getTime()))
 
 
-            testObject.put("startTime",startdateD);
-            testObject.put("endTime",enddateD);
+                testObject.put("startTime", startdateD);
+                testObject.put("endTime", enddateD);
 
-            testObject.put("capacity", Integer.parseInt(capacity.getText().toString()));
-            if(packingYes.isChecked())
-                testObject.put("packing", true);
-            else
-                testObject.put("packing", false);
-            if(veg.isChecked())
-                testObject.put("veg", true);
-            else
-                testObject.put("veg", false);
-            Log.i("Testing", "about to submit form!!!");
+                testObject.put("capacity", Integer.parseInt(capacity.getText().toString()));
+                if (packingYes.isChecked())
+                    testObject.put("packing", true);
+                else
+                    testObject.put("packing", false);
+                if (veg.isChecked())
+                    testObject.put("veg", true);
+                else
+                    testObject.put("veg", false);
+                Log.i("Testing", "about to submit form!!!");
 
-            try {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] imagefile = stream.toByteArray();
-                ParseFile file = new ParseFile("offerimage.png", imagefile);
-                file.saveInBackground();
-                testObject.put("image", file);
-            }catch(Exception e){
-                Log.d("test123", "Failed to attach image");
-            }
-
-            final ProgressDialog progress = new ProgressDialog(this);
-            progress.setTitle("Creating new listing");
-            progress.setMessage("please wait...");
-            progress.show();
-            testObject.saveInBackground(new SaveCallback() {
-                public void done(ParseException e) {
-                    if (e == null) {
-                        myObjectSavedSuccessfully(testObject,progress);
-                    } else {
-                        myObjectSaveDidNotSucceed(progress);
-                    }
+                try {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] imagefile = stream.toByteArray();
+                    ParseFile file = new ParseFile("offerimage.png", imagefile);
+                    file.saveInBackground();
+                    testObject.put("image", file);
+                } catch (Exception e) {
+                    Log.d("test123", "Failed to attach image");
                 }
-            });
+
+                final ProgressDialog progress = new ProgressDialog(this);
+                progress.setTitle("Creating new listing");
+                progress.setMessage("please wait...");
+                progress.show();
+                testObject.saveInBackground(new SaveCallback() {
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            myObjectSavedSuccessfully(testObject, progress);
+                        } else {
+                            myObjectSaveDidNotSucceed(progress);
+                        }
+                    }
+                });
+            }
         }
     }
 
