@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -264,19 +265,8 @@ public class AcceptGuestActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.log_me_out:
-                                try {
-                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                    LogIn.mGoogleApiClient.disconnect();
-                                    LogIn.mGoogleApiClient.connect();
-                                } catch (Exception e) {
-                                    Log.e("test123", "Failed to Logout, might be already out?");
-                                }
-
-                                startActivity(new Intent(AcceptGuestActivity.this, LogIn.class));
-
+                                (new AuthHelper(AcceptGuestActivity.this)).logOut();
                                 break;
-
-
                         }
 
                         mDrawerLayout.closeDrawers();

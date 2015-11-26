@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -94,12 +95,7 @@ public class UserViewProfile extends AppCompatActivity {
             Intent intent = getIntent();
             Log.i("test123", "Came here!!!");
             name = null;
-            try {
-                email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
-            } catch(Exception e){
-                LogIn.mGoogleApiClient.connect();
-            }
-
+            email = (new AuthHelper(UserViewProfile.this)).getLoggedInUserEmail();
             String sidebar_tap = "F";
             try {
                 sidebar_tap = intent.getStringExtra(OfferingListActivity.SIDEBAR_TAP);
@@ -327,16 +323,7 @@ public class UserViewProfile extends AppCompatActivity {
                                 break;
 
                             case R.id.log_me_out:
-                                try {
-                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                    LogIn.mGoogleApiClient.disconnect();
-                                    LogIn.mGoogleApiClient.connect();
-                                } catch (Exception e) {
-                                    Log.e("test123", "Failed to Logout, might be already out?");
-                                }
-
-                                startActivity(new Intent(UserViewProfile.this, LogIn.class));
-
+                                (new AuthHelper(UserViewProfile.this)).logOut();
                                 break;
 
 

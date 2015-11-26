@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -147,8 +148,8 @@ public class ReviewActivity extends AppCompatActivity {
 
         final ParseObject testObject;
         testObject = new ParseObject("Review");
-//        String email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
-        String email = "Naman Hi rahoge!!";
+        String email = (new AuthHelper(ReviewActivity.this)).getLoggedInUserEmail();
+        email = "Naman Hi rahoge!!";
 
         testObject.put("reviewer_id", email);
         testObject.put("Comment", getComment);
@@ -296,16 +297,7 @@ public class ReviewActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.log_me_out:
-                                try {
-                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                    LogIn.mGoogleApiClient.disconnect();
-                                    LogIn.mGoogleApiClient.connect();
-                                } catch (Exception e) {
-                                    Log.e("test123", "Failed to Logout, might be already out?");
-                                }
-
-//                                startActivity(new Intent(OfferingForm.this, LogIn.class));
-
+                                (new AuthHelper(ReviewActivity.this)).logOut();
                                 break;
 
 

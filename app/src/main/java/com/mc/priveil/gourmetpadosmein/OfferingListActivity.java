@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.plus.Plus;
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -63,17 +64,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        try{
-            if(!LogIn.mGoogleApiClient.isConnected()){
-                startActivity(new Intent(OfferingListActivity.this, LogIn.class));
-            }}
-        catch(Exception e){
-            Log.e("test123", "failed with getting login details");
-        }
-    }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
@@ -138,11 +128,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
         else{
             Intent intent = getIntent();
-            try {
-                email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
-            }catch(Exception e){
-                LogIn.mGoogleApiClient.connect();
-            }
+            email = new AuthHelper(OfferingListActivity.this).getLoggedInUserEmail();
+
             try{
                 fromLogin = ("Y".equals(intent.getStringExtra("fromLogin")));
             }catch(Exception e){
@@ -601,15 +588,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                                 break;
 
                             case R.id.log_me_out:
-                                try {
-                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                    LogIn.mGoogleApiClient.disconnect();
-                                    LogIn.mGoogleApiClient.connect();
-                                } catch (Exception e) {
-                                    Log.e("test123", "Failed to Logout, might be already out?");
-                                }
-                                startActivity(new Intent(OfferingListActivity.this, LogIn.class));
-
+                                (new AuthHelper(OfferingListActivity.this)).logOut();
                                 break;
 
                         }

@@ -1,12 +1,12 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,10 +20,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 
-public class LogIn extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
-//    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
-//    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
+public class LogIn extends Activity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
     private static final String TAG = "talha111";
@@ -73,6 +72,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
         if(mGoogleApiClient.isConnected()) {
             email = Plus.AccountApi.getAccountName(mGoogleApiClient);
             if (email != null) {
+                (new AuthHelper(LogIn.this)).authenticated(email);
                 finish();
             }
         }
@@ -163,6 +163,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
 
         if(email!=null) {
             Toast.makeText(this, "Logged in as " + email, Toast.LENGTH_LONG).show();
+            (new AuthHelper(LogIn.this)).authenticated(email);
 //            Intent intent = new Intent(this, UserInfo.class);
             Intent intent = new Intent(this, OfferingListActivity.class);
 //            Intent intent = new Intent(this, OfferingForm.class);
@@ -185,8 +186,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener, Go
     public void onConnectionSuspended(int i) {
 
     }
-
-
 
     @Override
     public void onBackPressed()

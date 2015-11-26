@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -112,8 +113,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
             Intent intent = getIntent();
             objectid = intent.getStringExtra("objectid");
-            email  = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
-//            name = null;
+            email  = (new AuthHelper(OfferingViewActivity.this)).getLoggedInUserEmail();
 
             ParseQuery query = new ParseQuery("Offering");
             query.whereEqualTo("objectId", objectid);
@@ -517,15 +517,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                                 break;
                             case R.id.log_me_out:
-                                try {
-                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                    LogIn.mGoogleApiClient.disconnect();
-                                    LogIn.mGoogleApiClient.connect();
-                                } catch (Exception e) {
-                                    Log.e("test123", "Failed to Logout, might be already out?");
-                                }
-                                startActivity(new Intent(OfferingViewActivity.this, LogIn.class));
-
+                                (new AuthHelper(OfferingViewActivity.this)).logOut();
                                 break;
 
 
@@ -537,17 +529,6 @@ public class OfferingViewActivity extends AppCompatActivity {
                 }
         );
         Log.i("Testing12", "Came out setUpDrawer");
-    }
-    @Override
-    public void onStart(){
-        super.onStart();
-        try{
-        if(!LogIn.mGoogleApiClient.isConnected()){
-            startActivity(new Intent(OfferingViewActivity.this, LogIn.class));
-        }}
-            catch(Exception e){
-                Log.e("test123", "failed with getting login details");
-            }
     }
     @Override
     public void onBackPressed() {

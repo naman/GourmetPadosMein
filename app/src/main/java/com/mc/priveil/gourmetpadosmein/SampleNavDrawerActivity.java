@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 
 public class SampleNavDrawerActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -111,16 +112,7 @@ public class SampleNavDrawerActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.log_me_out:
-                                try {
-                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                    LogIn.mGoogleApiClient.disconnect();
-                                    LogIn.mGoogleApiClient.connect();
-                                } catch (Exception e) {
-                                    Log.e("test123", "Failed to Logout, might be already out?");
-                                }
-
-//                                startActivity(new Intent(OfferingForm.this, LogIn.class));
-
+                                (new AuthHelper(SampleNavDrawerActivity.this)).logOut();
                                 break;
 
 

@@ -31,6 +31,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -116,7 +117,7 @@ public class OfferingForm extends AppCompatActivity {
 
             Intent intent = getIntent();
             name = null;
-            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
+            email = (new AuthHelper(OfferingForm.this)).getLoggedInUserEmail();
             objId = intent.getStringExtra(MESSAGE_OBJECTID);
 //        Log.i("testingOBJ",objId);
 
@@ -442,17 +443,6 @@ public class OfferingForm extends AppCompatActivity {
         }
 
     }
-    @Override
-    public void onStart(){
-        super.onStart();
-        try{
-            if(!LogIn.mGoogleApiClient.isConnected()){
-                startActivity(new Intent(OfferingForm.this, LogIn.class));
-            }}
-        catch(Exception e){
-            Log.e("test123", "failed with getting login details");
-        }
-    }
 
     public boolean isAlpha(String name) {
         char[] chars = name.toCharArray();
@@ -568,19 +558,8 @@ public class OfferingForm extends AppCompatActivity {
                                 break;
 
                             case R.id.log_me_out:
-                                try {
-                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                    LogIn.mGoogleApiClient.disconnect();
-                                    LogIn.mGoogleApiClient.connect();
-                                } catch (Exception e) {
-                                    Log.e("test123", "Failed to Logout, might be already out?");
-                                }
-
-                                startActivity(new Intent(OfferingForm.this, LogIn.class));
-
+                                (new AuthHelper(OfferingForm.this)).logOut();
                                 break;
-
-
                         }
 
                         mDrawerLayout.closeDrawers();

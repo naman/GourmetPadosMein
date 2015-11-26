@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -92,8 +93,7 @@ public class UserInfo extends AppCompatActivity {
             Intent intent = getIntent();
             Log.i("test123", "Came here!!!");
             name = null;
-            email = Plus.AccountApi.getAccountName(LogIn.mGoogleApiClient);
-
+            email = (new AuthHelper(UserInfo.this)).getLoggedInUserEmail();
 
             String sidebar_tap = "F";
             try {
@@ -301,16 +301,7 @@ public class UserInfo extends AppCompatActivity {
                                 break;
 
                             case R.id.log_me_out:
-                                try {
-                                    Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-                                    LogIn.mGoogleApiClient.disconnect();
-                                    LogIn.mGoogleApiClient.connect();
-                                } catch (Exception e) {
-                                    Log.e("test123", "Failed to Logout, might be already out?");
-                                }
-
-                                startActivity(new Intent(UserInfo.this, LogIn.class));
-
+                                (new AuthHelper(UserInfo.this)).logOut();
                                 break;
 
 
@@ -616,18 +607,6 @@ public class UserInfo extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        try{
-            if(!LogIn.mGoogleApiClient.isConnected()){
-                startActivity(new Intent(UserInfo.this, LogIn.class));
-            }}
-        catch(Exception e){
-            Log.e("test123", "failed with getting login details");
-        }
     }
 
     public boolean isConnected() {
