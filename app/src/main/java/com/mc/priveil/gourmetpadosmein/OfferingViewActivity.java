@@ -117,9 +117,16 @@ public class OfferingViewActivity extends AppCompatActivity {
 
             ParseQuery query = new ParseQuery("Offering");
             query.whereEqualTo("objectId", objectid);
+
+            final ProgressDialog progress = new ProgressDialog(OfferingViewActivity.this);
+            progress.setTitle("Loading Offering Information");
+            progress.setMessage("please wait...");
+            progress.show();
+
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
+                    progress.dismiss();
                     if (e == null) {
                         if (!list.isEmpty()) {
                             Log.i("Testing", list.get(0).toString());
@@ -434,6 +441,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                     } else
                         Log.i("Error!!", "NULL");
+                    progress.dismiss();
                 }
             });
 
