@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
-import com.mc.priveil.gourmetpadosmein.MyOfferings;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.R;
 import com.mc.priveil.gourmetpadosmein.UserViewProfile;
@@ -297,17 +296,10 @@ public class UserInfo extends AppCompatActivity {
                                 Intent ui = new Intent(UserInfo.this, UserViewProfile.class);
                                 startActivity(ui);
                                 break;
-                            case R.id.my_offerings:
-                                Intent n1 = new Intent(UserInfo.this, MyOfferings.class);
-                                startActivity(n1);
-
-                                break;
 
                             case R.id.log_me_out:
                                 (new AuthHelper(UserInfo.this)).logOut();
                                 break;
-
-
                         }
 
                         mDrawerLayout.closeDrawers();

@@ -43,6 +43,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     public final static String SIDEBAR_TAP = "LOL";
     public static final String CLASS_NAME = "Offerings";
     static String fromSkip = "N";
+    private static Boolean fromLogin;
 //    public String name;
     public String email;
     public ParseObject result = null;
@@ -51,7 +52,6 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-    private static Boolean fromLogin;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -579,18 +579,9 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                                 startActivity(ui);
                                 break;
 
-                            case R.id.my_offerings:
-                                Intent n = new Intent(OfferingListActivity.this, MyOfferings.class);
-//                                n.putExtra(MESSAGE_NAME, name);
-//                                n.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n);
-
-                                break;
-
                             case R.id.log_me_out:
                                 (new AuthHelper(OfferingListActivity.this)).logOut();
                                 break;
-
                         }
 
                         mDrawerLayout.closeDrawers();

@@ -17,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mc.priveil.gourmetpadosmein.Forms.UserInfo;
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -33,17 +32,17 @@ import static com.mc.priveil.gourmetpadosmein.R.layout.activity_accept_guest_lis
 public class AcceptGuestActivity extends AppCompatActivity {
 
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
-
-    private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
-    private ActionBarDrawerToggle mActionBarDrawerToggle;
-    ArrayList<String> guests;
-    private String objectid;
     public ParseObject result = null;
+    ArrayList<String> guests;
     ArrayList<String> bhukkads = new ArrayList<String>();
     int numBhukkads = 0;
     ListView listView;
     String emailGuest;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar mToolbar;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private String objectid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -257,13 +256,6 @@ public class AcceptGuestActivity extends AppCompatActivity {
 
                                 startActivity(ui);
                                 break;
-                            case R.id.my_offerings:
-                                Intent n1 = new Intent(AcceptGuestActivity.this, MyOfferings.class);
-//                                n1.putExtra(MESSAGE_NAME, name);
-//                                n1.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n1);
-                                break;
-
                             case R.id.log_me_out:
                                 (new AuthHelper(AcceptGuestActivity.this)).logOut();
                                 break;

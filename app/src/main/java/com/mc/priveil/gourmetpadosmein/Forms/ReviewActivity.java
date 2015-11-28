@@ -29,20 +29,16 @@ import com.parse.SaveCallback;
 import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
+    public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
+    public ParseObject result = null;
+    float ratingUser = 1;
+    String offererId;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-
     private RatingBar ratingBar;
     private EditText comment;
     private Button btnSubmit;
-    float ratingUser = 1;
-    public ParseObject result = null;
-    String offererId;
-
-    public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -287,13 +283,6 @@ public class ReviewActivity extends AppCompatActivity {
                                 ui.putExtra(MESSAGE_EMAIL, email);
 
                                 startActivity(ui);
-                                */
-                                break;
-                            case R.id.my_offerings:
-                                /*Intent n1 = new Intent(OfferingForm.this, MyOfferings.class);
-                                n1.putExtra(MESSAGE_NAME, name);
-                                n1.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n1);
                                 */
                                 break;
 

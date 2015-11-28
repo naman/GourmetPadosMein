@@ -13,12 +13,6 @@
             android:title="Profile" />
 
         <item
-            android:id="@+id/my_offerings"
-            android:checkable="true"
-            android:icon="@drawable/ic_bookmark_black_48dp"
-            android:title="My Offerings" />
-
-        <item
             android:id="@+id/log_me_out"
             android:checkable="false"
             android:icon="@drawable/ic_exit_to_app_black_48dp"

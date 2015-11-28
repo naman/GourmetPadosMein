@@ -317,13 +317,6 @@ public class UserViewProfile extends AppCompatActivity {
 
                                 startActivity(ui);*/
                                 break;
-                            case R.id.my_offerings:
-                                Intent n1 = new Intent(UserViewProfile.this, MyOfferings.class);
-//                                n1.putExtra(MESSAGE_NAME, name);
-//                                n1.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n1);
-
-                                break;
 
                             case R.id.log_me_out:
                                 (new AuthHelper(UserViewProfile.this)).logOut();

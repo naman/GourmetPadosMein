@@ -462,7 +462,7 @@ public class OfferingViewActivity extends AppCompatActivity {
         final Button button_apply = (Button) findViewById(R.id.button_apply);
 //        button_apply.getBackground().setColorFilter(Color.rgb(131, 208, 201), PorterDuff.Mode.MULTIPLY);
         button_apply.setBackgroundColor(Color.rgb(131, 208, 201));
-        button_apply.setText("~ GOING ~");
+        button_apply.setText("Attending");
 //        button_apply.setEnabled(false);
     }
 
@@ -517,18 +517,10 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                                 startActivity(ui);
                                 break;
-                            case R.id.my_offerings:
-                                Intent n1 = new Intent(OfferingViewActivity.this, MyOfferings.class);
-//                                n1.putExtra(MESSAGE_NAME, name);
-//                                n1.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n1);
 
-                                break;
                             case R.id.log_me_out:
                                 (new AuthHelper(OfferingViewActivity.this)).logOut();
                                 break;
-
-
                         }
 
                         mDrawerLayout.closeDrawers();
