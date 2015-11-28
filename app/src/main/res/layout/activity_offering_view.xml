@@ -112,7 +112,7 @@
                             android:hint="View Bhukkads" />
 
                         <Button
-                        android:id="@+id/button7"
+                        android:id="@+id/button_end_offering"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                             android:layout_weight="1"

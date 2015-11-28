@@ -478,7 +478,7 @@ public class OfferingForm extends AppCompatActivity {
     }
 
     boolean isAlphaNumeric(String str) {
-        String regex = "^[a-zA-Z]+[0-9a-zA-Z,.\\s]*$";
+        String regex = "^[a-zA-Z]+[0-9a-zA-Z,.!\\s]*$";
 //        String te = "\\s";
         Pattern r = Pattern.compile(regex);
         Matcher m = r.matcher(str);

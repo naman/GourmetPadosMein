@@ -111,6 +111,7 @@ public class OfferingViewActivity extends AppCompatActivity {
             View button_edit = findViewById(R.id.button_edit);
             final Button button_apply = (Button) findViewById(R.id.button_apply);
             View button_view_guests = findViewById(R.id.button_view_guests);
+            final View button_end_offering = findViewById(R.id.button_end_offering);
             final View button_view_host = findViewById(R.id.button_view_host);
             final LinearLayout visitor = (LinearLayout) findViewById(R.id.visitor);
             final LinearLayout owner = (LinearLayout) findViewById(R.id.owner);
@@ -448,6 +449,39 @@ public class OfferingViewActivity extends AppCompatActivity {
                                     startActivity(myIntent);
                                 }
                             });
+
+                            button_end_offering.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    //Dialog Box
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(OfferingViewActivity.this);
+                                    alertDialogBuilder.setMessage("Are you sure you want to end this offering?");
+
+                                    alertDialogBuilder.setPositiveButton("End offering", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            Toast.makeText(OfferingViewActivity.this, "Offering Ended!", Toast.LENGTH_SHORT).show();
+                                            fin();
+//                                            AlertDialog.Builder finish = new AlertDialog.Builder(OfferingViewActivity.this);
+//                                            finish.setMessage("Thank You for hosting your offering with our app! " +
+//                                                    "We will look forward for you delicious offering again.");
+                                        }
+                                    });
+
+                                    alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            //do nothing
+                                        }
+                                    });
+
+                                    AlertDialog alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
+
+                                }
+                            });
+
                         } else {
                             visitor.setVisibility(View.VISIBLE);
 //                            button_apply.setVisibility(View.VISIBLE);
@@ -598,7 +632,7 @@ public class OfferingViewActivity extends AppCompatActivity {
             public void done(List list, ParseException e) {
                 if (e == null) {
                     if (!list.isEmpty()) {
-                        Log.i("never","here");
+                        Log.i("never", "here");
                     } else {
                         Log.i("Testing", "List returned by Parse is empty!");
                     }
@@ -618,7 +652,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                     result = results.get(results.size() - 1);
                     result.put("endTime", cal.getTime());
                     result.saveInBackground();
-                    Log.i("changeEndTime",cal.getTime().toString());
+                    Log.i("changeEndTime", cal.getTime().toString());
                 } else {
                     Log.i("Testing1", "");
                 }
