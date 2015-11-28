@@ -67,6 +67,7 @@ public class UserInfo extends AppCompatActivity {
     private ImageView mImageView;
     private int PICK_IMAGE_REQUEST = 2;
     private Bitmap bitmap;
+    private Boolean edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,7 @@ public class UserInfo extends AppCompatActivity {
 
 
         else{
-
+            edit = false;
 //        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
             ParseUser.enableAutomaticUser();
             Intent intent = getIntent();
@@ -105,6 +106,7 @@ public class UserInfo extends AppCompatActivity {
                 Log.d("test123","failed to get tap");
             }
             if("T".equals(sidebar_tap)){
+                edit = true;
                 Log.d("test123","Hiding");
                 View skoop = findViewById(R.id.button3);
                 skoop.setVisibility(View.GONE);
@@ -470,6 +472,7 @@ public class UserInfo extends AppCompatActivity {
                 progress.show();
                 testObject.saveInBackground(new SaveCallback() {
                     public void done(ParseException e) {
+                        progress.dismiss();
                         if (e == null) {
                             myObjectSavedSuccessfully(testObject, email, name, progress);
 
@@ -484,14 +487,17 @@ public class UserInfo extends AppCompatActivity {
         }
     }
     void myObjectSavedSuccessfully(ParseObject po,EditText email,EditText name,ProgressDialog progress){
-        progress.dismiss();
-        Log.i("Testing", "about to submit form 4!!!");
-        Intent intent = new Intent(this, OfferingListActivity.class);
+        Intent intent;
+        if(edit){
+            intent = new Intent(this, UserViewProfile.class);
+        }else {
+            Log.i("Testing", "about to submit form 4!!!");
+            intent = new Intent(this, OfferingListActivity.class);
+        }
         startActivity(intent);
     }
 
     void myObjectSaveDidNotSucceed(ProgressDialog progress){
-        progress.dismiss();
         Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG);
     }
 

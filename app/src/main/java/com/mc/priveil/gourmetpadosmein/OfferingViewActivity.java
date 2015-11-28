@@ -64,6 +64,7 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String capacity;
     private String cuisines;
     private String start;
+    private String finishTime;
     private String parse_username;
     private String applied;
     private List<String> bhukkads;
@@ -154,6 +155,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                             cuisines = String.valueOf(p.get("cuisine"));
                             parse_username = String.valueOf(p.get("username"));
                             start = String.valueOf(p.get("startTime"));
+                            finishTime = String.valueOf(p.get("endTime"));
                             try {
                                 applied = String.valueOf(p.get("bhukkads"));
                                 currentLeft = Integer.parseInt(capacity);
@@ -248,30 +250,35 @@ public class OfferingViewActivity extends AppCompatActivity {
                         cuisine_type.setText(cuisines.substring(1, cuisines.length() - 1));
 
                         money = (TextView) findViewById(R.id.cost);
-                        money.setTextSize(20);
-                        money.setTextColor(Color.DKGRAY);
+//                        money.setTextSize(20);
+//                        money.setTextColor(Color.DKGRAY);
                         money.setText("Cost: ₹" + cost);
 
                         desc = (TextView) findViewById(R.id.description);
-                        desc.setTextSize(20);
-                        desc.setTextColor(Color.DKGRAY);
+//                        desc.setTextSize(20);
+//                        desc.setTextColor(Color.DKGRAY);
                         desc.setText(description);
 
                         cap = (TextView) findViewById(R.id.capacity);
-                        cap.setTextSize(20);
-                        cap.setTextColor(Color.DKGRAY);
+//                        cap.setTextSize(20);
+//                        cap.setTextColor(Color.DKGRAY);
                         try {
-                            cap.setText("Capacity: " + currentLeft.toString());
+                            cap.setText("Seats Left : " + currentLeft.toString());
                         }catch(Exception e){
                             Log.e("Testing123","Failed in getting capacity");
-                            cap.setText("Capacity: " + capacity);
+                            cap.setText("Seats Left : " + capacity);
                         }
 
 
                         when = (TextView) findViewById(R.id.when);
-                        when.setTextSize(18);
-                        when.setTextColor(Color.DKGRAY);
+//                        when.setTextSize(18);
+//                        when.setTextColor(Color.DKGRAY);
                         when.setText("Starts: " + start);
+
+                        when = (TextView) findViewById(R.id.whendone);
+//                        when.setTextSize(18);
+//                        when.setTextColor(Color.DKGRAY);
+                        when.setText("Ends: " + finishTime);
 
                         View button_edit = findViewById(R.id.button_edit);
                         final View button_apply = findViewById(R.id.button_apply);
