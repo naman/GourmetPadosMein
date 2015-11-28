@@ -33,7 +33,6 @@ public class MyReceiver extends ParsePushBroadcastReceiver {
                 String type = json.getString("type");
 
                 if(type.equals("apply")){
-
                     //intent to your activity
                     Log.d("Notification", "Switching to  a new activity!");
                     Intent newintent =  new Intent(context.getApplicationContext(), AcceptGuestActivity.class);
@@ -46,14 +45,13 @@ public class MyReceiver extends ParsePushBroadcastReceiver {
                 } else if (type.equals("reject")) {
                     //intent to your activity
                     Log.d("Notification", "Switching to  a new activity!");
-                    Intent newintent = new Intent(context.getApplicationContext(), OfferingViewActivity.class);
-                    newintent.putExtra(MESSAGE_OBJECTID, offering_id);
-                    newintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(newintent);
+                    Intent newintent1 = new Intent(context.getApplicationContext(), OfferingViewActivity.class);
+                    newintent1.putExtra(MESSAGE_OBJECTID, offering_id);
+                    newintent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(newintent1);
                 }
 }
         } catch (JSONException e) {
-
             e.printStackTrace();
         }
     }
