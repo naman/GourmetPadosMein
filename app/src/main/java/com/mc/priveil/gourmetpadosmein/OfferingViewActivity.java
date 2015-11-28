@@ -463,9 +463,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface arg0, int arg1) {
                                             Toast.makeText(OfferingViewActivity.this, "Offering Ended!", Toast.LENGTH_SHORT).show();
                                             fin();
-//                                            AlertDialog.Builder finish = new AlertDialog.Builder(OfferingViewActivity.this);
-//                                            finish.setMessage("Thank You for hosting your offering with our app! " +
-//                                                    "We will look forward for you delicious offering again.");
+                                            startListingAvtivity();
                                         }
                                     });
 
@@ -497,6 +495,11 @@ public class OfferingViewActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private void startListingAvtivity(){
+        Intent intent = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
+        startActivity(intent);
     }
 
     private void go(){
@@ -595,7 +598,6 @@ public class OfferingViewActivity extends AppCompatActivity {
         startActivity(myIntent);
 
     }
-
 
     public void takeMe(View view){
         String url = "http://maps.google.com/maps?f=d&daddr="+ latitude+","+longitude+"&dirflg=d&layer=t";
