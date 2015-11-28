@@ -17,7 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Forms.UserInfo;
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -251,7 +251,7 @@ public class AcceptGuestActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.profile:
-                                Intent ui = new Intent(AcceptGuestActivity.this, UserInfo.class);
+                                Intent ui = new Intent(AcceptGuestActivity.this, UserViewProfile.class);
 //                                ui.putExtra(MESSAGE_NAME, name);
 //                                ui.putExtra(MESSAGE_EMAIL, email);
 

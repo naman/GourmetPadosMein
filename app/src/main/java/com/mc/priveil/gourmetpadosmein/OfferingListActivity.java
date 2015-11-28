@@ -20,7 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.plus.Plus;
+import com.mc.priveil.gourmetpadosmein.Forms.UserInfo;
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;

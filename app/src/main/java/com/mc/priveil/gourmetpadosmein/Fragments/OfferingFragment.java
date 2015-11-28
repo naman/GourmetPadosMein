@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mc.priveil.gourmetpadosmein.Adapters.OfferingAdapter;
-import com.mc.priveil.gourmetpadosmein.OfferingForm;
+import com.mc.priveil.gourmetpadosmein.Forms.OfferingForm;
 import com.mc.priveil.gourmetpadosmein.R;
 
 import java.util.ArrayList;

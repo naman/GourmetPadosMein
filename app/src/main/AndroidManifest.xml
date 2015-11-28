@@ -90,14 +90,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Models.UserInformation"
-            android:label="@string/title_activity_user_information" />
-        <activity
-            android:name=".UserInfo"
+            android:name=".Forms.UserInfo"
             android:label="@string/title_activity_user_info"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".OfferingForm"
+            android:name=".Forms.OfferingForm"
             android:label="@string/title_activity_offering_form"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
@@ -114,12 +111,10 @@
         <activity
             android:name=".AcceptGuestActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:launchMode="singleTask"
             />
         <activity
-            android:name=".ReviewActivity"
+            android:name=".Forms.ReviewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:launchMode="singleTask"
             />
 
         <activity

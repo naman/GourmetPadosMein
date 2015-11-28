@@ -1,4 +1,4 @@
-package com.mc.priveil.gourmetpadosmein;
+package com.mc.priveil.gourmetpadosmein.Forms;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,8 +16,9 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
-import com.google.android.gms.plus.Plus;
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
+import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
+import com.mc.priveil.gourmetpadosmein.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
