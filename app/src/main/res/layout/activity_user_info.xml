@@ -24,7 +24,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="7dp">
-
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -36,6 +38,67 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context="com.mc.priveil.gourmetpadosmein.Models.UserInfo">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_gravity="left"
+                        android:adjustViewBounds="false"
+                        android:focusable="true"
+                        android:background="@drawable/default_user_image" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Pick Image Using"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:gravity="center" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/button5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="gallerypick"
+                            android:text="Gallery" />
+
+                        <Button
+                            android:id="@+id/button4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="camerapick"
+                            android:text="Camera" />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Contact Information"
+                    android:id="@+id/textView16"
+                    android:layout_gravity="left"
+                    android:textStyle="normal|bold|italic" />
 
                 <EditText
                     android:id="@+id/editText2"
@@ -69,12 +132,28 @@
                     android:hint="Contact No."
                     android:inputType="phone" />
 
-                <Button
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/textView17" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Emergency Contact Details"
+                        android:id="@+id/textView19"
+                        android:layout_gravity="left"
+                        android:textStyle="normal|bold|italic" />
+
+
+                    <Button
                     android:id="@+id/emergency"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Emergency Contact" />
+                    android:hint="Pick from Contacts" />
 
                 <EditText
                     android:id="@+id/editText5"
@@ -94,51 +173,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="Set Image"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/button5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="gallerypick"
-                            android:text="Gallery" />
-
-                        <Button
-                            android:id="@+id/button4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="camerapick"
-                            android:text="Camera" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="left"
-                        android:adjustViewBounds="false"
-                        android:focusable="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
                     <Button
                         android:id="@+id/button3"
@@ -156,9 +193,11 @@
                         android:hint="Submit"
                         android:onClick="submitForm" />
                 </LinearLayout>
+                </LinearLayout>
+
 
             </LinearLayout>
-
+            </ScrollView>
 
             <android.support.design.widget.NavigationView
                 android:id="@+id/nav_view"
@@ -169,5 +208,6 @@
                 app:headerLayout="@layout/nav_header"
                 app:menu="@menu/drawer" />
         </android.support.v4.widget.DrawerLayout>
+
     </LinearLayout>
 </FrameLayout>

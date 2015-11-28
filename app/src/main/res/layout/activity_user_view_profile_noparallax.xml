@@ -39,7 +39,7 @@
                 <ImageView
                     android:id="@+id/backdrop"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
+                    android:layout_height="250dp"
                     android:scaleType="fitCenter"
                     android:fitsSystemWindows="true"
                     android:background="@drawable/default_user_image" />
@@ -260,7 +260,7 @@
 
                         <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                            android:layout_height="5dp"
                             android:id="@+id/imageView9"
                             android:layout_gravity="top" />
 
