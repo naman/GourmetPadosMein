@@ -304,18 +304,12 @@ public class UserViewProfile extends AppCompatActivity {
                         switch (id) {
                             case R.id.offering_list:
                                 Intent n = new Intent(UserViewProfile.this, OfferingListActivity.class);
-//                                n.putExtra(MESSAGE_NAME, name);
-//                                n.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(n);
                                 break;
 
                             case R.id.profile:
-                            /*
-                                Intent ui = new Intent(OfferingViewActivity.this, UserInfo.class);
-                                ui.putExtra(MESSAGE_NAME, name);
-                                ui.putExtra(MESSAGE_EMAIL, email);
-
-                                startActivity(ui);*/
+                                Intent ui = new Intent(UserViewProfile.this, UserViewProfile.class);
+                                startActivity(ui);
                                 break;
 
                             case R.id.log_me_out:
@@ -337,6 +331,8 @@ public class UserViewProfile extends AppCompatActivity {
     public void editProfile(View view)
     {
         Intent n = new Intent(UserViewProfile.this, UserInfo.class);
+        n.putExtra(OfferingListActivity.SIDEBAR_TAP, "T");
+        //OfferingListActivity.SIDEBAR_TAP
 //                                n.putExtra(MESSAGE_NAME, name);
 //                                n.putExtra(MESSAGE_EMAIL, email);
         startActivity(n);

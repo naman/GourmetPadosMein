@@ -112,18 +112,18 @@
                             android:hint="View Bhukkads" />
 
                         <Button
-                        android:id="@+id/button_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Edit Offering" />
-
-                        <Button
                         android:id="@+id/button7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="End Offering" />
+
+                        <Button
+                            android:id="@+id/button_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Edit Offering" />
 
                     </LinearLayout>
 
