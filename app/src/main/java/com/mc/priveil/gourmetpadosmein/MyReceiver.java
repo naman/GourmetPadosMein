@@ -39,11 +39,17 @@ public class MyReceiver extends ParsePushBroadcastReceiver {
                     Intent newintent =  new Intent(context.getApplicationContext(), AcceptGuestActivity.class);
                     newintent.putExtra(MESSAGE_OBJECTID,offering_id);
                     newintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(newintent);
 
                 }else if(type.equals("rating")){
 
+                } else if (type.equals("reject")) {
+                    //intent to your activity
+                    Log.d("Notification", "Switching to  a new activity!");
+                    Intent newintent = new Intent(context.getApplicationContext(), OfferingViewActivity.class);
+                    newintent.putExtra(MESSAGE_OBJECTID, offering_id);
+                    newintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(newintent);
                 }
 }
         } catch (JSONException e) {

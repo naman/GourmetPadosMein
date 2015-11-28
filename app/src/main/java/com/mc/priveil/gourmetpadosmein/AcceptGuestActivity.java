@@ -16,13 +16,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SendCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,11 +166,37 @@ public class AcceptGuestActivity extends AppCompatActivity {
                                             result.put("bhukkads", bhukkads);
                                             result.saveInBackground();
 
-                                            Intent intent = new Intent(AcceptGuestActivity.this, AcceptGuestActivity.class);
-                                            intent.putExtra(MESSAGE_OBJECTID, objectid);
-                                            startActivity(intent);
+                                            // Find devices associated with these users
+                                            ParseQuery pushQuery = ParseInstallation.getQuery();
+                                            pushQuery.whereEqualTo("username", emailGuest);
 
-//                                        Toast.makeText(AcceptGuestActivity.this, "You clicked reject!", Toast.LENGTH_SHORT).show();;
+                                            // Create time interval
+                                            long weekInterval = 60 * 60 * 24 * 7; // 1 week
+                                            String alert = "Homecook will not be able to serve you today!";
+                                            String apply_ = "reject";
+                                            JSONObject data = null;
+                                            try {
+                                                data = new JSONObject("{\"alert\": \"" + alert + "\", \"offeringId\":\"" + objectid + "\", \"type\":\"" + apply_ + "\" }");
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            Log.d("JSON", data.toString());
+                                            // Send push notification to query
+                                            ParsePush push = new ParsePush();
+                                            push.setExpirationTimeInterval(weekInterval);
+                                            push.setQuery(pushQuery); // Set our Installation query
+//                                            push.setMessage(email.split("@")[0] + " wants to eat your meal!");
+                                            push.setData(data);
+                                            push.sendInBackground(new SendCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    Intent intent = new Intent(AcceptGuestActivity.this, AcceptGuestActivity.class);
+                                                    intent.putExtra(MESSAGE_OBJECTID, objectid);
+                                                    startActivity(intent);
+                                                    finish();
+                                                    Toast.makeText(AcceptGuestActivity.this, "Bhukkad be gone!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                         }
                                     });
 
