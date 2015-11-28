@@ -45,13 +45,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class OfferingViewActivity extends AppCompatActivity {
 //    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 //    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
 
+    public ParseObject result = null;
     public String email;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
@@ -78,9 +81,13 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String latitude;
     private String longitude;
     private Integer currentLeft;
+    Calendar cal = Calendar.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offering_view);
 
@@ -156,6 +163,8 @@ public class OfferingViewActivity extends AppCompatActivity {
                             parse_username = String.valueOf(p.get("username"));
                             start = String.valueOf(p.get("startTime"));
                             finishTime = String.valueOf(p.get("endTime"));
+                            Log.i("test99",finishTime);
+
                             try {
                                 applied = String.valueOf(p.get("bhukkads"));
                                 currentLeft = Integer.parseInt(capacity);
@@ -452,7 +461,6 @@ public class OfferingViewActivity extends AppCompatActivity {
                 }
             });
 
-
         }
 
     }
@@ -575,5 +583,49 @@ public class OfferingViewActivity extends AppCompatActivity {
         share.putExtra(Intent.EXTRA_TEXT, message);
 
         startActivity(Intent.createChooser(share, "Choose where you want to share!"));
+    }
+
+
+
+    public void fin()
+    {
+
+        cal.add(Calendar.MINUTE, 320);
+        ParseQuery query = new ParseQuery("Offering");
+        query.whereEqualTo("objectId", objectid);
+        query.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                if (e == null) {
+                    if (!list.isEmpty()) {
+                        Log.i("never","here");
+                    } else {
+                        Log.i("Testing", "List returned by Parse is empty!");
+                    }
+                } else {
+                    Log.i("Error!!", "Error in querying parse!");
+                }
+            }
+
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+                Log.i("Testing1", o.toString());
+
+                List<ParseObject> results = ((List<ParseObject>) o);
+
+                if (!results.isEmpty()) {
+                    result = results.get(results.size() - 1);
+                    result.put("endTime", cal.getTime());
+                    result.saveInBackground();
+                    Log.i("changeEndTime",cal.getTime().toString());
+                } else {
+                    Log.i("Testing1", "");
+                }
+            }
+        });
+
+
+
     }
 }
