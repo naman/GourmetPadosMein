@@ -462,7 +462,7 @@ public class OfferingViewActivity extends AppCompatActivity {
         final Button button_apply = (Button) findViewById(R.id.button_apply);
 //        button_apply.getBackground().setColorFilter(Color.rgb(131, 208, 201), PorterDuff.Mode.MULTIPLY);
         button_apply.setBackgroundColor(Color.rgb(131, 208, 201));
-        button_apply.setText("Attending");
+        button_apply.setHint("Attending!");
 //        button_apply.setEnabled(false);
     }
 
