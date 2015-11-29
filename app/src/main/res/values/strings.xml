@@ -28,7 +28,7 @@
     <string name="title_activity_log_in">GPM</string>
     <string name="title_activity_user_information">User Info</string>
     <string name="title_activity_user_info">Profile</string>
-    <string name="title_activity_offering_form">New Offering</string>
+    <string name="title_activity_offering_form">Offering</string>
     <string name="title_activity_offering">Offering</string>
     <string name="title_activity_image_temp">ImageTempActivity</string>
     <string name="menu_refresh">Refresh</string>
