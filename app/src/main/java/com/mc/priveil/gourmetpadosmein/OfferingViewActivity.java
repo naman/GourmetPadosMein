@@ -91,6 +91,10 @@ public class OfferingViewActivity extends AppCompatActivity {
 
         setUpToolbar();
         setUpNavDrawer();
+        final LinearLayout visitor = (LinearLayout) findViewById(R.id.visitor);
+        final LinearLayout owner = (LinearLayout) findViewById(R.id.owner);
+        visitor.setVisibility(View.GONE);
+        owner.setVisibility(View.GONE);
 
         // Use application class to maintain global state.
 
@@ -111,10 +115,6 @@ public class OfferingViewActivity extends AppCompatActivity {
             View button_view_guests = findViewById(R.id.button_view_guests);
             final View button_end_offering = findViewById(R.id.button_end_offering);
             final View button_view_host = findViewById(R.id.button_view_host);
-            final LinearLayout visitor = (LinearLayout) findViewById(R.id.visitor);
-            final LinearLayout owner = (LinearLayout) findViewById(R.id.owner);
-            visitor.setVisibility(View.GONE);
-            owner.setVisibility(View.GONE);
 
             ParseUser.enableAutomaticUser();
 
