@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -91,12 +92,15 @@ public class OfferingViewActivity extends AppCompatActivity {
 
         setUpToolbar();
         setUpNavDrawer();
+
+        // Use application class to maintain global state.
+    }
+
+    private void loadOffering(){
         final LinearLayout visitor = (LinearLayout) findViewById(R.id.visitor);
         final LinearLayout owner = (LinearLayout) findViewById(R.id.owner);
         visitor.setVisibility(View.GONE);
         owner.setVisibility(View.GONE);
-
-        // Use application class to maintain global state.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -698,4 +702,42 @@ public class OfferingViewActivity extends AppCompatActivity {
 
 
     }
+
+    public void makeUserConnectIfHeIsntConnected(){
+        if(isConnected() != true){
+            createNetErrorDialog();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        makeUserConnectIfHeIsntConnected();
+        loadOffering();
+    }
+
+    public void createNetErrorDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You need a network connection to use this application. Please turn on mobile network or Wi-Fi in Settings.")
+                .setTitle("Unable to connect")
+                .setCancelable(false)
+                .setPositiveButton("Settings",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent i = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                                startActivity(i);
+                            }
+                        }
+                ).setNegativeButton("Retry",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }
