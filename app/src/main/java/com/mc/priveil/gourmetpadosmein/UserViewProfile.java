@@ -2,8 +2,10 @@ package com.mc.priveil.gourmetpadosmein;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -57,6 +59,7 @@ public class UserViewProfile extends AppCompatActivity {
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private String email;
     private Bitmap bitmap;
+    private String tolookup;
 
     public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -125,7 +128,7 @@ public class UserViewProfile extends AppCompatActivity {
 //
 //                }
 //            });
-            String tolookup = email;
+            tolookup = email;
 
             Log.i("test123", "Dekho Maggi aa gayi 222 !!");
             try{
@@ -246,10 +249,25 @@ public class UserViewProfile extends AppCompatActivity {
                             flag = 1;
                         } else {
                             Log.i("Testing1", "User Profile is not created");
-                            Intent intent = new Intent(UserViewProfile.this, UserInfo.class);
-                            //                        intent.putExtra(MESSAGE_NAME, name);
-                            //                        intent.putExtra(MESSAGE_EMAIL, email);
-                            startActivity(intent);
+                            if(tolookup.equals(email)) {
+                                Intent intent = new Intent(UserViewProfile.this, UserInfo.class);
+                                //                        intent.putExtra(MESSAGE_NAME, name);
+                                //                        intent.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(intent);
+                            }else{
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UserViewProfile.this);
+                                alertDialogBuilder.setMessage("This user hasn't set up his profile yet on GMP");
+
+                                alertDialogBuilder.setPositiveButton("Go Back", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        finish();
+                                    }
+                                });
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+
+                            }
                         }
                         try{ progress.dismiss(); } catch(Exception exc){ }
                     }
