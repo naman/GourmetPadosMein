@@ -1,7 +1,9 @@
 package com.mc.priveil.gourmetpadosmein.Utils;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -21,7 +23,18 @@ public class SplashScreen extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     Log.d("Exception", "Exception" + e);
                 } finally {
-                    startActivity(new Intent(SplashScreen.this, WelcomeScreen.class));
+
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    if (!prefs.getBoolean("firstTime", false)) {
+
+
+                        Log.i("FirstTime", "This will be printed just once!");
+                        startActivity(new Intent(SplashScreen.this, WelcomeScreen.class));
+
+                    } else {
+                        startActivity(new Intent(SplashScreen.this, LogIn.class));
+                    }
                 }
                 finish();
             }
