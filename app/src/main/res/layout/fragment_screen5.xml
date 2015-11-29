@@ -10,7 +10,7 @@
     android:paddingTop="48dp">
 
     <FrameLayout
-        android:id="@id/image_container"
+        android:id="@+id/image_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
@@ -18,13 +18,14 @@
 
         <ImageView
             android:id="@+id/img"
-            android:layout_width="617dp"
+            android:layout_width="651dp"
             android:layout_height="314dp"
             android:layout_gravity="center"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:scaleType="centerInside"
-            android:src="@drawable/offering_list" />
+            android:src="@drawable/view_guests" />
 
     </FrameLayout>
 
@@ -36,20 +37,20 @@
         android:gravity="bottom|center_horizontal"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Home Screen"
+        android:text="Your Guests"
         android:textColor="#ffffff"
         android:textSize="24sp" />
 
     <TextView
         android:id="@+id/screen_desc"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top|center_horizontal"
         android:minHeight="@dimen/welcome_content_min_height"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="View places where you can eat!"
+        android:text="View who have applied!"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 

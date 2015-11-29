@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="6"
-    android:background="#00bcd4"
+    android:background="@color/lollipop_green"
     android:clipChildren="false"
     android:orientation="vertical"
     android:paddingTop="48dp">
@@ -18,14 +18,14 @@
 
         <ImageView
             android:id="@+id/img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="651dp"
+            android:layout_height="314dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_laptop_white_36dp" />
+            android:src="@drawable/offering_view_host" />
 
     </FrameLayout>
 
@@ -37,7 +37,7 @@
         android:gravity="bottom|center_horizontal"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Screen 3"
+        android:text="Love to cook?"
         android:textColor="#ffffff"
         android:textSize="24sp" />
 
@@ -50,7 +50,7 @@
         android:minHeight="@dimen/welcome_content_min_height"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Screen 2 desc"
+        android:text="Offer your tasty meals!"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
