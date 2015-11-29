@@ -146,7 +146,7 @@ public class ReviewActivity extends AppCompatActivity {
         final ParseObject testObject;
         testObject = new ParseObject("Review");
         String email = (new AuthHelper(ReviewActivity.this)).getLoggedInUserEmail();
-        email = "Naman Hi rahoge!!";
+//        email = "Naman Hi rahoge!!";
 
         testObject.put("reviewer_id", email);
         testObject.put("Comment", getComment);

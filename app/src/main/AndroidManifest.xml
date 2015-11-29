@@ -94,7 +94,7 @@
             android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".OfferingViewActivity"
-            android:label="Offering"
+            android:label="Food Offering"
             android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".UserViewProfile"
@@ -102,11 +102,12 @@
             android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".AcceptGuestActivity"
+            android:label="Guest List"
             android:theme="@style/AppTheme.Base"
             />
         <activity
             android:name=".Forms.ReviewActivity"
-            android:label="Rate your Offering!"
+            android:label="Rate Food Offering!"
             android:theme="@style/AppTheme.Base"
             />
 

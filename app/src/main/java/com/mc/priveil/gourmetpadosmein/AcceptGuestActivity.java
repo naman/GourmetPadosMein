@@ -124,6 +124,7 @@ public class AcceptGuestActivity extends AppCompatActivity {
                             TextView text = (TextView)findViewById(R.id.textView15);
                             text.setText(noGuest);
                             text.setVisibility(View.VISIBLE);
+                            Log.d("NOTVISIBLE", "text not visi");
                         }
                         else {
 
