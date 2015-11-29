@@ -23,7 +23,7 @@ import com.nineoldandroids.view.ViewHelper;
 
 public class WelcomeScreen extends AppCompatActivity {
 
-    static final int TOTAL_PAGES = 4;
+    static final int TOTAL_PAGES = 6;
 
     ViewPager pager;
     PagerAdapter pagerAdapter;
