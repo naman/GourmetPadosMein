@@ -109,7 +109,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offerings);
-
+        Log.i("myTest","This is my Test!");
         Log.i("Testing12", "Came here in Listing class");
         setUpToolbar();
         setUpNavDrawer();
