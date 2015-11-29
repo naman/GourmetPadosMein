@@ -120,7 +120,7 @@ public class AcceptGuestActivity extends AppCompatActivity {
                         }
                         if(bhukkads.size()==0)
                         {
-                            String noGuest = "You have no guests for this offering!!";
+                            String noGuest = "There are no guests for your offering yet.";
                             TextView text = (TextView)findViewById(R.id.textView15);
                             text.setText(noGuest);
                             text.setVisibility(View.VISIBLE);

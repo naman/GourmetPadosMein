@@ -30,7 +30,7 @@
         android:required="true" />
 
     <application
-        android:name=".ParseApplication"
+        android:name=".Utils.ParseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo_icon"
         android:label="@string/app_name"
