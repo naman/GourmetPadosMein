@@ -53,9 +53,9 @@
                         android:layout_height="250dp"
                         android:layout_gravity="left"
                         android:adjustViewBounds="false"
-                        android:background="@drawable/default_user_image"
                         android:elevation="8dp"
-                        android:focusable="true" />
+                        android:focusable="true"
+                        android:background="#4ebbbbbb" />
 
                     <TextView
                         android:id="@+id/textView8"
@@ -83,7 +83,7 @@
                             android:id="@+id/button4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Camera"
+                            android:text="Camera"
                             android:onClick="camerapick" />
                     </LinearLayout>
 
