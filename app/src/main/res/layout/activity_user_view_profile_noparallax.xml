@@ -17,7 +17,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:background="@color/lollipop_green"
+            android:theme="@style/MyToolbarTheme"
+            app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <android.support.v4.widget.DrawerLayout
             android:id="@+id/drawer"
@@ -40,30 +42,31 @@
                     android:id="@+id/backdrop"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:scaleType="fitCenter"
+                    android:background="@drawable/default_user_image"
+                    android:elevation="8dp"
                     android:fitsSystemWindows="true"
-                    android:background="@drawable/default_user_image" />
+                    android:scaleType="fitCenter" />
 
                 <Button
+                    android:id="@+id/button6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit Profile"
-                    android:id="@+id/button6"
-                    android:layout_below="@+id/textView6"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:onClick="editProfile"
-                    android:visibility="gone"
+                    android:layout_below="@+id/textView6"
                     android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginRight="10dp" />
+                    android:onClick="editProfile"
+                    android:text="Edit Profile"
+                    android:visibility="gone" />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="50dp"
@@ -72,61 +75,61 @@
                         android:paddingTop="60dp">
 
                         <TextView
+                            android:id="@+id/textView7"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:id="@+id/textView7"
+                            android:layout_gravity="right"
                             android:text="4.9"
-                            android:textStyle="bold|italic"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textSize="35dp"
-                            android:layout_gravity="right" />
+                            android:textStyle="bold|italic" />
 
                         <TextView
+                            android:id="@+id/textView13"
                             android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:id="@+id/textView13" />
+                            android:layout_height="40dp" />
 
                         <ImageView
+                            android:id="@+id/imageView6"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:id="@+id/imageView6"
-                            android:background="@drawable/ic_account_circle_black_48dp"
-                            android:layout_marginTop="2dp" />
+                            android:layout_marginTop="2dp"
+                            android:background="@drawable/ic_account_circle_black_48dp" />
 
                         <ImageView
+                            android:id="@+id/imageView4"
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:id="@+id/imageView4"
                             android:background="@drawable/ic_email_black_24dp"
                             android:onClick="sendEmail" />
 
                         <ImageView
+                            android:id="@+id/imageView7"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:id="@+id/imageView7"
-                            android:background="@drawable/ic_home_black_48dp"
                             android:layout_marginTop="2dp"
+                            android:background="@drawable/ic_home_black_48dp"
                             android:onClick="viewAddressOnMap" />
 
                         <ImageView
+                            android:id="@+id/imageView8"
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:id="@+id/imageView8"
-                            android:baselineAlignBottom="true"
-                            android:background="@drawable/ic_call_black_24dp"
-                            android:clickable="true"
                             android:layout_marginTop="2dp"
+                            android:background="@drawable/ic_call_black_24dp"
+                            android:baselineAlignBottom="true"
+                            android:clickable="true"
                             android:onClick="sendCall" />
 
                         <ImageView
+                            android:id="@+id/imageView10"
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:id="@+id/imageView10"
-                            android:baselineAlignBottom="true"
-                            android:background="@drawable/ic_contact_phone_black_24dp"
-                            android:clickable="true"
-                            android:adjustViewBounds="true"
                             android:layout_marginTop="35dp"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/ic_contact_phone_black_24dp"
+                            android:baselineAlignBottom="true"
+                            android:clickable="true"
                             android:nestedScrollingEnabled="true"
                             android:onClick="sendEmergencyCall" />
                     </LinearLayout>
@@ -134,10 +137,10 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
+                        android:layout_marginTop="18dp"
 
-                        android:paddingLeft="20dp"
-                        android:layout_marginTop="18dp">
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp">
 
 
                         <!--<RatingBar-->
@@ -147,121 +150,121 @@
                         <!--android:isIndicator="true"-->
                         <!--android:stepSize="0.01"/>-->
                         <TextView
+                            android:id="@+id/textView10"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="GPM Rating :"
-                            android:id="@+id/textView10"
-                            android:layout_below="@+id/textView4"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_below="@+id/textView4"
+                            android:text="GPM Rating :"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textStyle="bold|italic" />
 
                         <RatingBar
                             android:id="@+id/ratingBar2"
-                            android:numStars="5"
-                            android:stepSize="0.1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:isIndicator="true"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center" />
+                            android:numStars="5"
+                            android:stepSize="0.1" />
 
                         <TextView
+                            android:id="@+id/textView12"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView12" />
+                            android:layout_height="wrap_content" />
 
                         <TextView
+                            android:id="@+id/textView11"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Contact Details :"
-                            android:id="@+id/textView11"
-                            android:layout_below="@+id/textView4"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_below="@+id/textView4"
+                            android:text="Contact Details :"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textStyle="bold|italic" />
 
                         <TextView
+                            android:id="@+id/textView2"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Name"
-                            android:id="@+id/textView2"
-                            android:layout_below="@+id/textView"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/textView"
+                            android:text="Name"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <TextView
+                            android:id="@+id/textView"
                             android:layout_width="fill_parent"
                             android:layout_height="50dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Email"
-                            android:id="@+id/textView"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
                             android:onClick="sendEmail"
-                            android:layout_marginTop="10dp" />
+                            android:text="Email"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Address"
                             android:id="@+id/textView3"
-                            android:layout_below="@+id/textView2"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
-
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Mobile Number"
-                            android:id="@+id/textView4"
-                            android:layout_below="@+id/textView3"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:onClick="sendCall" />
+                            android:layout_below="@+id/textView2"
+                            android:text="Address"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/textView3"
+                            android:onClick="sendCall"
+                            android:text="Mobile Number"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/textView9"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Emergency Contact :"
-                            android:id="@+id/textView9"
-                            android:layout_below="@+id/textView4"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_below="@+id/textView4"
+                            android:text="Emergency Contact :"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textStyle="bold|italic" />
 
                         <TextView
+                            android:id="@+id/textView5"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Emergency Name"
-                            android:id="@+id/textView5"
-                            android:layout_below="@+id/textView4"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Emergency Number"
-                            android:id="@+id/textView6"
-                            android:layout_below="@+id/textView5"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:onClick="sendEmergency" />
+                            android:layout_below="@+id/textView4"
+                            android:text="Emergency Name"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/textView5"
+                            android:onClick="sendEmergency"
+                            android:text="Emergency Number"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
 
                         <ImageView
+                            android:id="@+id/imageView9"
                             android:layout_width="wrap_content"
                             android:layout_height="5dp"
-                            android:id="@+id/imageView9"
                             android:layout_gravity="top" />
 
 

@@ -77,12 +77,12 @@
         <activity
             android:name=".OfferingListActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:theme="@style/AppTheme.Base">
         </activity>
         <activity
             android:name=".LogIn"
             android:label="@string/title_activity_log_in"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -92,26 +92,27 @@
         <activity
             android:name=".Forms.UserInfo"
             android:label="@string/title_activity_user_info"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".Forms.OfferingForm"
             android:label="@string/title_activity_offering_form"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".OfferingViewActivity"
             android:label="Offering"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".UserViewProfile"
             android:label="@string/title_activity_user_view_profile"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".AcceptGuestActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/AppTheme.Base"
             />
         <activity
             android:name=".Forms.ReviewActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="Rate your Offering!"
+            android:theme="@style/AppTheme.Base"
             />
 
         <activity

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:elevation="8dp"
         app:cardUseCompatPadding="true"
         card_view:cardCornerRadius="14dp"
 
@@ -22,12 +23,6 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/food_photo"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--/>-->
 
             <TextView
                 android:id="@+id/food_offering"

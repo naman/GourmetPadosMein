@@ -2,9 +2,12 @@
 <resources>
     <color name="darkgreen">#006400</color>
     <color name="white">#ffffff</color>
-    <color name="lollipop_green">#009688</color>
+    <color name="red">#d32f2f</color>
+    <color name="lollipop_green">#303f9f</color>
+    <color name="lollipop_green_dark">#1a237e</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FFEB3B</color>
     <color name="colorAccentDark">#FBC02D</color>
+    <color name="gray">#eceff1</color>
 </resources>

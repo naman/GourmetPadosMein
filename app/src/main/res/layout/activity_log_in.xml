@@ -21,10 +21,11 @@
         android:id="@+id/imageView3"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:scaleType="fitCenter"
-        android:background="@drawable/logo_name1"
         android:layout_alignTop="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/logo_name1"
+        android:elevation="8dp"
+        android:scaleType="fitCenter" />
 
 
     <ImageView

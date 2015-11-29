@@ -29,17 +29,8 @@
         android:clickable="true"
         android:elevation="10dp"
         android:src="@drawable/plus"
-        app:backgroundTint="@color/lollipop_green"
+        app:backgroundTint="@color/red"
         app:borderWidth="0dp"
         app:layout_anchorGravity="bottom|right|end" />
 
 </RelativeLayout>
-
-    <!--<?xml version="1.0" encoding="utf-8"?>--><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent" android:layout_height="match_parent"--><!--android:padding="16dp"--><!-->-->
-
-    <!--<android.support.v7.widget.RecyclerView--><!--android:layout_height="match_parent"--><!--android:layout_width="match_parent"--><!--android:id="@+id/rv"--><!-->-->
-
-    <!--</android.support.v7.widget.RecyclerView>-->
-
-
-    <!--</LinearLayout>-->
