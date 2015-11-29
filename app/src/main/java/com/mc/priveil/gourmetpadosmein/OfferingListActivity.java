@@ -1,7 +1,9 @@
 package com.mc.priveil.gourmetpadosmein;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -9,6 +11,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import com.mc.priveil.gourmetpadosmein.Forms.UserInfo;
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
+import com.mc.priveil.gourmetpadosmein.Models.AlertDialogHelper;
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -109,7 +113,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offerings);
-        Log.i("myTest","This is my Test!");
+        Log.i("myTest", "This is my Test!");
         Log.i("Testing12", "Came here in Listing class");
         setUpToolbar();
         setUpNavDrawer();
@@ -603,4 +607,35 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
+    public void makeUserConnectIfHeIsntConnected(){
+        if(isConnected() != true){
+            createNetErrorDialog();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        makeUserConnectIfHeIsntConnected();
+        myUpdateOperation();
+    }
+    public void createNetErrorDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You need a network connection to use this application. Please turn on mobile network or Wi-Fi in Settings.")
+                .setTitle("Unable to connect")
+                .setCancelable(false)
+                .setPositiveButton("Settings",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent i = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                                startActivity(i);
+                            }
+                        }
+                );
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }
