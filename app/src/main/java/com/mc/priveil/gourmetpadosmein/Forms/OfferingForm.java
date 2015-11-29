@@ -751,7 +751,7 @@ public class OfferingForm extends AppCompatActivity {
 
                 try {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 30, stream);
                     byte[] imagefile = stream.toByteArray();
                     ParseFile file = new ParseFile("offerimage.png", imagefile);
                     file.saveInBackground();

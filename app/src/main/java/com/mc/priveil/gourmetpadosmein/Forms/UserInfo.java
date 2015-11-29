@@ -454,7 +454,7 @@ public class UserInfo extends AppCompatActivity {
 //            Log.i("test123","Came in else statement 2");
                 try {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 30, stream);
                     byte[] imagefile = stream.toByteArray();
                     ParseFile file = new ParseFile("offerimage.png", imagefile);
                     file.saveInBackground();
