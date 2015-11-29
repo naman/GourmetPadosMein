@@ -178,8 +178,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center_vertical"
             android:layout_marginTop="10dp"
-                    android:onClick="sendEmail"
-            android:text="Email"
+            android:hint="Email"
+            android:onClick="sendEmail"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -189,7 +189,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/textView"
-                    android:text="Name"
+                    android:hint="Name"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -199,7 +199,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/textView2"
-                    android:text="Address"
+                    android:hint="Address"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -209,8 +209,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/textView3"
+                    android:hint="Contact Number"
                     android:onClick="sendCall"
-                    android:text="Mobile Number"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -220,7 +220,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView4"
-            android:text="Emergency Contact :"
+            android:hint="Emergency Contact :"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold|italic" />
 
@@ -231,7 +231,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
                     android:layout_below="@+id/textView4"
-            android:text="Emergency Name"
+            android:hint="Emergency Name"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -241,8 +241,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
                     android:layout_below="@+id/textView5"
+            android:hint="Emergency Number"
             android:onClick="sendEmergency"
-            android:text="Emergency Number"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Button
@@ -252,8 +252,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/textView6"
+                    android:hint="Edit Profile"
                     android:onClick="editProfile"
-                    android:text="Edit Profile"
                     android:visibility="gone" />
 
         <ImageView

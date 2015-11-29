@@ -50,7 +50,7 @@
         android:minHeight="@dimen/welcome_content_min_height"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="View and edit your profile"
+        android:text="Personalise your profile and earn stars!"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 

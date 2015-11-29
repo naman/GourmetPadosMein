@@ -28,19 +28,19 @@
     </FrameLayout>
 
     <TextView
-        android:id="@id/screen_heading"
+        android:id="@+id/screen_heading"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="bottom|center_horizontal"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Screen 2"
+        android:text="Food Offering"
         android:textColor="#ffffff"
         android:textSize="24sp" />
 
     <TextView
-        android:id="@id/screen_desc"
+        android:id="@+id/screen_desc"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -48,7 +48,7 @@
         android:minHeight="@dimen/welcome_content_min_height"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Screen 2 desc"
+        android:text="Take the delicious meal made by Homcooks!"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 

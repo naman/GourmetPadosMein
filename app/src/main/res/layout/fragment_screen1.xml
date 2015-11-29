@@ -36,7 +36,7 @@
         android:gravity="bottom|center_horizontal"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Screen 1"
+        android:text="Home Screen"
         android:textColor="#ffffff"
         android:textSize="24sp" />
 
@@ -49,7 +49,7 @@
         android:minHeight="@dimen/welcome_content_min_height"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Screen 1 description"
+        android:text="View meals by Home Cooks near you!"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
