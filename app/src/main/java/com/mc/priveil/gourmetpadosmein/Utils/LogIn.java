@@ -1,4 +1,4 @@
-package com.mc.priveil.gourmetpadosmein;
+package com.mc.priveil.gourmetpadosmein.Utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,14 +21,16 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
+import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
+import com.mc.priveil.gourmetpadosmein.R;
 
 public class LogIn extends Activity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
     private static final String TAG = "talha111";
     private static final int RC_SIGN_IN = 0;
-    public String email;
     public static GoogleApiClient mGoogleApiClient;
+    public String email;
     private boolean mIsResolving = false;
     private boolean mShouldResolve = false;
     private String personName;
@@ -164,16 +166,16 @@ public class LogIn extends Activity implements View.OnClickListener, GoogleApiCl
         if(email!=null) {
             Toast.makeText(this, "Logged in as " + email, Toast.LENGTH_LONG).show();
             (new AuthHelper(LogIn.this)).authenticated(email);
-//            Intent intent = new Intent(this, UserInfo.class);
+
             Intent intent = new Intent(this, OfferingListActivity.class);
-//            Intent intent = new Intent(this, OfferingForm.class);
+
+
             if(personName==null)
             {
                 Log.i("Testing","No name");
             }
             else
                 Log.i("Testing",personName);
-
 
             intent.putExtra("fromLogin","Y");
 

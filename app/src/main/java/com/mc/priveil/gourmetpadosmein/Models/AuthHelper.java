@@ -6,16 +6,16 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.android.gms.plus.Plus;
-import com.mc.priveil.gourmetpadosmein.LogIn;
+import com.mc.priveil.gourmetpadosmein.Utils.LogIn;
 
 /**
  * Created by magusverma on 27/11/15.
  */
 public class AuthHelper {
 
-    Context context;
     public static final String appPreferences = "gourmetPadosMeinPrefs" ;
     public static final String authenticatedUserEmailKey = "email";
+    Context context;
 
     public AuthHelper(Context context) {
         this.context = context;

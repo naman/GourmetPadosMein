@@ -1,10 +1,13 @@
-package com.mc.priveil.gourmetpadosmein;
+package com.mc.priveil.gourmetpadosmein.Utils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.mc.priveil.gourmetpadosmein.AcceptGuestActivity;
+import com.mc.priveil.gourmetpadosmein.Forms.ReviewActivity;
+import com.mc.priveil.gourmetpadosmein.OfferingViewActivity;
 import com.parse.ParsePushBroadcastReceiver;
 
 import org.json.JSONException;
@@ -41,6 +44,11 @@ public class MyReceiver extends ParsePushBroadcastReceiver {
                     context.startActivity(newintent);
 
                 }else if(type.equals("rating")){
+                    Log.d("Notification", "Switching to  a new activity!");
+                    Intent newintent = new Intent(context.getApplicationContext(), ReviewActivity.class);
+                    newintent.putExtra(MESSAGE_OBJECTID, offering_id);
+                    newintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(newintent);
 
                 } else if (type.equals("reject")) {
                     //intent to your activity

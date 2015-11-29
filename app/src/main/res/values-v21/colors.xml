@@ -10,4 +10,7 @@
     <color name="colorAccent">#FFEB3B</color>
     <color name="colorAccentDark">#FBC02D</color>
     <color name="gray">#eceff1</color>
+
+    <color name="text_selected">#888</color>
+    <color name="transparent_bg">#fff</color>
 </resources>
