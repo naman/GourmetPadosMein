@@ -128,12 +128,12 @@ public class OfferingViewActivity extends AppCompatActivity {
             final ProgressDialog progress = new ProgressDialog(OfferingViewActivity.this);
             progress.setTitle("Loading Offering Information");
             progress.setMessage("please wait...");
-            progress.show();
+            try{ progress.show(); } catch(Exception exc){ }
 
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
-                    progress.dismiss();
+                    try{ progress.dismiss(); } catch(Exception exc){ }
                     if (e == null) {
                         if (!list.isEmpty()) {
                             Log.i("Testing", list.get(0).toString());
@@ -328,11 +328,11 @@ public class OfferingViewActivity extends AppCompatActivity {
                                                 final ProgressDialog progress = new ProgressDialog(OfferingViewActivity.this);
                                                 progress.setTitle("Sending Request");
                                                 progress.setMessage("please wait...");
-                                                progress.show();
+                                                try{ progress.show(); } catch(Exception exc){ }
 
                                                 apply.saveInBackground(new SaveCallback() {
                                                     public void done(ParseException e) {
-                                                        progress.dismiss();
+                                                        try{ progress.dismiss(); } catch(Exception exc){ }
                                                         if (e == null) {
                                                             goo();
                                                         } else {
@@ -523,7 +523,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
                     } else
                         Log.i("Error!!", "NULL");
-                    progress.dismiss();
+                    try{ progress.dismiss(); } catch(Exception exc){ }
                 }
             });
 

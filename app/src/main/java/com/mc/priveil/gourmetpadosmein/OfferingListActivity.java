@@ -160,14 +160,14 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
             final ProgressDialog progress = new ProgressDialog(this);
             progress.setTitle("Fetching Your User Information");
             progress.setMessage("please wait...");
-            progress.show();
+            try{ progress.show(); } catch(Exception exc){ }
 
 
 
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
-                    progress.dismiss();
+                    try{ progress.dismiss(); } catch(Exception exc){ }
                     if (e == null) {
                         if (!list.isEmpty()) {
                         } else {
@@ -180,7 +180,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                 @Override
                 public void done(Object o, Throwable throwable) {
-                    progress.dismiss();
+                    try{ progress.dismiss(); } catch(Exception exc){ }
                     boolean goingOut = false;
 //                Log.i("Testing",throwable.getMessage().toString());
                     if (throwable == null) {
@@ -389,12 +389,12 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
             final ProgressDialog progress = new ProgressDialog(this);
             progress.setTitle("Refreshing Listing Information");
             progress.setMessage("please wait...");
-            progress.show();
+            try{ progress.show(); } catch(Exception exc){ }
 
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
-                    progress.dismiss();
+                    try{ progress.dismiss(); } catch(Exception exc){ }
                     if (e == null) {
                         if (!list.isEmpty()) {
                             Log.i("Testing", list.get(0).toString());
@@ -408,7 +408,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                 @Override
                 public void done(Object o, Throwable throwable) {
-                    progress.dismiss();
+                    try{ progress.dismiss(); } catch(Exception exc){ }
                     if (o != null && throwable == null) {
                         List<ParseObject> itemlist;
                         itemlist = (List<ParseObject>) o;
