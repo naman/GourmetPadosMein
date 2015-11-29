@@ -299,12 +299,12 @@ public class OfferingForm extends AppCompatActivity {
                 final ProgressDialog progress = new ProgressDialog(OfferingForm.this);
                 progress.setTitle("Fetching Current Offering Info");
                 progress.setMessage("please wait...");
-                progress.show();
+                try{ progress.show(); } catch(Exception exc){ }
 
                 query.findInBackground(new FindCallback() {
                     @Override
                     public void done(List list, ParseException e) {
-                        progress.dismiss();
+                        try{ progress.dismiss(); } catch(Exception exc){ }
                         if (e == null) {
                             if (!list.isEmpty()) {
                                 //                        EditText email = (EditText) findViewById(R.id.editText);
@@ -328,7 +328,7 @@ public class OfferingForm extends AppCompatActivity {
 
                     @Override
                     public void done(Object o, Throwable throwable) {
-                        progress.dismiss();
+                        try{ progress.dismiss(); } catch(Exception exc){ }
                         //                Log.i("Testing",throwable.getMessage().toString());
                         Log.i("Testing1", o.toString());
 
@@ -763,7 +763,7 @@ public class OfferingForm extends AppCompatActivity {
                 final ProgressDialog progress = new ProgressDialog(this);
                 progress.setTitle("Creating new listing");
                 progress.setMessage("please wait...");
-                progress.show();
+                try{ progress.show(); } catch(Exception exc){ }
                 testObject.saveInBackground(new SaveCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
@@ -778,7 +778,7 @@ public class OfferingForm extends AppCompatActivity {
     }
 
     void myObjectSavedSuccessfully(ParseObject po,ProgressDialog progress){
-        progress.dismiss();
+        try{ progress.dismiss(); } catch(Exception exc){ }
         Log.i("Testing", "about to submit form 4!!!");
         Intent intent = new Intent(this, OfferingViewActivity.class);
         intent.putExtra("objectid", po.getObjectId());
@@ -788,7 +788,7 @@ public class OfferingForm extends AppCompatActivity {
     }
 
     void myObjectSaveDidNotSucceed(ProgressDialog progress) {
-        progress.dismiss();
+        try{ progress.dismiss(); } catch(Exception exc){ }
         Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG);
     }
 

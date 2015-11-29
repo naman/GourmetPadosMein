@@ -151,12 +151,12 @@ public class UserViewProfile extends AppCompatActivity {
             final ProgressDialog progress = new ProgressDialog(UserViewProfile.this);
             progress.setTitle("Loading User Information");
             progress.setMessage("please wait...");
-            progress.show();
+            try{ progress.show(); } catch(Exception exc){ }
 
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
-                    progress.dismiss();
+                    try{ progress.dismiss(); } catch(Exception exc){ }
                     if (e == null) {
                         if (!list.isEmpty()) {
                             Log.i("Testing", list.get(0).toString());
@@ -251,7 +251,7 @@ public class UserViewProfile extends AppCompatActivity {
                             //                        intent.putExtra(MESSAGE_EMAIL, email);
                             startActivity(intent);
                         }
-                        progress.dismiss();
+                        try{ progress.dismiss(); } catch(Exception exc){ }
                     }
                 }
             });

@@ -469,10 +469,10 @@ public class UserInfo extends AppCompatActivity {
                 final ProgressDialog progress = new ProgressDialog(this);
                 progress.setTitle("Updating your User Profile");
                 progress.setMessage("please wait...");
-                progress.show();
+                try{ progress.show(); } catch(Exception exc){ }
                 testObject.saveInBackground(new SaveCallback() {
                     public void done(ParseException e) {
-                        progress.dismiss();
+                        try{ progress.dismiss(); } catch(Exception exc){ }
                         if (e == null) {
                             myObjectSavedSuccessfully(testObject, email, name, progress);
 

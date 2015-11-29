@@ -155,7 +155,7 @@ public class ReviewActivity extends AppCompatActivity {
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setTitle("Saving Your Reviews!!");
         progress.setMessage("please wait...");
-        progress.show();
+        try{ progress.show(); } catch(Exception exc){ }
         Log.i("test", "Failed Here 2!!");
 
         ParseQuery query = new ParseQuery("User");
@@ -220,14 +220,14 @@ public class ReviewActivity extends AppCompatActivity {
 
 
     void myObjectSavedSuccessfully(ParseObject po,ProgressDialog progress){
-        progress.dismiss();
+        try{ progress.dismiss(); } catch(Exception exc){ }
         Log.i("Testing", "about to submit form 4!!!");
         Intent intent = new Intent(this, OfferingListActivity.class);
         startActivity(intent);
     }
 
     void myObjectSaveDidNotSucceed(ProgressDialog progress){
-        progress.dismiss();
+        try{ progress.dismiss(); } catch(Exception exc){ }
         Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG);
     }
 
