@@ -375,7 +375,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
         }
 
-        Log.i("test123","Successfully exiting create");
+        Log.i("test123", "Successfully exiting create");
     }
 
     public void myUpdateOperation()
@@ -633,7 +633,14 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                                 startActivity(i);
                             }
                         }
-                );
+                ).setNegativeButton("Retry",
+                new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
+                        }
+        });
         AlertDialog alert = builder.create();
         alert.show();
     }
