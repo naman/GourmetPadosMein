@@ -70,6 +70,8 @@ public class UserInfo extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 2;
     private Bitmap bitmap;
     private Boolean edit;
+    double rating = 0;
+    double numRatings = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,6 +201,8 @@ public class UserInfo extends AppCompatActivity {
                         mobile.setText((String)result.get("phoneNumber"));
                         emergencyName.setText(((String) result.get("emergencyContactName")));
                         emergencyNumber.setText(((String) result.get("emergencyContactNumber")));
+                        rating = Double.parseDouble(result.get("rating").toString());
+                        numRatings = Double.parseDouble(result.get("numRatings").toString());
                         try {
                             ParseFile fileObject = (ParseFile) result
                                     .get("image");
@@ -436,8 +440,8 @@ public class UserInfo extends AppCompatActivity {
                     testObject = new ParseObject("User");
                 }
                 testObject.put("username", email.getText().toString());
-                testObject.put("rating", 0);
-                testObject.put("numRatings", 0);
+                testObject.put("rating", rating);
+                testObject.put("numRatings", numRatings);
                 testObject.put("name", name.getText().toString());
                 testObject.put("address", address.getText().toString());
 
