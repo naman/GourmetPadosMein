@@ -56,11 +56,11 @@ public class OfferingViewActivity extends AppCompatActivity {
 
     public ParseObject result = null;
     public String email;
+    Calendar cal = Calendar.getInstance();
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private String objectid;
-
     private String cost;
     private String description;
     private String foodname;
@@ -81,8 +81,6 @@ public class OfferingViewActivity extends AppCompatActivity {
     private String latitude;
     private String longitude;
     private Integer currentLeft;
-    Calendar cal = Calendar.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -321,6 +319,9 @@ public class OfferingViewActivity extends AppCompatActivity {
                                         alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface arg0, int arg1) {
+                                                // Guest subscribes to the host's notifications
+                                                ParsePush.subscribeInBackground(objectid);
+
                                                 ParseObject apply = ParseObject.createWithoutData("Offering", objectid);
                                                 apply.addUnique("bhukkads", email);
 
@@ -450,6 +451,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                                 }
                             });
 
+                            //button to end the offering
                             button_end_offering.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -461,9 +463,41 @@ public class OfferingViewActivity extends AppCompatActivity {
                                     alertDialogBuilder.setPositiveButton("End offering", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
-                                            Toast.makeText(OfferingViewActivity.this, "Offering Ended!", Toast.LENGTH_SHORT).show();
+
+                                            //send notification
+/*
+                                            Toast.makeText(OfferingViewActivity.this, "Thank you for hosting with us!", Toast.LENGTH_LONG).show();
+                                            ParsePush push = new ParsePush();
+                                            push.setChannel(objectid);
+                                            push.setMessage("Thank you for having food with us! Hope to serve you soon again.");
+                                            push.sendInBackground();
+*/
+
+                                            // Create time interval
+                                            long weekInterval = 60 * 60 * 24 * 7; // 1 week
+                                            String alert = "Thank you for having food with us! Hope to serve you soon again.";
+                                            String apply_ = "rating";
+                                            JSONObject data = null;
+                                            try {
+                                                data = new JSONObject("{\"alert\": \"" + alert + "\", \"offeringId\":\"" + objectid + "\", \"type\":\"" + apply_ + "\" }");
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            Log.d("JSON", data.toString());
+                                            // Send push notification to query
+                                            ParsePush push = new ParsePush();
+                                            push.setChannel(objectid);
+                                            push.setExpirationTimeInterval(weekInterval);
+                                            push.setData(data);
+                                            push.sendInBackground(new SendCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    Toast.makeText(OfferingViewActivity.this, "Thank you for hosting with us!", Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+
                                             fin();
-                                            startListingAvtivity();
+                                            startListingActivity();
                                         }
                                     });
 
@@ -497,7 +531,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
     }
 
-    private void startListingAvtivity(){
+    private void startListingActivity() {
         Intent intent = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
         startActivity(intent);
     }

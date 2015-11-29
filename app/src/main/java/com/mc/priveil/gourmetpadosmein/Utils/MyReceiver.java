@@ -8,6 +8,7 @@ import android.util.Log;
 import com.mc.priveil.gourmetpadosmein.AcceptGuestActivity;
 import com.mc.priveil.gourmetpadosmein.Forms.ReviewActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingViewActivity;
+import com.parse.ParsePush;
 import com.parse.ParsePushBroadcastReceiver;
 
 import org.json.JSONException;
@@ -45,6 +46,8 @@ public class MyReceiver extends ParsePushBroadcastReceiver {
 
                 }else if(type.equals("rating")){
                     Log.d("Notification", "Switching to  a new activity!");
+                    ParsePush.unsubscribeInBackground(offering_id);
+
                     Intent newintent = new Intent(context.getApplicationContext(), ReviewActivity.class);
                     newintent.putExtra(MESSAGE_OBJECTID, offering_id);
                     newintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -52,9 +55,11 @@ public class MyReceiver extends ParsePushBroadcastReceiver {
 
                 } else if (type.equals("reject")) {
                     //intent to your activity
+                    ParsePush.unsubscribeInBackground(offering_id);
+
                     Log.d("Notification", "Switching to  a new activity!");
                     Intent newintent1 = new Intent(context.getApplicationContext(), OfferingViewActivity.class);
-                    newintent1.putExtra(MESSAGE_OBJECTID, offering_id);
+                    newintent1.putExtra("objectid", offering_id);
                     newintent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(newintent1);
                 }
