@@ -1,9 +1,6 @@
 package com.mc.priveil.gourmetpadosmein.Utils;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -27,15 +24,17 @@ public class ParseApplication extends Application {
             e.printStackTrace();
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean("firstTime", false)) {
-            // <---- run your one time code here
-            Log.i("FirstTime", "This will be printed just once!");
-            // mark first time has runned.
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("firstTime", true);
-            editor.commit();
-        }
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        if (!prefs.getBoolean("firstTime", false)) {
+//            // <---- run your one time code here
+//            Log.i("FirstTime!!", "This will be printed just once!");
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.putBoolean("firstTime", true);
+//            editor.commit();
+//        }
+//        else
+//        {
+//        }
 
     }
 }

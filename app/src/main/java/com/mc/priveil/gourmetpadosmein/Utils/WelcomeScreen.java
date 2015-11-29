@@ -189,6 +189,13 @@ public class WelcomeScreen extends AppCompatActivity {
                 case 3:
                     welcomeScreenFragment = WelcomeScreenFragment.newInstance(R.layout.fragment_screen4);
                     break;
+                case 4:
+                    welcomeScreenFragment = WelcomeScreenFragment.newInstance(R.layout.fragment_screen5);
+                    break;
+                case 5:
+                    welcomeScreenFragment = WelcomeScreenFragment.newInstance(R.layout.fragment_screen6);
+                    break;
+
             }
 
             return welcomeScreenFragment;
