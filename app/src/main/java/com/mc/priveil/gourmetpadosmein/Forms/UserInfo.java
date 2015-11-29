@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
@@ -218,12 +220,8 @@ public class UserInfo extends AppCompatActivity {
                                                 // Get the ImageView from
                                                 // main.xml
                                                 ImageView image = (ImageView) findViewById(R.id.imageView5);
-                                                image.setBackgroundColor(0);
-
-                                                // Set the Bitmap into the
-                                                // ImageView
-                                                image.setImageBitmap(bitmap);
-
+                                                Drawable d = new BitmapDrawable(getResources(), bitmap);
+                                                image.setBackground(d);
                                             } else {
                                                 Log.d("test",
                                                         "There was a problem downloading the data.");
@@ -514,7 +512,8 @@ public class UserInfo extends AppCompatActivity {
                 // Log.d(TAG, String.valueOf(bitmap));
 
                 ImageView imageView = (ImageView) findViewById(R.id.imageView5);
-                imageView.setImageBitmap(bitmap);
+                Drawable d = new BitmapDrawable(getResources(), bitmap);
+                imageView.setBackground(d);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -523,7 +522,8 @@ public class UserInfo extends AppCompatActivity {
             Bundle extras = data.getExtras();
             bitmap = (Bitmap) extras.get("data");
             mImageView=(ImageView)findViewById(R.id.imageView5);
-            mImageView.setImageBitmap(bitmap);
+             Drawable d = new BitmapDrawable(getResources(), bitmap);
+             mImageView.setBackground(d);
         }
         if (requestCode == PICK_CONTACT && resultCode == Activity.RESULT_OK) {
              Log.d("test123", "Came in pick contact");
