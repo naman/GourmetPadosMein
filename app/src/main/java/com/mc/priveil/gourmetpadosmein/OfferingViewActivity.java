@@ -594,24 +594,22 @@ public class OfferingViewActivity extends AppCompatActivity {
                         int id = menuItem.getItemId();
                         switch (id) {
                             case R.id.offering_list:
-                                Intent n = new Intent(OfferingViewActivity.this, OfferingListActivity.class);
-//                                n.putExtra(MESSAGE_NAME, name);
-//                                n.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n);
+                                startActivity(new Intent(OfferingViewActivity.this, OfferingListActivity.class));
                                 break;
 
                             case R.id.profile:
-                                Intent ui = new Intent(OfferingViewActivity.this, UserViewProfile.class);
-//                                ui.putExtra(MESSAGE_NAME, name);
-//                                ui.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(new Intent(OfferingViewActivity.this, UserViewProfile.class));
+                                break;
 
-                                startActivity(ui);
+                            case R.id.my_offerings:
+                                startActivity(new Intent(OfferingViewActivity.this, MyOfferingsActivity.class));
                                 break;
 
                             case R.id.log_me_out:
                                 (new AuthHelper(OfferingViewActivity.this)).logOut();
                                 break;
                         }
+
 
                         mDrawerLayout.closeDrawers();
                         return true;

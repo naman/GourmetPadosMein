@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mc.priveil.gourmetpadosmein" >
+    package="com.mc.priveil.gourmetpadosmein">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -34,10 +34,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/logo_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <service android:name="com.parse.PushService" />
 
-<!--        <receiver
+        <!--
+            <receiver
             android:name="com.parse.ParsePushBroadcastReceiver"
             android:exported="false" >
             <intent-filter>
@@ -45,7 +46,8 @@
                 <action android:name="com.parse.push.intent.DELETE" />
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
-        </receiver>-->
+        </receiver>
+        -->
 
         <receiver
             android:name=".Utils.MyReceiver"
@@ -56,11 +58,9 @@
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
-
-
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -76,81 +76,84 @@
 
         <activity
             android:name=".OfferingListActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.Base">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base"></activity>
         <activity
             android:name=".Utils.LogIn"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_log_in"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Forms.UserInfo"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_user_info"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".Forms.OfferingForm"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_offering_form"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".OfferingViewActivity"
-            android:screenOrientation="portrait"
             android:label="Food Offering"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".UserViewProfile"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_user_view_profile"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".AcceptGuestActivity"
-            android:screenOrientation="portrait"
             android:label="Guest List"
-            android:theme="@style/AppTheme.Base"
-            />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".Forms.ReviewActivity"
-            android:screenOrientation="portrait"
             android:label="Rate Food Offering!"
-            android:theme="@style/AppTheme.Base"
-            />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base" />
 
-        <!--<activity-->
-        <!--android:name=".justForTestingActivity"-->
-        <!--android:label="@string/title_activity_just_for_testing" >-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!-- <activity -->
+        <!-- android:name=".justForTestingActivity" -->
+        <!-- android:label="@string/title_activity_just_for_testing" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-        <!--<category android:name="android.intent.category.LAUNCHER" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
 
         <activity
             android:name=".Utils.SplashScreen"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Utils.WelcomeScreen"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".MyOfferingsActivity"
+            android:label="Your Offerings">
+
+        </activity>
     </application>
 
 </manifest>

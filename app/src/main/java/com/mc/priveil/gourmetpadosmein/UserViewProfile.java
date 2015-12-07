@@ -321,21 +321,21 @@ public class UserViewProfile extends AppCompatActivity {
                         int id = menuItem.getItemId();
                         switch (id) {
                             case R.id.offering_list:
-                                Intent n = new Intent(UserViewProfile.this, OfferingListActivity.class);
-                                startActivity(n);
+                                startActivity(new Intent(UserViewProfile.this, OfferingListActivity.class));
                                 break;
 
                             case R.id.profile:
-                                Intent ui = new Intent(UserViewProfile.this, UserViewProfile.class);
-                                startActivity(ui);
+                                break;
+
+                            case R.id.my_offerings:
+                                startActivity(new Intent(UserViewProfile.this, MyOfferingsActivity.class));
                                 break;
 
                             case R.id.log_me_out:
                                 (new AuthHelper(UserViewProfile.this)).logOut();
                                 break;
-
-
                         }
+
 
                         mDrawerLayout.closeDrawers();
                         return true;

@@ -39,7 +39,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-public class OfferingListActivity extends AppCompatActivity implements LocationListener {
+public class MyOfferingsActivity extends AppCompatActivity implements LocationListener {
 //    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
 //    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
 
@@ -47,11 +47,11 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
     public static final String CLASS_NAME = "Offerings";
     static String fromSkip = "N";
     private static Boolean fromLogin;
-//    public String name;
+    //    public String name;
     public String email;
     public ParseObject result = null;
     LocationManager locationManager;
-    double currLatitude = 28.5444498,currLongitude = 77.2726199;
+    double currLatitude = 28.5444498, currLongitude = 77.2726199;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -125,27 +125,25 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
         Log.i("Testing12", "Came here in Listing class 3");
 
-        if(isConnected() != true){
-            Toast.makeText(OfferingListActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
-        }
-
-        else{
+        if (isConnected() != true) {
+            Toast.makeText(MyOfferingsActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        } else {
             Intent intent = getIntent();
-            email = new AuthHelper(OfferingListActivity.this).getLoggedInUserEmail();
+            email = new AuthHelper(MyOfferingsActivity.this).getLoggedInUserEmail();
 
-            try{
+            try {
                 fromLogin = ("Y".equals(intent.getStringExtra("fromLogin")));
-            }catch(Exception e){
+            } catch (Exception e) {
                 fromLogin = false;
             }
             Log.d("FromLogin", fromLogin.toString());
 
 
-            try{
+            try {
                 fromSkip = intent.getStringExtra("SKIPCLICK");
                 Log.d("test123", fromSkip);
-            }catch(Exception e){
-                Log.d("test123","failed to get skipclick");
+            } catch (Exception e) {
+                Log.d("test123", "failed to get skipclick");
             }
 
 
@@ -153,7 +151,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
                 installation.put("username", email);
                 installation.saveInBackground();
-            }catch(Exception e){
+            } catch (Exception e) {
                 Log.d("TEST", "Unable to get email and send it to ParseInsta");
             }
 
@@ -163,14 +161,19 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
             final ProgressDialog progress = new ProgressDialog(this);
             progress.setTitle("Fetching Your User Information");
             progress.setMessage("please wait...");
-            try{ progress.show(); } catch(Exception exc){ }
-
+            try {
+                progress.show();
+            } catch (Exception exc) {
+            }
 
 
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
-                    try{ progress.dismiss(); } catch(Exception exc){ }
+                    try {
+                        progress.dismiss();
+                    } catch (Exception exc) {
+                    }
                     if (e == null) {
                         if (!list.isEmpty()) {
                         } else {
@@ -183,7 +186,10 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                 @Override
                 public void done(Object o, Throwable throwable) {
-                    try{ progress.dismiss(); } catch(Exception exc){ }
+                    try {
+                        progress.dismiss();
+                    } catch (Exception exc) {
+                    }
                     boolean goingOut = false;
 //                Log.i("Testing",throwable.getMessage().toString());
                     if (throwable == null) {
@@ -201,7 +207,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                             Log.i("Testing1", "");
                             if (!"Y".equals(fromSkip) && fromLogin) {
                                 goingOut = true;
-                                Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
+                                Intent intent = new Intent(MyOfferingsActivity.this, UserInfo.class);
                                 startActivity(intent);
                             } else {
                                 fromSkip = "N";
@@ -212,7 +218,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                     if (!goingOut) {
                         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        LocationListener locationListener = OfferingListActivity.this;
+                        LocationListener locationListener = MyOfferingsActivity.this;
 
 
                         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, locationListener);
@@ -232,10 +238,10 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                         ParseQuery query2 = new ParseQuery("Offering");
                         query2.whereGreaterThan("endTime", cal.getTime());
-                        //        query.whereEqualTo("name", "aaa");
-                        final ProgressDialog progress2 = new ProgressDialog(OfferingListActivity.this);
-                        progress2.setTitle("Fetching offerings around you");
-                        progress2.setMessage("please wait...");
+                        query2.whereEqualTo("username", email);
+                        final ProgressDialog progress2 = new ProgressDialog(MyOfferingsActivity.this);
+                        progress2.setTitle("Fetching your Offerings");
+                        progress2.setMessage("Please wait...");
                         progress2.show();
 
                         query2.findInBackground(new FindCallback() {
@@ -368,36 +374,36 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
             });
 
 
-
-
-
-
         }
 
         Log.i("test123", "Successfully exiting create");
     }
 
-    public void myUpdateOperation()
-    {
+    public void myUpdateOperation() {
         Log.i("refreshTest", "It came here!!");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 330);
         ParseQuery query = new ParseQuery("Offering");
+        query.whereEqualTo("username", email);
         query.whereGreaterThan("endTime", cal.getTime());
-        if(isConnected() != true){
-            Toast.makeText(OfferingListActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
-        }
-
-        else {
+        if (isConnected() != true) {
+            Toast.makeText(MyOfferingsActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+        } else {
             final ProgressDialog progress = new ProgressDialog(this);
-            progress.setTitle("Refreshing Listing Information");
-            progress.setMessage("please wait...");
-            try{ progress.show(); } catch(Exception exc){ }
+            progress.setTitle("Refreshing Offerings");
+            progress.setMessage("Please wait...");
+            try {
+                progress.show();
+            } catch (Exception exc) {
+            }
 
             query.findInBackground(new FindCallback() {
                 @Override
                 public void done(List list, ParseException e) {
-                    try{ progress.dismiss(); } catch(Exception exc){ }
+                    try {
+                        progress.dismiss();
+                    } catch (Exception exc) {
+                    }
                     if (e == null) {
                         if (!list.isEmpty()) {
                             Log.i("Testing", list.get(0).toString());
@@ -411,7 +417,10 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                 @Override
                 public void done(Object o, Throwable throwable) {
-                    try{ progress.dismiss(); } catch(Exception exc){ }
+                    try {
+                        progress.dismiss();
+                    } catch (Exception exc) {
+                    }
                     if (o != null && throwable == null) {
                         List<ParseObject> itemlist;
                         itemlist = (List<ParseObject>) o;
@@ -439,7 +448,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
 
                         ArrayList<Double> distances = new ArrayList<>();
                         for (ParseObject p : itemlist) {
-                            ParseGeoPoint point = (ParseGeoPoint)p.get("Location");
+                            ParseGeoPoint point = (ParseGeoPoint) p.get("Location");
                             Double lat = Double.parseDouble((String.valueOf(point.getLatitude())));
                             Double longi = Double.parseDouble((String.valueOf(point.getLongitude())));
                             float[] dist = new float[1];
@@ -496,36 +505,36 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         bundle.putSerializable("object_ids", object_ids);
                         bundle.putSerializable("costs", costs);
 
-                    Log.i("test123", "Before Buggy!!");
+                        Log.i("test123", "Before Buggy!!");
 //                    bundle.putSerializable(MESSAGE_NAME, name);
 //                    bundle.putSerializable("email", email);
 
-                    OfferingFragment fragment = new OfferingFragment();
-                    fragment.setArguments(bundle);
-                    Log.i("test123", "Before Buggy again!!");
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, fragment).commit();
-                    Log.i("test123", "Before Buggy again??? !!");
-                } else
-                    Log.i("Error!!", "NULL");
-            }
-        });
+                        OfferingFragment fragment = new OfferingFragment();
+                        fragment.setArguments(bundle);
+                        Log.i("test123", "Before Buggy again!!");
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, fragment).commit();
+                        Log.i("test123", "Before Buggy again??? !!");
+                    } else
+                        Log.i("Error!!", "NULL");
+                }
+            });
 
+        }
     }
-    }
 
 
 
 
-    @Override
+/*    @Override
     public void onBackPressed()
     {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }
+    }*/
 
 
     private void setUpToolbar() {
@@ -565,20 +574,19 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                         int id = menuItem.getItemId();
                         switch (id) {
-
                             case R.id.offering_list:
+                                startActivity(new Intent(MyOfferingsActivity.this, OfferingListActivity.class));
                                 break;
 
                             case R.id.profile:
-                                startActivity(new Intent(OfferingListActivity.this, UserViewProfile.class));
+                                startActivity(new Intent(MyOfferingsActivity.this, UserViewProfile.class));
                                 break;
 
                             case R.id.my_offerings:
-                                startActivity(new Intent(OfferingListActivity.this, MyOfferingsActivity.class));
                                 break;
 
                             case R.id.log_me_out:
-                                (new AuthHelper(OfferingListActivity.this)).logOut();
+                                (new AuthHelper(MyOfferingsActivity.this)).logOut();
                                 break;
                         }
 
@@ -602,8 +610,8 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    public void makeUserConnectIfHeIsntConnected(){
-        if(isConnected() != true){
+    public void makeUserConnectIfHeIsntConnected() {
+        if (isConnected() != true) {
             createNetErrorDialog();
         }
     }
@@ -614,6 +622,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
         makeUserConnectIfHeIsntConnected();
         myUpdateOperation();
     }
+
     public void createNetErrorDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -629,12 +638,12 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                         }
                 ).setNegativeButton("Retry",
                 new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = getIntent();
-                            finish();
-                            startActivity(intent);
-                        }
-        });
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
+                });
         AlertDialog alert = builder.create();
         alert.show();
     }

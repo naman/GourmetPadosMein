@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
+import com.mc.priveil.gourmetpadosmein.MyOfferingsActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.R;
 import com.mc.priveil.gourmetpadosmein.UserViewProfile;
@@ -59,6 +60,8 @@ public class UserInfo extends AppCompatActivity {
     public ParseObject result = null;
     double lat;
     double longi;
+    double rating = 0;
+    double numRatings = 0;
     private EditText emergencyName;
     private EditText emergencyNumber;
     private Button emergency_button;
@@ -70,8 +73,6 @@ public class UserInfo extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 2;
     private Bitmap bitmap;
     private Boolean edit;
-    double rating = 0;
-    double numRatings = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,20 +292,22 @@ public class UserInfo extends AppCompatActivity {
                         int id = menuItem.getItemId();
                         switch (id) {
                             case R.id.offering_list:
-                                Intent n = new Intent(UserInfo.this, OfferingListActivity.class);
-                                startActivity(n);
+                                startActivity(new Intent(UserInfo.this, OfferingListActivity.class));
                                 break;
 
                             case R.id.profile:
+                                startActivity(new Intent(UserInfo.this, UserViewProfile.class));
+                                break;
 
-                                Intent ui = new Intent(UserInfo.this, UserViewProfile.class);
-                                startActivity(ui);
+                            case R.id.my_offerings:
+                                startActivity(new Intent(UserInfo.this, MyOfferingsActivity.class));
                                 break;
 
                             case R.id.log_me_out:
                                 (new AuthHelper(UserInfo.this)).logOut();
                                 break;
                         }
+
 
                         mDrawerLayout.closeDrawers();
                         return true;
@@ -469,8 +472,8 @@ public class UserInfo extends AppCompatActivity {
 
 
                 final ProgressDialog progress = new ProgressDialog(this);
-                progress.setTitle("Updating your User Profile");
-                progress.setMessage("please wait...");
+                progress.setTitle("Updating your Profile!");
+                progress.setMessage("Please wait...");
                 try{ progress.show(); } catch(Exception exc){ }
                 testObject.saveInBackground(new SaveCallback() {
                     public void done(ParseException e) {
@@ -500,7 +503,7 @@ public class UserInfo extends AppCompatActivity {
     }
 
     void myObjectSaveDidNotSucceed(ProgressDialog progress){
-        Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG);
+        Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG).show();
     }
 
     @Override

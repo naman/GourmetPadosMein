@@ -31,6 +31,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
+import com.mc.priveil.gourmetpadosmein.MyOfferingsActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingViewActivity;
 import com.mc.priveil.gourmetpadosmein.R;
@@ -539,18 +540,15 @@ public class OfferingForm extends AppCompatActivity {
                         int id = menuItem.getItemId();
                         switch (id) {
                             case R.id.offering_list:
-                                Intent n = new Intent(OfferingForm.this, OfferingListActivity.class);
-//                                n.putExtra(MESSAGE_NAME, name);
-//                                n.putExtra(MESSAGE_EMAIL, email);
-                                startActivity(n);
+                                startActivity(new Intent(OfferingForm.this, OfferingListActivity.class));
                                 break;
 
                             case R.id.profile:
-                                Intent ui = new Intent(OfferingForm.this, UserViewProfile.class);
-//                                ui.putExtra(MESSAGE_NAME, name);
-//                                ui.putExtra(MESSAGE_EMAIL, email);
+                                startActivity(new Intent(OfferingForm.this, UserViewProfile.class));
+                                break;
 
-                                startActivity(ui);
+                            case R.id.my_offerings:
+                                startActivity(new Intent(OfferingForm.this, MyOfferingsActivity.class));
                                 break;
 
                             case R.id.log_me_out:
