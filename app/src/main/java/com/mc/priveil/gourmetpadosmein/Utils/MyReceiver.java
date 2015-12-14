@@ -27,7 +27,7 @@ public class MyReceiver extends ParsePushBroadcastReceiver {
 
     public static Bitmap getCompressedImage(Bitmap bitmap){
         try {
-            Integer scaledown = (921600 * 100) / bitmap.getByteCount();
+            Integer scaledown = (921600 * 5 * 100) / bitmap.getByteCount();
             Log.i("scaledown", scaledown.toString());
             if (scaledown < 1) scaledown = 1;
             if (scaledown > 100) scaledown = 100;
