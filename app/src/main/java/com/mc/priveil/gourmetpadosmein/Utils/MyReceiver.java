@@ -2,6 +2,8 @@ package com.mc.priveil.gourmetpadosmein.Utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,6 +16,8 @@ import com.parse.ParsePushBroadcastReceiver;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by Naman on 21-Nov-15.
  */
@@ -21,7 +25,23 @@ public class MyReceiver extends ParsePushBroadcastReceiver {
 
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
-
+    public static Bitmap getCompressedImage(Bitmap bitmap){
+        try {
+            Integer scaledown = (921600 * 100) / bitmap.getByteCount();
+            Log.i("scaledown", scaledown.toString());
+            if (scaledown < 1) scaledown = 1;
+            if (scaledown > 100) scaledown = 100;
+            Log.i("size of image", String.valueOf(bitmap.getByteCount()));
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, scaledown, stream);
+            byte[] bitmapdata = stream.toByteArray();
+            Log.i("size of image", String.valueOf(bitmap.getByteCount()));
+            bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+        }catch(Exception e) {
+            Log.i("Failed compressing", e.getMessage());
+        }
+        return bitmap;
+    }
     @Override
     protected void onPushOpen(Context context, Intent intent) {
         super.onPushOpen(context, intent);

@@ -36,6 +36,7 @@ import com.mc.priveil.gourmetpadosmein.MyOfferingsActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.R;
 import com.mc.priveil.gourmetpadosmein.UserViewProfile;
+import com.mc.priveil.gourmetpadosmein.Utils.MyReceiver;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -461,7 +462,7 @@ public class UserInfo extends AppCompatActivity {
 //            Log.i("test123","Came in else statement 2");
                 try {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 30, stream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byte[] imagefile = stream.toByteArray();
                     ParseFile file = new ParseFile("offerimage.png", imagefile);
                     file.saveInBackground();
@@ -515,7 +516,7 @@ public class UserInfo extends AppCompatActivity {
             Uri uri = data.getData();
 
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                bitmap = MyReceiver.getCompressedImage(MediaStore.Images.Media.getBitmap(getContentResolver(), uri));
                 // Log.d(TAG, String.valueOf(bitmap));
 
                 ImageView imageView = (ImageView) findViewById(R.id.imageView5);
@@ -527,7 +528,7 @@ public class UserInfo extends AppCompatActivity {
         }
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            bitmap = (Bitmap) extras.get("data");
+            bitmap = MyReceiver.getCompressedImage((Bitmap) extras.get("data"));
             mImageView=(ImageView)findViewById(R.id.imageView5);
              Drawable d = new BitmapDrawable(getResources(), bitmap);
              mImageView.setBackground(d);
