@@ -79,7 +79,7 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
             cuisine = (TextView) itemView.findViewById(R.id.cuisine);
             objectid = (TextView) itemView.findViewById(R.id.objectid);
             objectid.setVisibility(View.GONE);
-
+//            String fromWhereItCame = "myOffering";
             distance = (TextView) itemView.findViewById(R.id.distance);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,6 +87,7 @@ public class OfferingAdapter extends RecyclerView.Adapter<OfferingAdapter.Offeri
                     Context c = itemView.getContext();
                     Intent intent = new Intent(c, OfferingViewActivity.class);
                     intent.putExtra("objectid", objectid.getText().toString());
+//                    intent.putExtra("activity","myOffering");
                  //   intent.putExtra("email", email);
                     intent.putExtra(MESSAGE_NAME, name);
                     c.startActivity(intent);

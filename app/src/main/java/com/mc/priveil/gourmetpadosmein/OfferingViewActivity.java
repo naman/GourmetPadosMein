@@ -54,7 +54,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 //    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 //    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
-
+//    public String fromWhereItCame = "null";
     public ParseObject result = null;
     public String email;
     Calendar cal = Calendar.getInstance();
@@ -124,6 +124,9 @@ public class OfferingViewActivity extends AppCompatActivity {
 
             Intent intent = getIntent();
             objectid = intent.getStringExtra("objectid");
+//            Log.i("fromWhereItCame",fromWhereItCame);
+//            fromWhereItCame = intent.getStringExtra("activity");
+//            Log.i("fromWhereItCame",fromWhereItCame);
             email  = (new AuthHelper(OfferingViewActivity.this)).getLoggedInUserEmail();
 
             ParseQuery query = new ParseQuery("Offering");
@@ -618,14 +621,27 @@ public class OfferingViewActivity extends AppCompatActivity {
         );
         Log.i("Testing12", "Came out setUpDrawer");
     }
-    @Override
-    public void onBackPressed() {
-        Log.d("CDA", "onBackPressed Called");
-        Intent intent = new Intent(this, OfferingListActivity.class);
-//        intent.putExtra(MESSAGE_NAME, name);
-//        intent.putExtra(MESSAGE_EMAIL, email);
-        startActivity(intent);
-    }
+
+
+
+//    @Override
+//    public void onBackPressed() {
+//        Log.d("CDA", "onBackPressed Called");
+//        Intent intent;
+//        Log.i("fromWhereItCame2",fromWhereItCame);
+//        if(fromWhereItCame.equals("myOffering"))
+//        {
+//            intent = new Intent(this, MyOfferingsActivity.class);
+//            startActivity(intent);
+//        }
+//        else {
+//            intent = new Intent(this, OfferingListActivity.class);
+//            startActivity(intent);
+//        }
+////        intent.putExtra(MESSAGE_NAME, name);
+////        intent.putExtra(MESSAGE_EMAIL, email);
+//
+//    }
 
     public void viewHost(View view){
         Intent myIntent = new Intent(OfferingViewActivity.this,

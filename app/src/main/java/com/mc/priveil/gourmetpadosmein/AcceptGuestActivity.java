@@ -258,13 +258,13 @@ public class AcceptGuestActivity extends AppCompatActivity {
         Log.i("Testing12", "Came out setUpNav");
     }
 
-    @Override
-    public void onBackPressed()
-    {
-        Intent intent = new Intent(AcceptGuestActivity.this, OfferingViewActivity.class);
-        intent.putExtra("objectid", objectid);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onBackPressed()
+//    {
+//        Intent intent = new Intent(AcceptGuestActivity.this, OfferingViewActivity.class);
+//        intent.putExtra("objectid", objectid);
+//        startActivity(intent);
+//    }
 
 
     private void setupDrawerContent(NavigationView navigationView) {
