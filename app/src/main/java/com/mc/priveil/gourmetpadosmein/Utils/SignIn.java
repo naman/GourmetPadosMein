@@ -24,7 +24,7 @@ import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.R;
 
-public class LogIn extends Activity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class SignIn extends Activity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
     private static final String TAG = "talha111";
@@ -42,7 +42,7 @@ public class LogIn extends Activity implements View.OnClickListener, GoogleApiCl
 
         Log.i("Is connected", String.valueOf(isConnected()));
         if(isConnected() != true){
-            Toast.makeText(LogIn.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignIn.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
         }
 
         Log.i("Yeah", "yeh kya ho raha hai 3!!");
@@ -74,7 +74,7 @@ public class LogIn extends Activity implements View.OnClickListener, GoogleApiCl
         if(mGoogleApiClient.isConnected()) {
             email = Plus.AccountApi.getAccountName(mGoogleApiClient);
             if (email != null) {
-                (new AuthHelper(LogIn.this)).authenticated(email);
+                (new AuthHelper(SignIn.this)).authenticated(email);
                 finish();
             }
         }
@@ -165,7 +165,7 @@ public class LogIn extends Activity implements View.OnClickListener, GoogleApiCl
 
         if(email!=null) {
             Toast.makeText(this, "Logged in as " + email, Toast.LENGTH_LONG).show();
-            (new AuthHelper(LogIn.this)).authenticated(email);
+            (new AuthHelper(SignIn.this)).authenticated(email);
 
             Intent intent = new Intent(this, OfferingListActivity.class);
 

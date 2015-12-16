@@ -50,7 +50,7 @@
         -->
 
         <receiver
-            android:name=".Utils.MyReceiver"
+            android:name=".Utils.GPMNotificationReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -80,12 +80,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base"></activity>
         <activity
-            android:name=".Utils.LogIn"
+            android:name=".Utils.SignIn"
             android:label="@string/title_activity_log_in"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".Forms.UserInfo"
+            android:name=".Forms.EditUserProfileActivity"
             android:label="@string/title_activity_user_info"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />

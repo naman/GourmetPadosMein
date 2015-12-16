@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.android.gms.plus.Plus;
-import com.mc.priveil.gourmetpadosmein.Utils.LogIn;
+import com.mc.priveil.gourmetpadosmein.Utils.SignIn;
 
 /**
  * Created by magusverma on 27/11/15.
@@ -43,13 +43,13 @@ public class AuthHelper {
         editor.remove(authenticatedUserEmailKey);
         editor.commit();
         try {
-            Plus.AccountApi.clearDefaultAccount(LogIn.mGoogleApiClient);
-            LogIn.mGoogleApiClient.disconnect();
-            LogIn.mGoogleApiClient.connect();
+            Plus.AccountApi.clearDefaultAccount(SignIn.mGoogleApiClient);
+            SignIn.mGoogleApiClient.disconnect();
+            SignIn.mGoogleApiClient.connect();
         } catch (Exception e) {
             Log.e("test123", "Failed to Logout, might be already out?");
         }
-        context.startActivity(new Intent(context, LogIn.class));
+        context.startActivity(new Intent(context, SignIn.class));
     }
 
 

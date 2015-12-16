@@ -31,7 +31,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mc.priveil.gourmetpadosmein.Forms.UserInfo;
+import com.mc.priveil.gourmetpadosmein.Forms.EditUserProfileActivity;
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -250,7 +250,7 @@ public class ViewUserProfileActivity extends AppCompatActivity {
                         } else {
                             Log.i("Testing1", "User Profile is not created");
                             if(tolookup.equals(email)) {
-                                Intent intent = new Intent(ViewUserProfileActivity.this, UserInfo.class);
+                                Intent intent = new Intent(ViewUserProfileActivity.this, EditUserProfileActivity.class);
                                 //                        intent.putExtra(MESSAGE_NAME, name);
                                 //                        intent.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(intent);
@@ -354,7 +354,7 @@ public class ViewUserProfileActivity extends AppCompatActivity {
 
     public void editProfile(View view)
     {
-        Intent n = new Intent(ViewUserProfileActivity.this, UserInfo.class);
+        Intent n = new Intent(ViewUserProfileActivity.this, EditUserProfileActivity.class);
         n.putExtra(OfferingListActivity.SIDEBAR_TAP, "T");
         //OfferingListActivity.SIDEBAR_TAP
 //                                n.putExtra(MESSAGE_NAME, name);

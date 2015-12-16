@@ -34,7 +34,7 @@ import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.mc.priveil.gourmetpadosmein.MyOfferingsActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.R;
-import com.mc.priveil.gourmetpadosmein.Utils.MyReceiver;
+import com.mc.priveil.gourmetpadosmein.Utils.GPMNotificationReceiver;
 import com.mc.priveil.gourmetpadosmein.ViewUserProfileActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserInfo extends AppCompatActivity {
+public class EditUserProfileActivity extends AppCompatActivity {
     public static final int PICK_CONTACT = 3;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     public String name;
@@ -89,7 +89,7 @@ public class UserInfo extends AppCompatActivity {
         }
 
         if(isConnected() != true){
-            Toast.makeText(UserInfo.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditUserProfileActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -101,7 +101,7 @@ public class UserInfo extends AppCompatActivity {
             Intent intent = getIntent();
             Log.i("test123", "Came here!!!");
             name = null;
-            email = (new AuthHelper(UserInfo.this)).getLoggedInUserEmail();
+            email = (new AuthHelper(EditUserProfileActivity.this)).getLoggedInUserEmail();
 
             String sidebar_tap = "F";
             try {
@@ -292,19 +292,19 @@ public class UserInfo extends AppCompatActivity {
                         int id = menuItem.getItemId();
                         switch (id) {
                             case R.id.offering_list:
-                                startActivity(new Intent(UserInfo.this, OfferingListActivity.class));
+                                startActivity(new Intent(EditUserProfileActivity.this, OfferingListActivity.class));
                                 break;
 
                             case R.id.profile:
-                                startActivity(new Intent(UserInfo.this, ViewUserProfileActivity.class));
+                                startActivity(new Intent(EditUserProfileActivity.this, ViewUserProfileActivity.class));
                                 break;
 
                             case R.id.my_offerings:
-                                startActivity(new Intent(UserInfo.this, MyOfferingsActivity.class));
+                                startActivity(new Intent(EditUserProfileActivity.this, MyOfferingsActivity.class));
                                 break;
 
                             case R.id.log_me_out:
-                                (new AuthHelper(UserInfo.this)).logOut();
+                                (new AuthHelper(EditUserProfileActivity.this)).logOut();
                                 break;
                         }
 
@@ -389,7 +389,7 @@ public class UserInfo extends AppCompatActivity {
 
     public void submitForm(View view) {
         if(isConnected() != true){
-            Toast.makeText(UserInfo.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditUserProfileActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -515,7 +515,7 @@ public class UserInfo extends AppCompatActivity {
             Uri uri = data.getData();
 
             try {
-                bitmap = MyReceiver.getCompressedImage(MediaStore.Images.Media.getBitmap(getContentResolver(), uri));
+                bitmap = GPMNotificationReceiver.getCompressedImage(MediaStore.Images.Media.getBitmap(getContentResolver(), uri));
                 // Log.d(TAG, String.valueOf(bitmap));
 
                 ImageView imageView = (ImageView) findViewById(R.id.imageView5);
@@ -527,7 +527,7 @@ public class UserInfo extends AppCompatActivity {
         }
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            bitmap = MyReceiver.getCompressedImage((Bitmap) extras.get("data"));
+             bitmap = GPMNotificationReceiver.getCompressedImage((Bitmap) extras.get("data"));
             mImageView=(ImageView)findViewById(R.id.imageView5);
              Drawable d = new BitmapDrawable(getResources(), bitmap);
              mImageView.setBackground(d);

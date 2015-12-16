@@ -17,7 +17,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
 
-        startActivity(new Intent(SplashScreen.this, LogIn.class));
+        startActivity(new Intent(SplashScreen.this, SignIn.class));
 /*        //thread for splash screen running
         Thread logoTimer = new Thread() {
             public void run() {

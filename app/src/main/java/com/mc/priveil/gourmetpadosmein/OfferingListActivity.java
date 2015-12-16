@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.mc.priveil.gourmetpadosmein.Forms.UserInfo;
+import com.mc.priveil.gourmetpadosmein.Forms.EditUserProfileActivity;
 import com.mc.priveil.gourmetpadosmein.Fragments.OfferingFragment;
 import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.parse.FindCallback;
@@ -201,7 +201,7 @@ public class OfferingListActivity extends AppCompatActivity implements LocationL
                             Log.i("Testing1", "");
                             if (!"Y".equals(fromSkip) && fromLogin) {
                                 goingOut = true;
-                                Intent intent = new Intent(OfferingListActivity.this, UserInfo.class);
+                                Intent intent = new Intent(OfferingListActivity.this, EditUserProfileActivity.class);
                                 startActivity(intent);
                             } else {
                                 fromSkip = "N";

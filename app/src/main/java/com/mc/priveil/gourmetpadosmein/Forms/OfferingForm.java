@@ -34,7 +34,7 @@ import com.mc.priveil.gourmetpadosmein.MyOfferingsActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingViewActivity;
 import com.mc.priveil.gourmetpadosmein.R;
-import com.mc.priveil.gourmetpadosmein.Utils.MyReceiver;
+import com.mc.priveil.gourmetpadosmein.Utils.GPMNotificationReceiver;
 import com.mc.priveil.gourmetpadosmein.ViewUserProfileActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -277,7 +277,7 @@ public class OfferingForm extends AppCompatActivity {
 
                     } else {
                         Log.i("Testing1", "why did it come here?");
-                        Intent intent = new Intent(OfferingForm.this, UserInfo.class);
+                        Intent intent = new Intent(OfferingForm.this, EditUserProfileActivity.class);
 //                        intent.putExtra(MESSAGE_NAME, name);
 //                        intent.putExtra(MESSAGE_EMAIL, email);
                         startActivity(intent);
@@ -573,7 +573,7 @@ public class OfferingForm extends AppCompatActivity {
 
             try {
 
-                bitmap = MyReceiver.getCompressedImage(MediaStore.Images.Media.getBitmap(getContentResolver(), uri));
+                bitmap = GPMNotificationReceiver.getCompressedImage(MediaStore.Images.Media.getBitmap(getContentResolver(), uri));
                 ImageView imageView = (ImageView) findViewById(R.id.imageView5);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -582,7 +582,7 @@ public class OfferingForm extends AppCompatActivity {
         }
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            bitmap = MyReceiver.getCompressedImage((Bitmap) extras.get("data"));
+            bitmap = GPMNotificationReceiver.getCompressedImage((Bitmap) extras.get("data"));
             mImageView=(ImageView)findViewById(R.id.imageView5);
             mImageView.setImageBitmap(bitmap);
         }

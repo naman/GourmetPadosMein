@@ -154,7 +154,7 @@ public class WelcomeScreen extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
 
-        startActivity(new Intent(WelcomeScreen.this, LogIn.class));
+        startActivity(new Intent(WelcomeScreen.this, SignIn.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 

@@ -21,7 +21,7 @@ import java.io.ByteArrayOutputStream;
 /**
  * Created by Naman on 21-Nov-15.
  */
-public class MyReceiver extends ParsePushBroadcastReceiver {
+public class GPMNotificationReceiver extends ParsePushBroadcastReceiver {
 
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
