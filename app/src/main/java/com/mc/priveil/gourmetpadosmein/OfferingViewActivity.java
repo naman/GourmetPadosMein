@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -94,6 +95,12 @@ public class OfferingViewActivity extends AppCompatActivity {
         setUpNavDrawer();
 
         // Use application class to maintain global state.
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_offering_view, menu);
+        return true;
     }
 
     private void loadOffering(){
@@ -643,6 +650,19 @@ public class OfferingViewActivity extends AppCompatActivity {
 //
 //    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_share:
+                share();
+                return true;
+        }
+
+        // User didn't trigger a refresh, let the superclass handle this action
+        return super.onOptionsItemSelected(item);
+
+    }
+
     public void viewHost(View view){
         Intent myIntent = new Intent(OfferingViewActivity.this,
                 UserViewProfile.class);
@@ -664,7 +684,7 @@ public class OfferingViewActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    public void share(View view){
+    public void share() {
         String message = "Hey! Check out this delicious " + foodname + "! #gourmetpadosmein";
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");

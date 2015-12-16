@@ -213,7 +213,7 @@ public class LogIn extends Activity implements View.OnClickListener, GoogleApiCl
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_log_in, menu);
+        getMenuInflater().inflate(R.menu.menu_offering_view, menu);
         return true;
     }
 

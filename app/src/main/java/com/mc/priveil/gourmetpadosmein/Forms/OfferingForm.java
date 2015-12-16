@@ -20,7 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -788,13 +787,6 @@ public class OfferingForm extends AppCompatActivity {
     void myObjectSaveDidNotSucceed(ProgressDialog progress) {
         try{ progress.dismiss(); } catch(Exception exc){ }
         Toast.makeText(this, "Failed while trying to save, please check internet connection and try again!", Toast.LENGTH_LONG);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_offering_form, menu);
-        return true;
     }
 
     @Override

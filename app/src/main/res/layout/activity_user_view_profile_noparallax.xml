@@ -57,8 +57,8 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
+                    android:hint="Edit Profile"
                     android:onClick="editProfile"
-                    android:text="Edit Profile"
                     android:visibility="gone" />
 
                 <LinearLayout

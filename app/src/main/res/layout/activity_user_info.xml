@@ -51,9 +51,9 @@
                         android:id="@+id/imageView5"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
+                        android:background="@drawable/default_user_image"
                         android:elevation="8dp"
                         android:fitsSystemWindows="true"
-                        android:background="@drawable/default_user_image"
                         android:scaleType="fitCenter" />
 
                     <TextView
@@ -75,14 +75,14 @@
                             android:id="@+id/button5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:onClick="gallerypick"
-                            android:text="Gallery" />
+                            android:hint="Gallery"
+                            android:onClick="gallerypick" />
 
                         <Button
                             android:id="@+id/button4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Camera"
+                            android:hint="Camera"
                             android:onClick="camerapick" />
                     </LinearLayout>
 
@@ -93,14 +93,14 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:orientation="vertical">
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="Contact Information"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textStyle="normal|bold|italic" />
+                    <!--                <TextView
+                                        android:id="@+id/textView16"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="left"
+                                        android:text="Contact Information"
+                                        android:textAppearance="?android:attr/textAppearanceMedium"
+                                        android:textStyle="normal|bold|italic" />-->
 
                 <EditText
                     android:id="@+id/editText2"
@@ -145,7 +145,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:text="Emergency Contact Details"
+                        android:text="Emergency Contact"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="normal|bold|italic" />
 
@@ -155,7 +155,7 @@
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Pick from Contacts" />
+                        android:hint="Choose" />
 
                 <EditText
                     android:id="@+id/editText5"
