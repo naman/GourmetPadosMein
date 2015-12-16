@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ViewUserProfileActivity">
+    <item
+        android:id="@+id/menu_edit_profile"
+        android:icon="@drawable/ic_mode_edit_white_24dp"
+        android:title="Edit"
+        app:showAsAction="ifRoom" />
+</menu>

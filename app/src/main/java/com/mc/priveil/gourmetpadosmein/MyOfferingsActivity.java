@@ -579,7 +579,7 @@ public class MyOfferingsActivity extends AppCompatActivity implements LocationLi
                                 break;
 
                             case R.id.profile:
-                                startActivity(new Intent(MyOfferingsActivity.this, UserViewProfile.class));
+                                startActivity(new Intent(MyOfferingsActivity.this, ViewUserProfileActivity.class));
                                 break;
 
                             case R.id.my_offerings:

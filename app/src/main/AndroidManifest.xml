@@ -100,7 +100,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />
         <activity
-            android:name=".UserViewProfile"
+            android:name=".ViewUserProfileActivity"
             android:label="@string/title_activity_user_view_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base" />

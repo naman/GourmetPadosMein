@@ -152,7 +152,7 @@ public class AcceptGuestActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface arg0, int arg1) {
 //                                        Toast.makeText(AcceptGuestActivity.this, "You clicked profile!", Toast.LENGTH_SHORT).show();
 
-                                            Intent intent = new Intent(AcceptGuestActivity.this, UserViewProfile.class);
+                                            Intent intent = new Intent(AcceptGuestActivity.this, ViewUserProfileActivity.class);
                                             intent.putExtra("viewingUser", emailGuest);
                                             startActivity(intent);
 
@@ -281,7 +281,7 @@ public class AcceptGuestActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.profile:
-                                startActivity(new Intent(AcceptGuestActivity.this, UserViewProfile.class));
+                                startActivity(new Intent(AcceptGuestActivity.this, ViewUserProfileActivity.class));
                                 break;
 
                             case R.id.my_offerings:

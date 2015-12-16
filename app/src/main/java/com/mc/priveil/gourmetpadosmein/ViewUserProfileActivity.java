@@ -22,6 +22,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +43,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-public class UserViewProfile extends AppCompatActivity {
+public class ViewUserProfileActivity extends AppCompatActivity {
 
 //    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
 //    public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
@@ -87,7 +88,7 @@ public class UserViewProfile extends AppCompatActivity {
         }
 
         if(isConnected() != true){
-            Toast.makeText(UserViewProfile.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewUserProfileActivity.this, "Please connect to the internet!", Toast.LENGTH_SHORT).show();
         }
 
         else{
@@ -97,7 +98,7 @@ public class UserViewProfile extends AppCompatActivity {
             Intent intent = getIntent();
             Log.i("test123", "Came here!!!");
             name = null;
-            email = (new AuthHelper(UserViewProfile.this)).getLoggedInUserEmail();
+            email = (new AuthHelper(ViewUserProfileActivity.this)).getLoggedInUserEmail();
             String sidebar_tap = "F";
             try {
                 sidebar_tap = intent.getStringExtra(OfferingListActivity.SIDEBAR_TAP);
@@ -150,7 +151,7 @@ public class UserViewProfile extends AppCompatActivity {
             ParseQuery query = new ParseQuery("User");
             query.whereEqualTo("username", tolookup);
 
-            final ProgressDialog progress = new ProgressDialog(UserViewProfile.this);
+            final ProgressDialog progress = new ProgressDialog(ViewUserProfileActivity.this);
             progress.setTitle("Loading User Information");
             progress.setMessage("please wait...");
             try{ progress.show(); } catch(Exception exc){ }
@@ -249,12 +250,12 @@ public class UserViewProfile extends AppCompatActivity {
                         } else {
                             Log.i("Testing1", "User Profile is not created");
                             if(tolookup.equals(email)) {
-                                Intent intent = new Intent(UserViewProfile.this, UserInfo.class);
+                                Intent intent = new Intent(ViewUserProfileActivity.this, UserInfo.class);
                                 //                        intent.putExtra(MESSAGE_NAME, name);
                                 //                        intent.putExtra(MESSAGE_EMAIL, email);
                                 startActivity(intent);
                             }else{
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UserViewProfile.this);
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewUserProfileActivity.this);
                                 alertDialogBuilder.setMessage("This user hasn't set up his profile yet on GMP");
 
                                 alertDialogBuilder.setPositiveButton("Go Back", new DialogInterface.OnClickListener() {
@@ -320,18 +321,18 @@ public class UserViewProfile extends AppCompatActivity {
                         int id = menuItem.getItemId();
                         switch (id) {
                             case R.id.offering_list:
-                                startActivity(new Intent(UserViewProfile.this, OfferingListActivity.class));
+                                startActivity(new Intent(ViewUserProfileActivity.this, OfferingListActivity.class));
                                 break;
 
                             case R.id.profile:
                                 break;
 
                             case R.id.my_offerings:
-                                startActivity(new Intent(UserViewProfile.this, MyOfferingsActivity.class));
+                                startActivity(new Intent(ViewUserProfileActivity.this, MyOfferingsActivity.class));
                                 break;
 
                             case R.id.log_me_out:
-                                (new AuthHelper(UserViewProfile.this)).logOut();
+                                (new AuthHelper(ViewUserProfileActivity.this)).logOut();
                                 break;
                         }
 
@@ -344,10 +345,16 @@ public class UserViewProfile extends AppCompatActivity {
         Log.i("Testing12", "Came out setUpDrawer");
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_profile_view, menu);
+        return true;
+    }
+
 
     public void editProfile(View view)
     {
-        Intent n = new Intent(UserViewProfile.this, UserInfo.class);
+        Intent n = new Intent(ViewUserProfileActivity.this, UserInfo.class);
         n.putExtra(OfferingListActivity.SIDEBAR_TAP, "T");
         //OfferingListActivity.SIDEBAR_TAP
 //                                n.putExtra(MESSAGE_NAME, name);
@@ -387,16 +394,11 @@ public class UserViewProfile extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.menu_edit_profile:
+                Toast.makeText(ViewUserProfileActivity.this, "Edit!", Toast.LENGTH_SHORT).show();
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -34,8 +34,8 @@ import com.mc.priveil.gourmetpadosmein.MyOfferingsActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingViewActivity;
 import com.mc.priveil.gourmetpadosmein.R;
-import com.mc.priveil.gourmetpadosmein.UserViewProfile;
 import com.mc.priveil.gourmetpadosmein.Utils.MyReceiver;
+import com.mc.priveil.gourmetpadosmein.ViewUserProfileActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -544,7 +544,7 @@ public class OfferingForm extends AppCompatActivity {
                                 break;
 
                             case R.id.profile:
-                                startActivity(new Intent(OfferingForm.this, UserViewProfile.class));
+                                startActivity(new Intent(OfferingForm.this, ViewUserProfileActivity.class));
                                 break;
 
                             case R.id.my_offerings:

@@ -34,8 +34,8 @@ import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.mc.priveil.gourmetpadosmein.MyOfferingsActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.R;
-import com.mc.priveil.gourmetpadosmein.UserViewProfile;
 import com.mc.priveil.gourmetpadosmein.Utils.MyReceiver;
+import com.mc.priveil.gourmetpadosmein.ViewUserProfileActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -296,7 +296,7 @@ public class UserInfo extends AppCompatActivity {
                                 break;
 
                             case R.id.profile:
-                                startActivity(new Intent(UserInfo.this, UserViewProfile.class));
+                                startActivity(new Intent(UserInfo.this, ViewUserProfileActivity.class));
                                 break;
 
                             case R.id.my_offerings:
@@ -494,7 +494,7 @@ public class UserInfo extends AppCompatActivity {
     void myObjectSavedSuccessfully(ParseObject po,EditText email,EditText name,ProgressDialog progress){
         Intent intent;
         if(edit){
-            intent = new Intent(this, UserViewProfile.class);
+            intent = new Intent(this, ViewUserProfileActivity.class);
         }else {
             Log.i("Testing", "about to submit form 4!!!");
             intent = new Intent(this, OfferingListActivity.class);

@@ -608,7 +608,7 @@ public class OfferingViewActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.profile:
-                                startActivity(new Intent(OfferingViewActivity.this, UserViewProfile.class));
+                                startActivity(new Intent(OfferingViewActivity.this, ViewUserProfileActivity.class));
                                 break;
 
                             case R.id.my_offerings:
@@ -665,7 +665,7 @@ public class OfferingViewActivity extends AppCompatActivity {
 
     public void viewHost(View view){
         Intent myIntent = new Intent(OfferingViewActivity.this,
-                UserViewProfile.class);
+                ViewUserProfileActivity.class);
         myIntent.putExtra("viewingUser", parse_username);
         startActivity(myIntent);
 

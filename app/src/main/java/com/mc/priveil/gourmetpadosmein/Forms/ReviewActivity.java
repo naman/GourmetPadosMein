@@ -20,7 +20,7 @@ import com.mc.priveil.gourmetpadosmein.Models.AuthHelper;
 import com.mc.priveil.gourmetpadosmein.MyOfferingsActivity;
 import com.mc.priveil.gourmetpadosmein.OfferingListActivity;
 import com.mc.priveil.gourmetpadosmein.R;
-import com.mc.priveil.gourmetpadosmein.UserViewProfile;
+import com.mc.priveil.gourmetpadosmein.ViewUserProfileActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -276,7 +276,7 @@ public class ReviewActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.profile:
-                                startActivity(new Intent(ReviewActivity.this, UserViewProfile.class));
+                                startActivity(new Intent(ReviewActivity.this, ViewUserProfileActivity.class));
                                 break;
 
                             case R.id.my_offerings:
