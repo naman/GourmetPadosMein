@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.mc.priveil.gourmetpadosmein.OfferingViewActivity">
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_share_white_24dp"
+        android:title="Share"
+        app:showAsAction="ifRoom" />
+</menu>
