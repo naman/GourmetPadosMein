@@ -4,7 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
         android:id="@+id/list_offerings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,6 +19,7 @@
         android:elevation="7dp"
         android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
 
+    </com.baoyz.widget.PullRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_offering"

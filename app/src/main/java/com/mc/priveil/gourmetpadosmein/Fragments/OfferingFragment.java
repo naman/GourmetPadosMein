@@ -14,20 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.mc.priveil.gourmetpadosmein.Adapters.OfferingAdapter;
 import com.mc.priveil.gourmetpadosmein.Forms.OfferingForm;
 import com.mc.priveil.gourmetpadosmein.R;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by Srishti on 25/10/2015.
- */
 public class OfferingFragment extends Fragment {
     public final static String MESSAGE_NAME = "com.mc.priveil.gourmetpadosmein.NAME";
-    public final static String MESSAGE_EMAIL = "com.mc.priveil.gourmetpadosmein.EMAIL";
-
     public final static String MESSAGE_OBJECTID = "com.mc.priveil.gourmetpadosmein.OBJECTID";
 
     RecyclerView recyclerView;
@@ -60,13 +55,6 @@ public class OfferingFragment extends Fragment {
             object_ids = (ArrayList<String>) bundle.getSerializable("object_ids");
             distances = (ArrayList<Double>) bundle.getSerializable("distances");
 
-           /* The app will crash on the next line if you've tried to refresh after turning the net on.
-            This is because if your net was off, then simply a toast would've been thrown at you,
-            but if you turned it on after it was off while the app was running,
-            it crashes. It  doesn't receive the intent from which it is supposed to get email.*/
-
-//        Log.d("Test", String.format("Proxy object name: %s", itemlist.get(0)));
-
             offeringAdapter = new OfferingAdapter(name, names, cuisines, object_ids, distances);
             recyclerView.setAdapter(offeringAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -75,13 +63,25 @@ public class OfferingFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent ui = new Intent(getActivity(), OfferingForm.class);
-//                    ui.putExtra(MESSAGE_NAME, name);
-//                    ui.putExtra(MESSAGE_EMAIL, email);
                     ui.putExtra(MESSAGE_OBJECTID, "LOL");
                     startActivity(ui);
-//                Toast.makeText(getActivity(), "ss", Toast.LENGTH_SHORT).show();
+
                 }
             });
+
+            PullRefreshLayout layout = (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+            layout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+// listen refresh event
+            layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    // MAKE CHANGES HERE!
+                    Toast.makeText(getActivity(), "Refresh", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // refresh complete
+            layout.setRefreshing(false);
 
             return view;
         }
